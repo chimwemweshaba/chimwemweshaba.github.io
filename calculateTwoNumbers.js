@@ -1,40 +1,42 @@
+//initialise global variables
+var x = 0, y = 0, ans = 0;
 
 //function to add two numbers
-function addTwoNumbers(num1, num2)
+function addTwoNumbers(input1, input2)
 {
-    var x=document.getElementById(num1).value;
-    var y=document.getElementById(num2).value;
-    var sum=0;
-    sum=Number(x) + Number(y);
-    document.getElementById("ans").innerHTML = sum;
+    x = input1.value;
+    y = input2.value;
+    ans = 0;
+    ans = Number(x) + Number(y);
+    document.getElementById("ans").innerHTML = ans;
 }
 
 //function to subtract two numbers
-function subTwoNumbers(num1, num2)
+function subTwoNumbers(input1, input2)
 {
-    var x=document.getElementById(num1).value;
-    var y=document.getElementById(num2).value;
-    var sum=0;
-    sum=Number(x) - Number(y);
-    document.getElementById("ans").innerHTML = sum;
+    x = input1.value;
+    y = input2.value;
+    ans = 0;
+    ans = Number(x) - Number(y);
+    return ans;
 }
 
 //function to divide two numbers
-function divTwoNumbers(num1, num2)
+function divTwoNumbers(input1, input2)
 {
-    var x=document.getElementById(num1).value;
-    var y=document.getElementById(num2).value;
-    var sum=0;
-    sum=Number(x) / Number(y);
-    document.getElementById("ans").innerHTML = sum;
+    x = input1.value;
+    y = input2.value;
+    ans = 0;
+    ans = Number(x) / Number(y);
+    document.getElementById("ans").innerHTML = ans;
 }
 
 //function to multiply two numbers
-function multTwoNumbers(num1, num2)
+function multTwoNumbers(input1, input2)
 {
-    var x=document.getElementById(num1).value;
-    var y=document.getElementById(num2).value;
-    var sum=0;
-    sum=Number(x) * Number(y);
-    document.getElementById("ans").innerHTML = sum;
+    x = input1.value;
+    y = input2.value;
+    ans = 0;
+    ans = Number(x) * Number(y);
+    document.getElementById("ans").innerHTML = ans;
 }
