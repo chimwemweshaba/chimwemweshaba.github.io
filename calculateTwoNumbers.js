@@ -8,7 +8,7 @@ function addTwoNumbers(input1, input2)
     y = input2.value;
     ans = 0;
     ans = Number(x) + Number(y);
-    document.getElementById("ans").innerHTML = ans;
+    return ans;
 }
 
 //function to subtract two numbers
@@ -28,7 +28,7 @@ function divTwoNumbers(input1, input2)
     y = input2.value;
     ans = 0;
     ans = Number(x) / Number(y);
-    document.getElementById("ans").innerHTML = ans;
+    return ans;
 }
 
 //function to multiply two numbers
@@ -38,5 +38,5 @@ function multTwoNumbers(input1, input2)
     y = input2.value;
     ans = 0;
     ans = Number(x) * Number(y);
-    document.getElementById("ans").innerHTML = ans;
+    return ans;
 }
