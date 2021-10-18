@@ -3,9 +3,6 @@
 	<head>
 		<title>Simple Calculator</title>
         <script src="calculateTwoNumbers.js" async></script>
-		<script>
-			document.getElementById('ans').innerHTML = addTwoNumbers('textIn1','textIn2');
-		</script>
 	</head>
 <body>
     <!--link to Home Page-->
@@ -18,7 +15,7 @@
 	<b>Enter second Number: </b><br>
 	<input type="text" id="textIn2"/><br><br>
     <p id='ans'></p>
-	<input type="button" id="btnAdd" value="+" onClick="addTwoNumbers('textIn1','textIn2')"/>
+	<input type="button" id="btnAdd" value="+" onClick="document.getElementById('ans').innerHTML = addTwoNumbers('textIn1','textIn2')"/>
     <input type="button" id="btnSub" value="-" onClick="document.getElementById('ans').innerHTML = subTwoNumbers('textIn1','textIn2')"/>
     <input type="button" id="btnAdd" value="/" onClick="document.getElementById('ans').innerHTML = divTwoNumbers('textIn1','textIn2')"/>
     <input type="button" id="btnSub" value="*" onClick="document.getElementById('ans').innerHTML = multTwoNumbers('textIn1','textIn2')"/>
