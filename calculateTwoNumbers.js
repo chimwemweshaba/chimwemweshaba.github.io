@@ -8,7 +8,7 @@ function addTwoNumbers(input1, input2)
     var y = input2.value;
     var ans = 0;
     ans = Number(x) + Number(y);
-    return ans;
+    return String(ans);
 }
 
 //function to subtract two numbers
