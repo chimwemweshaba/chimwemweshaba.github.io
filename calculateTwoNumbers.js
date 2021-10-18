@@ -4,11 +4,10 @@ var x = 0, y = 0, ans = 0;
 //function to add two numbers
 function addTwoNumbers(input1, input2)
 {
-    var x = input1.value;
-    var y = input2.value;
-    var ans = 0;
+    x = input1.value;
+    y = input2.value;
+    ans = 0;
     ans = Number(x) + Number(y);
-    return String(ans);
 }
 
 //function to subtract two numbers
