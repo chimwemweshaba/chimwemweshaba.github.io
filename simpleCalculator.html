@@ -2,9 +2,13 @@
 <html>
 	<head>
 		<title>Simple Calculator</title>
+        <script src="calculateTwoNumbers.js" async></script>
 	</head>
 <body>
+    <!--link to Home Page-->
 	<a href="index.html"> Home </a>
+
+    <!--HTML Code-->
 	<h1>Simple Calculator</h1>
 	<b>Enter first Number: </b><br>
 	<input type="text" id="textIn1"/><br>
@@ -15,49 +19,6 @@
     <input type="button" id="btnSub" value="-" onClick="subTwoNumbers('textIn1','textIn2')"/>
     <input type="button" id="btnAdd" value="/" onClick="divTwoNumbers('textIn1','textIn2')"/>
     <input type="button" id="btnSub" value="*" onClick="multTwoNumbers('textIn1','textIn2')"/>
-	
-
-    <script type="text/javascript">
-        //function to add two numbers
-        function addTwoNumbers(num1, num2)
-        {
-            var x=document.getElementById(num1).value;
-            var y=document.getElementById(num2).value;
-            var sum=0;
-            sum=Number(x) + Number(y);
-            document.getElementById("ans").innerHTML = sum;
-        }
-
-        //function to subtract two numbers
-        function subTwoNumbers(num1, num2)
-        {
-            var x=document.getElementById(num1).value;
-            var y=document.getElementById(num2).value;
-            var sum=0;
-            sum=Number(x) - Number(y);
-            document.getElementById("ans").innerHTML = sum;
-        }
-
-        //function to divide two numbers
-        function divTwoNumbers(num1, num2)
-        {
-            var x=document.getElementById(num1).value;
-            var y=document.getElementById(num2).value;
-            var sum=0;
-            sum=Number(x) / Number(y);
-            document.getElementById("ans").innerHTML = sum;
-        }
-
-        //function to multiply two numbers
-        function multTwoNumbers(num1, num2)
-        {
-            var x=document.getElementById(num1).value;
-            var y=document.getElementById(num2).value;
-            var sum=0;
-            sum=Number(x) * Number(y);
-            document.getElementById("ans").innerHTML = sum;
-        }
-    </script>
 </body>
 
 </html>
