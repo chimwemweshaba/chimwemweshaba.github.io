@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zambia Net Pay Calculator</title>
+    <!--sylesheets-->
+	<link rel="stylesheet" href="../css/main.css">
+</head>
+<body class="payeDoc">
+    <!--Above Header-->
+	<div class="aboveHeader">
+		<a href="../index.html">Home</a> | 
+		<a href="mailto: chimwemweshaba@outlook.com">Contact Us</a>
+	</div>
+
+    <!--Title-->
+	<h1>Zambia Net Pay Calculator</h1>
+    <!--Table-->
+    <table class="center">
+        <!--Allowances-->
+        <tr>
+            <td class="center" colspan="2"><b>ALLOWANCES</b></td>
+        </tr>
+        <tr>
+            <td class="alignRight">Basic Pay: </td>
+            <td class="alignLeft"><input type="text" id="basicPay" /></td>
+        </tr>
+        <tr>
+            <td class="alignRight">Housing: </td>
+            <td class="alignLeft"><input type="text" id="housing" /></td>
+        </tr>
+        <tr>
+            <td class="alignRight">Transport: </td>
+            <td class="alignLeft"><input type="text" id="transport" /></td>
+        </tr>
+        <tr>
+            <td class="alignRight">Other: </td>
+            <td class="alignLeft"><input type="text" id="otherAllowance" /></td>
+        </tr>
+        <tr>
+            <td class="alignRight">Gross Pay: </td>
+            <td class="alignLeft"></td>
+        </tr>
+        <tr>
+            <td class="center" colspan="2"> -------------------------------------------------- </td>
+        </tr>
+        <!--Deductions-->
+        <tr>
+            <td class="center" colspan="2"><b>DEDUCTIONS</b></td>
+        </tr>
+        <tr>
+            <td class="center" colspan="2">
+                <input type="checkbox" id="NAPSA" name="NAPSA">
+                <label for="NAPSA">NAPSA</label>
+
+                <input type="checkbox" id="PAYE" name="PAYE">
+                <label for="PAYE">PAYE</label>
+
+                <input type="checkbox" id="NHIS" name="NHIS">
+                <label for="NHIS">NHIS</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="alignRight">Other: </td>
+            <td class="alignLeft"><input type="text" id="otherDeductions" /></td>
+        </tr>
+        <tr>
+            <td class="alignRight">Total Deductions: </td>
+            <td class="alignLeft"></td>
+        </tr>
+        <tr>
+            <td class="center" colspan="2"> -------------------------------------------------- </td>
+        </tr>
+        <tr>
+            <td class="center" colspan="2"><input type="button" id="submit" value="Submit" onClick=""/></td>
+        </tr>
+        <tr>
+            <td class="center" colspan="2"> -------------------------------------------------- </td>
+        </tr>
+        <tr>
+            <td class="center" colspan="2"><b>NET PAY</b></td>
+        </tr>
+        <tr>
+            <td class="alignRight">Net Pay: </td>
+            <td class="alignLeft"></td>
+        </tr>
+      </table>
+    <p id='ans'></p>
+</body>
+</html>
