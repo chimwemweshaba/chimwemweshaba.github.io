@@ -8,19 +8,32 @@
         <script src="../js/calculateTwoNumbers.js" async></script>
 	</head>
 <body>
-    <!--link to Home Page-->
-	<a href="../index.html"> Home </a>
+    <!--Above Header-->
+	<div class="aboveHeader">
+		<a href="../index.html">Home</a> | 
+		<a href="mailto: chimwemweshaba@outlook.com">Email</a>
+	</div>
+
+	<!--Header-->
+	<div class="header">
+		<h1>Chimwemwe Shaba</h1>
+		<p><b>Teacher | Problem Solver | Programming Enthusiast</b></p>
+	</div>
 
     <!--HTML Code-->
 	<h1>Simple Calculator</h1>
-	<b>Enter first Number: </b><br>
+	<b>Enter First Number: </b><br>
 	<input type="text" id="textIn1"/><br>
-	<b>Enter second Number: </b><br>
+	<b>Enter Second Number: </b><br>
 	<input type="text" id="textIn2"/><br><br>
     <p id='ans'></p>
 	<input type="button" id="btnAdd" value="+" onClick="document.getElementById('ans').innerHTML = addTwoNumbers(textIn1, textIn2)"/>
     <input type="button" id="btnSub" value="-" onClick="document.getElementById('ans').innerHTML = subTwoNumbers(textIn1, textIn2)"/>
     <input type="button" id="btnAdd" value="/" onClick="document.getElementById('ans').innerHTML = divTwoNumbers(textIn1, textIn2)"/>
     <input type="button" id="btnSub" value="*" onClick="document.getElementById('ans').innerHTML = multTwoNumbers(textIn1, textIn2)"/>
+	<p>
+		<b>Instructions:</b><br/>
+		Enter the first and second number, then chose an operator to display the answer.
+	</p>
 </body>
 </html>

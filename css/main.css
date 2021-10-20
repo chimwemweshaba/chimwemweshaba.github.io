@@ -5,5 +5,16 @@
 
 body
 {
-    background-color: aqua;
+    background-color:aquamarine;
+}
+
+.header
+{
+    background-color: white;
+    text-align: center;
+}
+
+.aboveHeader
+{
+    text-align: right;
 }
