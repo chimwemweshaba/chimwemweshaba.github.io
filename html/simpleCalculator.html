@@ -13,7 +13,7 @@
 </head>
 <body>
     <!--Above Header-->
-	<div class="alignLeft">
+	<div class="text_alignLeft">
 		<a href="../index.html">Home</a> | 
 		<a href="mailto: chimwemweshaba@outlook.com">Contact Us</a>
 	</div>
@@ -21,9 +21,9 @@
     <!--HTML Code-->
 	<h1>Simple Calculator</h1>
 	<b>Enter First Number: </b><br>
-	<input type="text" id="textIn1"/><br>
+	<input type="number" id="textIn1"/><br>
 	<b>Enter Second Number: </b><br>
-	<input type="text" id="textIn2"/><br><br>
+	<input type="number" id="textIn2"/><br><br>
     <p id='ans'></p>
 	<input type="button" id="btnAdd" value="+" onClick="document.getElementById('ans').innerHTML = addTwoNumbers(textIn1, textIn2)"/>
     <input type="button" id="btnSub" value="-" onClick="document.getElementById('ans').innerHTML = subTwoNumbers(textIn1, textIn2)"/>

@@ -26,12 +26,17 @@ body
     margin-right: auto;
 }
 
-.alignLeft
+.text_alignCenter
+{
+    text-align: center;
+}
+
+.text_alignLeft
 {
     text-align: left;
 }
 
-.alignRight
+.text_alignRight
 {
     text-align: right;
 }
