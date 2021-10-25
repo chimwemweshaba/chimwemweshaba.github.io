@@ -20,7 +20,7 @@ body
     text-align: center;
 }
 
-.center
+.element_center
 {
     margin-left: auto;
     margin-right: auto;
@@ -40,3 +40,24 @@ body
 {
     text-align: right;
 }
+
+/* Form */
+form  
+{ 
+    display: table;   
+}
+p.form
+{ 
+    display: table-row;
+}
+p.heading
+{
+    column-span: all;
+}
+
+input[type=number]
+{ 
+    display: table-cell; 
+    margin: 4px 0;    
+}
+

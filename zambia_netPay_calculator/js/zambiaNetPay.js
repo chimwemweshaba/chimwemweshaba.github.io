@@ -1,6 +1,6 @@
 //Global variable declaration
 //Allowances
-var basicPay = 0;
+var basicPay;
 var housing = 0;
 var transport = 0;
 var otherAllowances = 0;
@@ -36,13 +36,20 @@ const BAND4_TAX_RATE = 0.375;
 //calculate grosspay
 function calculate_grossPay(basicPay, housing, transport, otherAllowances)
 {
-    this.basicPay = basicPay;
-    this.housing = housing;
-    this.transport = transport;
-    this.otherAllowances = otherAllowances;
+    this.basicPay = basicPay.value;
+    this.housing = housing.value;
+    this.transport = transport.value;
+    this.otherAllowances = otherAllowances.value;
 
-    this.grossPay = this.basicPay + this.housing + this.transport + this.otherAllowance;
+    this.grossPay = Number(this.basicPay) + Number(this.housing) + Number(this.transport) + Number(this.otherAllowances);
 
+    console.log(this.grossPay);
+    return grossPay;
+}
+
+function get_grossPay()
+{
+    console.log(this.grossPay);
     return this.grossPay;
 }
 
@@ -67,10 +74,10 @@ function calculate_nhis()
 //calculate totalDeductions
 function calculate_totalDeductions(napsa, paye, nhis, otherDeductions)
 {
-    this.napsa = napsa;
-    this.paye = paye;
-    this.nhis = nhis;
-    this.otherDeductions = otherDeductions;
+    this.napsa = Number(napsa);
+    this.paye = Number(paye);
+    this.nhis = Number(nhis);
+    this.otherDeductions = Number(otherDeductions);
 
     this.totalDeductions = this.napsa + this.paye + this.nhis + this.otherDeductions;
 
@@ -86,4 +93,10 @@ function calculate_netPay(grossPay, totalDeductions)
     this.netpay = this.grossPay - this.totalDeductions;
 
     return this.netpay;
+}
+
+//submit buttom
+function button_submit()
+{
+
 }

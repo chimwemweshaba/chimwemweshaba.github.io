@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--meta-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--title-->
+    <title>Zambia Net Pay Calculator</title>
+    <!--sylesheets-->
+	<link rel="stylesheet" href="../../main_css/main.css">
+    <link rel="stylesheet" href="../../main_css/table.css">
+    <!--javascript-->
+    <script src="../js/zambiaNetPay.js"></script>
+    <script src="../../simple_calculator/js/calculateTwoNumbers.js"></script>
+</head>
+<body class="payeDoc">
+    <!--Above Header-->
+	<div class="aboveHeader">  
+		<a href="../index.html">Home</a> | 
+		<a href="mailto: chimwemweshaba@outlook.com">Contact Us</a>
+	</div>
+
+    <!--Title-->
+	<h1>Zambia Net Pay Calculator</h1>
+    <p><b><i>Note: All values should be in Zambian Kwacha (ZKW)</i></b></p>
+    <!--Table-->
+    <div class="table">
+        <!--sectionHeading_allowances-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>ALLOWANCES</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--basicPay-->
+        <div class="row">
+            <div class="cellLeft">
+                Basic Pay:
+            </div>
+            <div class="cellRight">
+                <input type="number" id="basicPay" name="basicPay">
+            </div>
+        </div>
+        <!--housing-->
+        <div class="row">
+            <div class="cellLeft">
+                Housing:
+            </div>
+            <div class="cellRight">
+                <input type="number" id="housing" name="housing">
+            </div>
+        </div>
+        <!--transport-->
+        <div class="row">
+            <div class="cellLeft">
+                Transport:
+            </div>
+            <div class="cellRight">
+                <input type="number" id="transport" name="transport">
+            </div>
+        </div>
+        <!--otherAllowances-->
+        <div class="row">
+            <div class="cellLeft">
+                Other:
+            </div>
+            <div class="cellRight">
+                <input type="number" id="otherAllowances" name="otherAllowances">
+            </div>
+        </div>
+        <!--subTotal_grossPay-->
+        <div class="row">
+            <div class="cellLeft">
+                Gross Pay:
+            </div>
+            <div class="cellRight" id="grossPay">
+                
+            </div>
+        </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>--------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionHeading_deductions-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>DEDUCTIONS</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--checkbox-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <!--NAPSA-->
+                    <input type="checkbox" id="NAPSA" name="NAPSA">
+                    <label for="NAPSA">NAPSA</label>
+                    <!--PAYE-->
+                    <input type="checkbox" id="PAYE" name="PAYE">
+                    <label for="PAYE">PAYE</label>
+                    <!--NHIS-->
+                    <input type="checkbox" id="NHIS" name="NHIS">
+                    <label for="NHIS">NHIS</label>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--otherDeductions-->
+        <div class="row">
+            <div class="cellLeft">
+                Other:
+            </div>
+            <div class="cellRight">
+                <input type="number" id="otherDeductions" name="otherDeductions">
+            </div>
+        </div>
+        <!--totalDeductions-->
+        <div class="row">
+            <div class="cellLeft">
+                Total Deductions:
+            </div>
+            <div class="cellRight" id="totalDeductions">
+            </div>
+        </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>--------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Submit Button-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <input type="button" id="submit" value="Submit" onClick="calculate_grossPay(basicPay, housing, transport, otherAllowances)"/>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>--------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--netPay-->
+        <div class="row">
+            <div class="cellLeft">
+                <b>Net Pay:</b>
+            </div>
+            <div class="cellRight" id="netPay">
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
