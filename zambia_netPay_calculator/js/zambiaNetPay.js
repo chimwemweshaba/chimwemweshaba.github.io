@@ -36,6 +36,7 @@ const BAND4_TAX_RATE = 0.375;
 //calculate grosspay
 function calculate_grossPay(basicPay, housing, transport, otherAllowances)
 {
+
     this.basicPay = Number(basicPay.value);
     this.housing = Number(housing.value);
     this.transport = Number(transport.value);
