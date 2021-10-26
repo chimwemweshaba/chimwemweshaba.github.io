@@ -1,6 +1,6 @@
 //Global variable declaration
 //Allowances
-var basicPay;
+var basicPay = 0;
 var housing = 0;
 var transport = 0;
 var otherAllowances = 0;
@@ -36,12 +36,12 @@ const BAND4_TAX_RATE = 0.375;
 //calculate grosspay
 function calculate_grossPay(basicPay, housing, transport, otherAllowances)
 {
-    this.basicPay = basicPay.value;
-    this.housing = housing.value;
-    this.transport = transport.value;
-    this.otherAllowances = otherAllowances.value;
+    this.basicPay = Number(basicPay.value);
+    this.housing = Number(housing.value);
+    this.transport = Number(transport.value);
+    this.otherAllowances = Number(otherAllowances.value);
 
-    this.grossPay = Number(this.basicPay) + Number(this.housing) + Number(this.transport) + Number(this.otherAllowances);
+    this.grossPay = this.basicPay + this.housing + this.transport + this.otherAllowances;
 
     console.log(this.grossPay);
     return grossPay;
@@ -66,29 +66,39 @@ function calculate_paye()
 }
 
 //calculate nhis
-function calculate_nhis()
+function calculate_nhis(checkbox_NHIS)
 {
-    return this.nhis;
+    if (checkbox_NHIS.checked == true)
+    {
+        this.nhis = this.basicPay * 0.05;
+    } 
+    else 
+    {
+        this.nhis = 0;
+    }
+
+    return calculate_totalDeductions();
+}
+
+//set_otherDeductions
+function set_otherDeductions(otherDeductions)
+{
+    this.otherDeductions = Number(otherDeductions.value);
+
+    return calculate_totalDeductions();
 }
 
 //calculate totalDeductions
-function calculate_totalDeductions(napsa, paye, nhis, otherDeductions)
+function calculate_totalDeductions()
 {
-    this.napsa = Number(napsa);
-    this.paye = Number(paye);
-    this.nhis = Number(nhis);
-    this.otherDeductions = Number(otherDeductions);
-
     this.totalDeductions = this.napsa + this.paye + this.nhis + this.otherDeductions;
 
     return this.totalDeductions;
 }
 
 //calculate netPay
-function calculate_netPay(grossPay, totalDeductions)
+function calculate_netPay()
 {
-    this.grossPay = grossPay;
-    this.totalDeductions = totalDeductions;
 
     this.netpay = this.grossPay - this.totalDeductions;
 

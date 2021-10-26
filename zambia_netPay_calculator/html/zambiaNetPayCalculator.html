@@ -53,46 +53,46 @@
         <!--basicPay-->
         <div class="row">
             <div class="cellLeft">
-                Basic Pay:
+                Basic Pay (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="basicPay" name="basicPay">
+                <input type="number" id="input_basicPay" name="input_basicPay" oninput="document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances)"/>
             </div>
         </div>
         <!--housing-->
         <div class="row">
             <div class="cellLeft">
-                Housing:
+                Housing (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="housing" name="housing">
+                <input type="number" id="input_housing" name="input_housing" oninput="document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances)"/>
             </div>
         </div>
         <!--transport-->
         <div class="row">
             <div class="cellLeft">
-                Transport:
+                Transport (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="transport" name="transport">
+                <input type="number" id="input_transport" name="input_transport" oninput="document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances)"/>
             </div>
         </div>
         <!--otherAllowances-->
         <div class="row">
             <div class="cellLeft">
-                Other:
+                Other (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="otherAllowances" name="otherAllowances">
+                <input type="number" id="input_otherAllowances" name="input_otherAllowances" oninput="document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances)"/>
             </div>
         </div>
         <!--subTotal_grossPay-->
         <div class="row">
             <div class="cellLeft">
-                Gross Pay:
+                Gross Pay (ZMW):
             </div>
-            <div class="cellRight" id="grossPay">
-                
+            <div class="cellRight">
+                <input type="text" id="output_grossPay" name="output_totalDeductions" disabled oninput = "document.getElementById('output_netPay').innerHTML = calculate_netPay()">
             </div>
         </div>
         <!--sectionDivider-->
@@ -118,14 +118,14 @@
             <div class="cell colspan">
                 <div><div>
                     <!--NAPSA-->
-                    <input type="checkbox" id="NAPSA" name="NAPSA">
-                    <label for="NAPSA">NAPSA</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="checkbox_NAPSA" name="checkbox_NAPSA" >
+                    <label for="checkbox_NAPSA">NAPSA</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--PAYE-->
-                    <input type="checkbox" id="PAYE" name="PAYE">
-                    <label for="PAYE">PAYE</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="checkbox_PAYE" name="checkbox_PAYE">
+                    <label for="checkbox_PAYE">PAYE</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--NHIS-->
-                    <input type="checkbox" id="NHIS" name="NHIS">
-                    <label for="NHIS">NHIS</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="checkbox_NHIS" name="checkbox_NHIS" oninput = "document.getElementById('output_totalDeductions').value = calculate_nhis(checkbox_NHIS)">
+                    <label for="checkbox_NHIS">NHIS</label>&nbsp;&nbsp;&nbsp;&nbsp;
                 </div></div>
             </div>
             <div class="cell"></div>
@@ -133,37 +133,20 @@
         <!--otherDeductions-->
         <div class="row">
             <div class="cellLeft">
-                Other:
+                Other (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="otherDeductions" name="otherDeductions">
+                <input type="number" id="input_otherDeductions" name="input_otherDeductions" oninput = "document.getElementById('output_totalDeductions').value = set_otherDeductions(input_otherDeductions)">
             </div>
         </div>
         <!--totalDeductions-->
         <div class="row">
             <div class="cellLeft">
-                Total Deductions:
+                Total Deductions (ZMW):
             </div>
-            <div class="cellRight" id="totalDeductions">
+            <div class="cellRight">
+                <input type="text" id="output_totalDeductions" name="output_totalDeductions" disabled oninput = "document.getElementById('output_netPay').innerHTML = calculate_netPay()">
             </div>
-        </div>
-        <!--sectionDivider-->
-        <div class="row">
-            <div class="cell colspan">
-                <div><div>
-                    <b>----------------------------------------------------------------</b>
-                </div></div>
-            </div>
-            <div class="cell"></div>
-        </div>
-        <!--Submit Button-->
-        <div class="row">
-            <div class="cell colspan">
-                <div><div>
-                    <input type="button" id="submit" value="Submit" onClick="calculate_grossPay(basicPay, housing, transport, otherAllowances)"/>
-                </div></div>
-            </div>
-            <div class="cell"></div>
         </div>
         <!--sectionDivider-->
         <div class="row">
@@ -177,12 +160,22 @@
         <!--netPay-->
         <div class="row">
             <div class="cellLeft">
-                <b>Net Pay:</b>
+                <b>NET PAY (ZMW):</b>
             </div>
-            <div class="cellRight" id="netPay">
-                
+            <div class="cellRight" >
+                <input type="text" id="output_netPay" name="output_netPay" disabled>
             </div>
         </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>----------------------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        
     </div>
 </body>
 </html>
