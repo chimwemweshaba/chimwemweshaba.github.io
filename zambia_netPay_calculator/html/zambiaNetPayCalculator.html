@@ -22,7 +22,7 @@
 	</div>
 
     <!--Table-->
-    <div class="table">
+    <form class="table" id='myForm'>
         <!--Title-->
         <div class="row">
             <div class="cell colspan">
@@ -56,7 +56,7 @@
                 Basic Pay (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="input_basicPay" name="input_basicPay" oninput="document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances)"/>
+                <input type="number" id="input_basicPay" name="input_basicPay" oninput="edit_basicPay()"/>
             </div>
         </div>
         <!--housing-->
@@ -118,17 +118,44 @@
             <div class="cell colspan">
                 <div><div>
                     <!--NAPSA-->
-                    <input type="checkbox" id="checkbox_NAPSA" name="checkbox_NAPSA" >
+                    <input type="checkbox" id="checkbox_NAPSA" name="checkbox_NAPSA" oninput = "document.getElementById('output_NAPSA').value = calculate_napsa(checkbox_NAPSA)">
                     <label for="checkbox_NAPSA">NAPSA</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--PAYE-->
-                    <input type="checkbox" id="checkbox_PAYE" name="checkbox_PAYE">
+                    <input type="checkbox" id="checkbox_PAYE" name="checkbox_PAYE"  oninput = "document.getElementById('output_PAYE').value = calculate_nhis(checkbox_PAYE)">
                     <label for="checkbox_PAYE">PAYE</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--NHIS-->
-                    <input type="checkbox" id="checkbox_NHIS" name="checkbox_NHIS" oninput = "document.getElementById('output_totalDeductions').value = calculate_nhis(checkbox_NHIS)">
+                    <input type="checkbox" id="checkbox_NHIS" name="checkbox_NHIS" oninput = "document.getElementById('output_NHIS').value = calculate_nhis(checkbox_NHIS)">
                     <label for="checkbox_NHIS">NHIS</label>&nbsp;&nbsp;&nbsp;&nbsp;
                 </div></div>
             </div>
             <div class="cell"></div>
+        </div>
+        <!--NAPSA-->
+        <div class="row">
+            <div class="cellLeft">
+                NAPSA (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="text" id="output_NAPSA" name="output_NAPSA" disabled />
+            </div>
+        </div>
+        <!--PAYE-->
+        <div class="row">
+            <div class="cellLeft">
+                PAYE (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="text" id="output_PAYE" name="output_PAYE" disabled />
+            </div>
+        </div>
+        <!--NHIS-->
+        <div class="row">
+            <div class="cellLeft">
+                NHIS (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="text" id="output_NHIS" name="output_NHIS" disabled />
+            </div>
         </div>
         <!--otherDeductions-->
         <div class="row">
@@ -145,7 +172,7 @@
                 Total Deductions (ZMW):
             </div>
             <div class="cellRight">
-                <input type="text" id="output_totalDeductions" name="output_totalDeductions" disabled oninput = "document.getElementById('output_netPay').innerHTML = calculate_netPay()">
+                <input type="text" id="output_totalDeductions" name="output_totalDeductions" disabled />
             </div>
         </div>
         <!--sectionDivider-->
@@ -160,10 +187,10 @@
         <!--Buttons-->
         <div class="row">
             <div class="cell">
-                <input type="button" id = "submit" value="Submit" />
+                <input type="button" id = "submit" value="Submit" onclick='onClick_submit()'/>
             </div>
             <div class="cell">
-                <input type="button" id = "reset" value="Reset" />
+                <input type="reset" id = "reset" value="Reset All" onclick='onClick_reset()'/>
             </div>
         </div>
         <!--sectionDivider-->
@@ -184,7 +211,41 @@
                 <input type="text" id="output_netPay" name="output_netPay" disabled>
             </div>
         </div>
-        
-    </div>
+    </form>
+    <!--JavaScript-->
+    <script>
+        //onClick_submit
+        function onClick_submit()
+        {
+            document.getElementById('output_totalDeductions').value = calculate_totalDeductions();
+            document.getElementById('output_netPay').value = calculate_netPay();
+        }
+
+        //reset decuctions
+        function reset_deductions()
+        {
+            //checkboxes
+            document.getElementById('checkbox_NAPSA').checked = false;
+            document.getElementById('checkbox_PAYE').checked = false;
+            document.getElementById('checkbox_NHIS').checked = false;
+
+            //textboxes
+            document.getElementById('output_NAPSA').value = 0;
+            document.getElementById('output_PAYE').value = 0;
+            document.getElementById('output_NHIS').value = 0;
+            document.getElementById('input_otherDeductions').value = 0;
+            document.getElementById('output_totalDeductions').value = 0;
+
+            document.getElementById('output_netPay').value = 0;
+        }
+
+        //basicPay
+        function edit_basicPay()
+        {
+            reset_deductions();
+            initialize_deductions();
+            document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances);
+        }
+    </script>
 </body>
 </html>
