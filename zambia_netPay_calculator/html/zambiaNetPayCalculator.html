@@ -56,7 +56,7 @@
                 Basic Pay (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="input_basicPay" name="input_basicPay" oninput="edit_basicPay()"/>
+                <input type="number" id="input_basicPay" name="input_basicPay" oninput="edit_grossPay_section()"/>
             </div>
         </div>
         <!--housing-->
@@ -65,7 +65,7 @@
                 Housing (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="input_housing" name="input_housing" oninput="document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances)"/>
+                <input type="number" id="input_housing" name="input_housing" oninput="edit_grossPay_section()"/>
             </div>
         </div>
         <!--transport-->
@@ -74,7 +74,7 @@
                 Transport (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="input_transport" name="input_transport" oninput="document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances)"/>
+                <input type="number" id="input_transport" name="input_transport" oninput="edit_grossPay_section()"/>
             </div>
         </div>
         <!--otherAllowances-->
@@ -83,7 +83,7 @@
                 Other (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="input_otherAllowances" name="input_otherAllowances" oninput="document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances)"/>
+                <input type="number" id="input_otherAllowances" name="input_otherAllowances" oninput="edit_grossPay_section()"/>
             </div>
         </div>
         <!--subTotal_grossPay-->
@@ -163,7 +163,7 @@
                 Other (ZMW):
             </div>
             <div class="cellRight">
-                <input type="number" id="input_otherDeductions" name="input_otherDeductions" oninput = "document.getElementById('output_totalDeductions').value = set_otherDeductions(input_otherDeductions)">
+                <input type="number" id="input_otherDeductions" name="input_otherDeductions" oninput = "edit_otherDeductions()">
             </div>
         </div>
         <!--totalDeductions-->
@@ -235,16 +235,28 @@
             document.getElementById('output_NHIS').value = 0;
             document.getElementById('input_otherDeductions').value = 0;
             document.getElementById('output_totalDeductions').value = 0;
+        }
 
+        //reset netPay
+        function reset_netPay()
+        {
             document.getElementById('output_netPay').value = 0;
         }
 
-        //basicPay
-        function edit_basicPay()
+        //edit_basicPay
+        function edit_grossPay_section()
         {
+            reset_netPay();
             reset_deductions();
             initialize_deductions();
             document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances);
+        }
+
+        //edit_otherDeductions
+        function edit_otherDeductions()
+        {
+            reset_netPay();
+            document.getElementById('output_totalDeductions').value = set_otherDeductions(input_otherDeductions)
         }
     </script>
 </body>
