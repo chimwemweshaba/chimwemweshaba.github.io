@@ -92,7 +92,7 @@
                 Gross Pay (ZMW):
             </div>
             <div class="cellRight">
-                <input type="text" id="output_grossPay" name="output_totalDeductions" disabled oninput = "document.getElementById('output_netPay').innerHTML = calculate_netPay()">
+                <input type="text" id="output_grossPay" name="output_grossPay" class="output" locked />
             </div>
         </div>
         <!--sectionDivider-->
@@ -118,13 +118,13 @@
             <div class="cell colspan">
                 <div><div>
                     <!--NAPSA-->
-                    <input type="checkbox" id="checkbox_NAPSA" name="checkbox_NAPSA" oninput = "document.getElementById('output_NAPSA').value = calculate_napsa(checkbox_NAPSA)">
+                    <input type="checkbox" id="checkbox_NAPSA" name="checkbox_NAPSA" oninput = "change_NAPSA()">
                     <label for="checkbox_NAPSA">NAPSA</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--PAYE-->
-                    <input type="checkbox" id="checkbox_PAYE" name="checkbox_PAYE"  oninput = "document.getElementById('output_PAYE').value = calculate_nhis(checkbox_PAYE)">
+                    <input type="checkbox" id="checkbox_PAYE" name="checkbox_PAYE"  oninput = "change_PAYE()">
                     <label for="checkbox_PAYE">PAYE</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--NHIS-->
-                    <input type="checkbox" id="checkbox_NHIS" name="checkbox_NHIS" oninput = "document.getElementById('output_NHIS').value = calculate_nhis(checkbox_NHIS)">
+                    <input type="checkbox" id="checkbox_NHIS" name="checkbox_NHIS" oninput = "change_NHIS()">
                     <label for="checkbox_NHIS">NHIS</label>&nbsp;&nbsp;&nbsp;&nbsp;
                 </div></div>
             </div>
@@ -136,7 +136,7 @@
                 NAPSA (ZMW):
             </div>
             <div class="cellRight">
-                <input type="text" id="output_NAPSA" name="output_NAPSA" disabled />
+                <input type="text" id="output_NAPSA" name="output_NAPSA" class="output" locked />
             </div>
         </div>
         <!--PAYE-->
@@ -145,7 +145,7 @@
                 PAYE (ZMW):
             </div>
             <div class="cellRight">
-                <input type="text" id="output_PAYE" name="output_PAYE" disabled />
+                <input type="text" id="output_PAYE" name="output_PAYE" class="output" locked />
             </div>
         </div>
         <!--NHIS-->
@@ -154,7 +154,7 @@
                 NHIS (ZMW):
             </div>
             <div class="cellRight">
-                <input type="text" id="output_NHIS" name="output_NHIS" disabled />
+                <input type="text" id="output_NHIS" name="output_NHIS" class="output" locked />
             </div>
         </div>
         <!--otherDeductions-->
@@ -172,7 +172,7 @@
                 Total Deductions (ZMW):
             </div>
             <div class="cellRight">
-                <input type="text" id="output_totalDeductions" name="output_totalDeductions" disabled />
+                <input type="text" id="output_totalDeductions" name="output_totalDeductions" class="output" locked />
             </div>
         </div>
         <!--sectionDivider-->
@@ -208,7 +208,7 @@
                 <b>NET PAY (ZMW):</b>
             </div>
             <div class="cellRight" >
-                <input type="text" id="output_netPay" name="output_netPay" disabled>
+                <input type="text" id="output_netPay" name="output_netPay" class="output" locked>
             </div>
         </div>
     </form>
@@ -243,6 +243,12 @@
             document.getElementById('output_netPay').value = 0;
         }
 
+        //reset totalDeductions
+        function reset_totalDeductions()
+        {
+            document.getElementById('output_totalDeductions').value = 0;
+        }
+
         //edit_basicPay
         function edit_grossPay_section()
         {
@@ -255,8 +261,33 @@
         //edit_otherDeductions
         function edit_otherDeductions()
         {
+            reset_totalDeductions();
             reset_netPay();
-            document.getElementById('output_totalDeductions').value = set_otherDeductions(input_otherDeductions)
+            set_otherDeductions(input_otherDeductions);
+        }
+
+        //change_NAPSA
+        function change_NAPSA()
+        {
+            reset_totalDeductions();
+            reset_netPay();
+            document.getElementById('output_NAPSA').value = calculate_napsa(checkbox_NAPSA)
+        }
+
+        //change_PAYE
+        function change_PAYE()
+        {
+            reset_totalDeductions();
+            reset_netPay();
+            document.getElementById('output_PAYE').value = checked_paye(checkbox_PAYE)
+        }
+
+        //change_NHIS
+        function change_NHIS()
+        {
+            reset_totalDeductions();
+            reset_netPay();
+            document.getElementById('output_NHIS').value = calculate_nhis(checkbox_NHIS)
         }
     </script>
 </body>

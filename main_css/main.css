@@ -61,3 +61,25 @@ input[type=number]
     margin: 4px 0;    
 }
 
+input.output
+{
+    border: none;
+    background: transparent;
+}
+
+#output_netPay
+{
+    font-size: larger;
+    font-weight: bold;
+}
+
+#output_totalDeductions
+{
+    font-weight: bold;
+}
+
+#output_grossPay
+{
+    font-weight: bold;
+}
+
