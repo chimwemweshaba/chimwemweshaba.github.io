@@ -83,3 +83,8 @@ input.output
     font-weight: bold;
 }
 
+.font_smaller
+{
+    font-size: smaller;
+}
+

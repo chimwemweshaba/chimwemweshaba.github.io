@@ -10,11 +10,12 @@
     <!--sylesheets-->
 	<link rel="stylesheet" href="../../main_css/main.css">
     <link rel="stylesheet" href="../../main_css/table.css">
+    <link rel="stylesheet" href="../css/zambiaNetPay.css">
     <!--javascript-->
     <script src="../js/zambiaNetPay.js"></script>
     <script src="../../simple_calculator/js/calculateTwoNumbers.js"></script>
 </head>
-<body class="payeDoc">
+<body class="payeDoc" onload="breakdown()">
     <!--Above Header-->
 	<div class="aboveHeader">  
 		<a href="../../index.html">Home</a> | 
@@ -211,7 +212,109 @@
                 <input type="text" id="output_netPay" name="output_netPay" class="output" readonly/>
             </div>
         </div>
+        <br><br><br><br>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>----------------------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionHeading_Breakdown-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>BREAKDOWN</b><br>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--NAPSA-->
+        <div class="row">
+            <div class="cellLeft">
+                <b>NAPSA Rate:</b>
+            </div>
+            <div class="cellRight" >
+                <input type="text" id="output_napsaRate" name="output_netRate" class="output" readonly/>
+            </div>
+        </div>
+        <!--NapsaNote-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    <b>Note:</b> The maximuim NAPSA contribution for <span id="thisYear"></span>  is ZMW <span id="max_napsaValue"></span>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--NHIS-->
+        <div class="row">
+            <div class="cellLeft">
+                <b>NHIS Rate:</b>
+            </div>
+            <div class="cellRight" >
+                <p><input type="text" id="output_nhisRate" name="output_nhisRate" class="output" readonly/></p>
+            </div>
+        </div>
+        <!--PAYE-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>PAYE:</b><br>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Band 1-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    The first ZMW <span id="band1_amount"></span> of the Gross Pay is taxed at <span id="band1_tax_rate"></span>%
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Band 2-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    The next ZMW <span id="band2_amount"></span> is taxed at <span id="band2_tax_rate"></span>%
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Band 3-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    And the next ZMW <span id="band3_amount"></span> after that is taxed at <span id="band3_tax_rate"></span>%
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Band 4-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    And the rest, is taxed at <span id="band4_tax_rate"></span>%
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>----------------------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
     </form>
+
+    
     <!--JavaScript-->
     <script>
         //onClick_submit
@@ -288,6 +391,33 @@
             reset_totalDeductions();
             reset_netPay();
             document.getElementById('output_NHIS').value = calculate_nhis(checkbox_NHIS)
+        }
+
+        //"BREAKDOWN Section Output"
+        function breakdown()
+        {
+            //get Year
+            document.getElementById("thisYear").innerHTML = get_year();
+
+            //NAPSA Rate
+            document.getElementById('output_napsaRate').value = get_napsaRate() + "% of Gross Pay";
+            //NAPSA Max Value
+            document.getElementById("max_napsaValue").innerHTML = get_napsa_MaxValue();
+
+            //NHIS Rate
+            document.getElementById('output_nhisRate').value = get_nhisRate() + "% of Basic Pay";
+
+            //PAYE
+            //get band_amounts
+            document.getElementById("band1_amount").innerHTML = get_band1_max_amount();
+            document.getElementById("band2_amount").innerHTML = get_band2_max_amount();
+            document.getElementById("band3_amount").innerHTML = get_band3_max_amount();
+
+            //get band_rates
+            document.getElementById("band1_tax_rate").innerHTML = get_band1_tax_rate();
+            document.getElementById("band2_tax_rate").innerHTML = get_band2_tax_rate();
+            document.getElementById("band3_tax_rate").innerHTML = get_band3_tax_rate();
+            document.getElementById("band4_tax_rate").innerHTML = get_band4_tax_rate();
         }
     </script>
 </body>

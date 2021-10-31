@@ -218,3 +218,71 @@ function onClick_reset()
 {
     initialize();
 }
+
+//output_napsaRate
+function  get_napsaRate()
+{
+    return NAPSA_RATE * 100;
+}
+
+//output_napsaMaxValue
+function get_napsa_MaxValue()
+{
+    return MAX_NAPSA.toFixed(2);
+}
+
+//output_nhisRate
+function  get_nhisRate()
+{
+    return NHIS_RATE * 100;
+}
+
+//get_year
+function get_year()
+{
+    return YEAR;
+}
+
+//GET_BAND_MAX_VALUES
+//get_band1_max_amount
+function get_band1_max_amount()
+{
+    return BAND1_MAX_VALUE.toFixed(2);
+}
+
+//get_band2_max_amount
+function get_band2_max_amount()
+{
+    return BAND2_MAX_VALUE.toFixed(2);
+}
+
+//get_band3_max_amount
+function get_band3_max_amount()
+{
+    return BAND3_MAX_VALUE.toFixed(2);
+}
+
+//GET_BAND_TAX_RATES
+//band1_tax_rate
+function get_band1_tax_rate()
+{
+    return BAND1_TAX_RATE * 100;
+}
+
+//band2_tax_rate
+function get_band2_tax_rate()
+{
+    return BAND2_TAX_RATE * 100;
+}
+
+//band3_tax_rate
+function get_band3_tax_rate()
+{
+    return BAND3_TAX_RATE * 100;
+}
+
+//band4_tax_rate
+function get_band4_tax_rate()
+{
+    return BAND4_TAX_RATE * 100;
+}
