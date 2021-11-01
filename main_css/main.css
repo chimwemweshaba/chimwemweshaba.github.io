@@ -15,11 +15,6 @@ body
     text-align: left;
 }
 
-.payeDoc
-{
-    text-align: center;
-}
-
 .element_center
 {
     margin-left: auto;
@@ -67,24 +62,17 @@ input.output
     background: transparent;
 }
 
-#output_netPay
-{
-    font-size: larger;
-    font-weight: bold;
-}
-
-#output_totalDeductions
-{
-    font-weight: bold;
-}
-
-#output_grossPay
-{
-    font-weight: bold;
-}
-
 .font_smaller
 {
     font-size: smaller;
 }
 
+p.subHeading
+{
+    background-color:darkgray;
+}
+
+#heading
+{
+    background-color:darkgray;
+}

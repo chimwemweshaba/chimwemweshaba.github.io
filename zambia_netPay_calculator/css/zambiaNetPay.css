@@ -1,0 +1,20 @@
+.payeDoc
+{
+    text-align: center;
+}
+
+#output_netPay
+{
+    font-size: larger;
+    font-weight: bold;
+}
+
+#output_totalDeductions
+{
+    font-weight: bold;
+}
+
+#output_grossPay
+{
+    font-weight: bold;
+}
