@@ -76,3 +76,9 @@ p.subHeading
 {
     background-color:darkgray;
 }
+
+#textarea_label
+{
+    vertical-align: bottom;
+    font-weight: bolder;
+}
