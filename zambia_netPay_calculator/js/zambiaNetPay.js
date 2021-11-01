@@ -53,10 +53,15 @@ const BAND2_TAX_RATE = 0.25;
 const BAND3_TAX_RATE = 0.30;
 const BAND4_TAX_RATE = 0.375;
 
+//Tax Band Dif
+var band1_tax_diff = BAND1_MAX_VALUE;
+var band2_tax_diff = BAND2_MAX_VALUE - BAND1_MAX_VALUE;
+var band3_tax_diff = BAND3_MAX_VALUE - BAND2_MAX_VALUE;
+
 //Max Band Tax
-var band1_max_tax = BAND1_MAX_VALUE * BAND1_TAX_RATE;
-var band2_max_tax = (BAND2_MAX_VALUE - BAND1_MAX_VALUE) * BAND2_TAX_RATE;
-var band3_max_tax = (BAND3_MAX_VALUE - BAND2_MAX_VALUE) * BAND3_TAX_RATE;
+var band1_max_tax = band1_tax_diff * BAND1_TAX_RATE;
+var band2_max_tax = band2_tax_diff * BAND2_TAX_RATE;
+var band3_max_tax = band3_tax_diff * BAND3_TAX_RATE;
 
 //initialize
 function initialize()
@@ -247,19 +252,19 @@ function get_year()
 //get_band1_max_amount
 function get_band1_max_amount()
 {
-    return BAND1_MAX_VALUE.toFixed(2);
+    return band1_tax_diff.toFixed(2);
 }
 
 //get_band2_max_amount
 function get_band2_max_amount()
 {
-    return BAND2_MAX_VALUE.toFixed(2);
+    return band2_tax_diff.toFixed(2);
 }
 
 //get_band3_max_amount
 function get_band3_max_amount()
 {
-    return BAND3_MAX_VALUE.toFixed(2);
+    return band3_tax_diff.toFixed(2);
 }
 
 //GET_BAND_TAX_RATES
