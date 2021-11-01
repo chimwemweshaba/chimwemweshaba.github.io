@@ -258,13 +258,13 @@ function get_band1_max_amount()
 //get_band2_max_amount
 function get_band2_max_amount()
 {
-    return band1_tax_diff.toFixed(2);
+    return band2_tax_diff.toFixed(2);
 }
 
 //get_band3_max_amount
 function get_band3_max_amount()
 {
-    return band1_tax_diff.toFixed(2);
+    return band3_tax_diff.toFixed(2);
 }
 
 //GET_BAND_TAX_RATES
