@@ -79,6 +79,6 @@ p.subHeading
 
 #textarea_label
 {
-    vertical-align: bottom;
+    vertical-align: top;
     font-weight: bolder;
 }
