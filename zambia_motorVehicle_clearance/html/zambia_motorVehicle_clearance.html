@@ -8,9 +8,11 @@
 	<link rel="stylesheet" href="../../main_css/main.css">
     <link rel="stylesheet" href="../../main_css/table.css">
     <link rel="stylesheet" href="../css/zambiaMotorVehicleClearance.css">
+    <!--script-->
+    <script src="../js/zambiaMotorVehicleClearance.js"></script>
     <title>Zambia Motor Vehicle Clearance</title>
 </head>
-<body>
+<body onload="page_refresh()">
      <!--Above Header-->
 	<div class="aboveHeader">  
 		<a href="../../index.html">Home</a> | 
@@ -34,7 +36,8 @@
                 Main HS Code:<br><br>
             </div>
             <div class="cellRight">
-                <select name="main_HS_code" id="main_HS_code">
+                <select name="main_HS_code" id="main_HS_code" onchange='int_main_HS_desc(this)' aria-placeholder="">
+                    <option value="empty">--</option>
                     <option value="hs_8702">8702</option>
                     <option value="hs_8703">8703</option>
                     <option value="hs_8704">8704</option>
@@ -47,11 +50,22 @@
                 <span>Description:</span> 
             </div>
             <div class="cellRight">
-                <textarea id="hs_code_desc" name="hs_code_desc" rows="4" cols="30">
-                    
+                <textarea id="main_HS_desc" name="main_HS_desc" rows="7" cols="30" disabled>
                 </textarea>
             </div>
         </div>
     </form>
+
+    <script>
+        function int_main_HS_desc(selectedValue)
+        {
+            document.getElementById('main_HS_desc').value = get_main_HS_desc(selectedValue.value);
+        }
+
+        function page_refresh()
+        {
+            
+        }
+    </script>
 </body>
 </html>
