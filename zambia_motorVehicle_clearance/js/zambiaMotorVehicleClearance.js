@@ -7,19 +7,19 @@ function get_main_HS_desc(HS_code)
     {
         case 'hs_8702':
         {
-            this.main_HS_desc = "Motor vehicles for the transport of ten or more persons, including the driver"
+            this.main_HS_desc = "Motor vehicles for the transport of ten or more persons, including the driver. - (BUS)"
             break;
         }
 
         case 'hs_8703':
         {
-            this.main_HS_desc = "Motor cars and other motor vehicles principally designed for the transport of persons (other than those of heading 87.02), including station wagons and racing cars."
+            this.main_HS_desc = "Motor cars and other motor vehicles principally designed for the transport of persons (other than those of heading 87.02), including station wagons and racing cars. - (Not BUS or TRUCK)"
             break;
         }
 
         case 'hs_8704':
         {
-            this.main_HS_desc = "Motor vehicles for the transport of goods."
+            this.main_HS_desc = "Motor vehicles for the transport of goods. - (Truck)"
             break;
         }
 
