@@ -20,10 +20,10 @@ var bal = 0;
 
 //CONSTANT
 //Year
-const YEAR = 2021
+const YEAR = 2022
 
 //Napsa
-const MAX_NAPSA = 1159.40
+const MAX_NAPSA = 1221.80
 const NAPSA_RATE = 0.05;
 
 //NHIS
@@ -31,7 +31,7 @@ const NHIS_RATE = 0.01;
 
 //PAYE
 //Bands
-const BAND1_MAX_VALUE = 4000;
+const BAND1_MAX_VALUE = 4500;
 const BAND2_MAX_VALUE = 4800;
 const BAND3_MAX_VALUE = 6900;
 
