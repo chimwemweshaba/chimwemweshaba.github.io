@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--meta-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--title-->
+    <title>Zambia Net Pay Calculator</title>
+    <!--sylesheets-->
+	<link rel="stylesheet" href="../../main_css/main.css">
+    <link rel="stylesheet" href="../../main_css/table.css">
+    <link rel="stylesheet" href="../css/zambiaSalary.css">
+    <!--javascript-->
+    <script src="../js/zambiaSalary.js"></script>
+    <script src="../../simple_calculator/js/calculateTwoNumbers.js"></script>
+</head>
+<body class="payeDoc" onload="breakdown()">
+    <!--Above Header-->
+	<div class="aboveHeader">  
+		<a href="https://sites.google.com/view/chimwemweshaba/projects/ict">Home</a> | 
+		<a href="https://sites.google.com/view/chimwemweshaba/about?authuser=0#h.yxoxhd5to64a">Contact Us</a>
+	</div>
+
+    <!--Table-->
+    <form class="table" id='myForm'>
+        <!--Title-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <h2>2022 - Zambia Net Pay Calculator</h2>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionHeading_allowances-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b><i>Note: All values should be in Zambian Kwacha (ZMW)</i></b><br /><br />
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionHeading_allowances-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>ALLOWANCES</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--basicPay-->
+        <div class="row">
+            <div class="cellLeft">
+                Basic Pay (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="number" id="input_basicPay" name="input_basicPay" oninput="edit_grossPay_section()"/>
+            </div>
+        </div>
+        <!--housing-->
+        <div class="row">
+            <div class="cellLeft">
+                Housing (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="number" id="input_housing" name="input_housing" oninput="edit_grossPay_section()"/>
+            </div>
+        </div>
+        <!--transport-->
+        <div class="row">
+            <div class="cellLeft">
+                Transport (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="number" id="input_transport" name="input_transport" oninput="edit_grossPay_section()"/>
+            </div>
+        </div>
+        <!--otherAllowances-->
+        <div class="row">
+            <div class="cellLeft">
+                Other (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="number" id="input_otherAllowances" name="input_otherAllowances" oninput="edit_grossPay_section()"/>
+            </div>
+        </div>
+        <!--subTotal_grossPay-->
+        <div class="row">
+            <div class="cellLeft">
+                Gross Pay (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="text" id="output_grossPay" name="output_grossPay" class="output" readonly />
+            </div>
+        </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>----------------------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionHeading_deductions-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>DEDUCTIONS</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--checkbox-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <!--NAPSA-->
+                    <input type="checkbox" id="checkbox_NAPSA" name="checkbox_NAPSA" oninput = "change_NAPSA()">
+                    <label for="checkbox_NAPSA">NAPSA</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--PAYE-->
+                    <input type="checkbox" id="checkbox_PAYE" name="checkbox_PAYE"  oninput = "change_PAYE()">
+                    <label for="checkbox_PAYE">PAYE</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--NHIS-->
+                    <input type="checkbox" id="checkbox_NHIS" name="checkbox_NHIS" oninput = "change_NHIS()">
+                    <label for="checkbox_NHIS">NHIMA</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--NAPSA-->
+        <div class="row">
+            <div class="cellLeft">
+                NAPSA (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="text" id="output_NAPSA" name="output_NAPSA" class="output" readonly />
+            </div>
+        </div>
+        <!--PAYE-->
+        <div class="row">
+            <div class="cellLeft">
+                PAYE (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="text" id="output_PAYE" name="output_PAYE" class="output" readonly />
+            </div>
+        </div>
+        <!--NHIS-->
+        <div class="row">
+            <div class="cellLeft">
+                NHIMA (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="text" id="output_NHIS" name="output_NHIS" class="output" readonly />
+            </div>
+        </div>
+        <!--otherDeductions-->
+        <div class="row">
+            <div class="cellLeft">
+                Other (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="number" id="input_otherDeductions" name="input_otherDeductions" oninput = "edit_otherDeductions()">
+            </div>
+        </div>
+        <!--totalDeductions-->
+        <div class="row">
+            <div class="cellLeft">
+                Total Deductions (ZMW):
+            </div>
+            <div class="cellRight">
+                <input type="text" id="output_totalDeductions" name="output_totalDeductions" class="output" readonly />
+            </div>
+        </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>----------------------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Buttons-->
+        <div class="row">
+            <div class="cellLeft">
+                <input type="button" id = "submit" value="Submit" onclick='onClick_submit()'/>&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="cell">
+                <input type="reset" id = "reset" value="Reset All" onclick='onClick_reset()'/>
+            </div>
+        </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>----------------------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--netPay-->
+        <div class="row">
+            <div class="cellLeft">
+                <b>NET PAY (ZMW):</b>
+            </div>
+            <div class="cellRight" >
+                <input type="text" id="output_netPay" name="output_netPay" class="output" readonly/>
+            </div>
+        </div>
+        <br><br>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>----------------------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionHeading_Breakdown-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>BREAKDOWN</b><br>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--NAPSA-->
+        <div class="row">
+            <div class="cellLeft">
+                <b>NAPSA Rate:</b>
+            </div>
+            <div class="cellRight" >
+                <input type="text" id="output_napsaRate" name="output_netRate" class="output" readonly/>
+            </div>
+        </div>
+        <!--NapsaNote-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    <b>Note:</b> The maximuim NAPSA contribution for <span id="thisYear"></span>  is ZMW <span id="max_napsaValue"></span>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--NHIS-->
+        <div class="row">
+            <div class="cellLeft">
+                <b>NHIMA Rate:</b>
+            </div>
+            <div class="cellRight" >
+                <p><input type="text" id="output_nhisRate" name="output_nhisRate" class="output" readonly/></p>
+            </div>
+        </div>
+        <!--PAYE-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>PAYE:</b><br>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Band 1-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    The first ZMW <span id="band1_amount"></span> of the Gross Pay is taxed at <span id="band1_tax_rate"></span>%
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Band 2-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    The next ZMW <span id="band2_amount"></span> is taxed at <span id="band2_tax_rate"></span>%
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Band 3-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    And the next ZMW <span id="band3_amount"></span> after that is taxed at <span id="band3_tax_rate"></span>%
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--Band 4-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div class ="font_smaller">
+                    And the rest, is taxed at <span id="band4_tax_rate"></span>%
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+        <!--sectionDivider-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <b>----------------------------------------------------------------</b>
+                </div></div>
+            </div>
+            <div class="cell"></div>
+        </div>
+    </form>
+
+    
+    <!--JavaScript-->
+    <script>
+        //onClick_submit
+        function onClick_submit()
+        {
+            document.getElementById('output_totalDeductions').value = calculate_totalDeductions();
+            document.getElementById('output_netPay').value = calculate_netPay();
+        }
+
+        //reset decuctions
+        function reset_deductions()
+        {
+            //checkboxes
+            document.getElementById('checkbox_NAPSA').checked = false;
+            document.getElementById('checkbox_PAYE').checked = false;
+            document.getElementById('checkbox_NHIS').checked = false;
+
+            //textboxes
+            document.getElementById('output_NAPSA').value = 0;
+            document.getElementById('output_PAYE').value = 0;
+            document.getElementById('output_NHIS').value = 0;
+            document.getElementById('input_otherDeductions').value = 0;
+            document.getElementById('output_totalDeductions').value = 0;
+        }
+
+        //reset netPay
+        function reset_netPay()
+        {
+            document.getElementById('output_netPay').value = 0;
+        }
+
+        //reset totalDeductions
+        function reset_totalDeductions()
+        {
+            document.getElementById('output_totalDeductions').value = 0;
+        }
+
+        //edit_basicPay
+        function edit_grossPay_section()
+        {
+            reset_netPay();
+            reset_deductions();
+            initialize_deductions();
+            document.getElementById('output_grossPay').value = calculate_grossPay(input_basicPay, input_housing, input_transport, input_otherAllowances);
+        }
+
+        //edit_otherDeductions
+        function edit_otherDeductions()
+        {
+            reset_totalDeductions();
+            reset_netPay();
+            set_otherDeductions(input_otherDeductions);
+        }
+
+        //change_NAPSA
+        function change_NAPSA()
+        {
+            reset_totalDeductions();
+            reset_netPay();
+            document.getElementById('output_NAPSA').value = calculate_napsa(checkbox_NAPSA)
+        }
+
+        //change_PAYE
+        function change_PAYE()
+        {
+            reset_totalDeductions();
+            reset_netPay();
+            document.getElementById('output_PAYE').value = checked_paye(checkbox_PAYE)
+        }
+
+        //change_NHIS
+        function change_NHIS()
+        {
+            reset_totalDeductions();
+            reset_netPay();
+            document.getElementById('output_NHIS').value = calculate_nhis(checkbox_NHIS)
+        }
+
+        //"BREAKDOWN Section Output"
+        function breakdown()
+        {
+            //get Year
+            document.getElementById("thisYear").innerHTML = get_year();
+
+            //NAPSA Rate
+            document.getElementById('output_napsaRate').value = get_napsaRate() + "% of Gross Pay";
+            //NAPSA Max Value
+            document.getElementById("max_napsaValue").innerHTML = get_napsa_MaxValue();
+
+            //NHIS Rate
+            document.getElementById('output_nhisRate').value = get_nhisRate() + "% of Basic Pay";
+
+            //PAYE
+            //get band_amounts
+            document.getElementById("band1_amount").innerHTML = get_band1_max_amount();
+            document.getElementById("band2_amount").innerHTML = get_band2_max_amount();
+            document.getElementById("band3_amount").innerHTML = get_band3_max_amount();
+
+            //get band_rates
+            document.getElementById("band1_tax_rate").innerHTML = get_band1_tax_rate();
+            document.getElementById("band2_tax_rate").innerHTML = get_band2_tax_rate();
+            document.getElementById("band3_tax_rate").innerHTML = get_band3_tax_rate();
+            document.getElementById("band4_tax_rate").innerHTML = get_band4_tax_rate();
+        }
+    </script>
+</body>
+</html>
