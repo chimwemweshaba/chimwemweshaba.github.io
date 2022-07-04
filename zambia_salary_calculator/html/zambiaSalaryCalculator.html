@@ -21,14 +21,6 @@
 		<a href="https://sites.google.com/view/chimwemweshaba/projects/ict">Home</a> | 
 		<a href="https://sites.google.com/view/chimwemweshaba/about?authuser=0#h.yxoxhd5to64a">Contact Us</a>
 	</div>
-
-    <div class="container">
-        <div class="material-textfield">
-          <input placeholder=" " type="text">
-          <label>Label</label>
-        </div>
-      </div>
-
     <!--Table-->
     <form class="table" id='myForm'>
         <!--Title-->
@@ -60,49 +52,57 @@
         </div>
         <!--basicPay-->
         <div class="row">
-            <div class="cellLeft">
-                Basic Pay (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="number" id="input_basicPay" name="input_basicPay" oninput="edit_grossPay_section()"/>
+            <div class="cell colspan">
+                <div><div>
+                    <div class="container">
+                        <div class="material-textfield">
+                            <input placeholder=" " type="number" id="input_basicPay" name="input_basicPay" oninput="edit_grossPay_section()">
+                            <label>Basic Pay (ZMW)</label>
+                        </div>
+                    </div>
+                </div></div>
             </div>
         </div>
         <!--housing-->
         <div class="row">
-            <div class="cellLeft">
-                Housing (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="number" id="input_housing" name="input_housing" oninput="edit_grossPay_section()"/>
+            <div class="cell colspan">
+                <div><div>
+                    <div class="container">
+                        <div class="material-textfield">
+                            <input placeholder=" " type="number" id="input_housing" name="input_housing" oninput="edit_grossPay_section()"/>
+                            <label>Housing (ZMW)</label>
+                        </div>
+                    </div>
+                </div></div>
             </div>
         </div>
         <!--transport-->
         <div class="row">
-            <div class="cellLeft">
-                Transport (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="number" id="input_transport" name="input_transport" oninput="edit_grossPay_section()"/>
+            <div class="cell colspan">
+                <div><div>
+                    <div class="container">
+                        <div class="material-textfield">
+                            <input placeholder=" " type="number" id="input_transport" name="input_transport" oninput="edit_grossPay_section()"/>
+                            <label>Transport (ZMW)</label>
+                        </div>
+                    </div>
+                </div></div>
             </div>
         </div>
         <!--otherAllowances-->
         <div class="row">
-            <div class="cellLeft">
-                Other (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="number" id="input_otherAllowances" name="input_otherAllowances" oninput="edit_grossPay_section()"/>
-            </div>
-        </div>
-        <!--subTotal_grossPay-->
-        <div class="row">
-            <div class="cellLeft">
-                Gross Pay (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="text" id="output_grossPay" name="output_grossPay" class="output" readonly />
+            <div class="cell colspan">
+                <div><div>
+                    <div class="container">
+                        <div class="material-textfield">
+                            <input placeholder=" " type="number" id="input_otherAllowances" name="input_otherAllowances" oninput="edit_grossPay_section()"/>
+                            <label>Other Allowances (ZMW)</label>
+                        </div>
+                    </div>
+                </div></div>
             </div>
         </div>
+        
         <!--sectionDivider-->
         <div class="row">
             <div class="cell colspan">
@@ -127,62 +127,32 @@
                 <div><div>
                     <!--NAPSA-->
                     <input type="checkbox" id="checkbox_NAPSA" name="checkbox_NAPSA" oninput = "change_NAPSA()">
-                    <label for="checkbox_NAPSA">NAPSA</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="checkbox" for="checkbox_NAPSA">NAPSA</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--PAYE-->
                     <input type="checkbox" id="checkbox_PAYE" name="checkbox_PAYE"  oninput = "change_PAYE()">
-                    <label for="checkbox_PAYE">PAYE</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label  class="checkbox" for="checkbox_PAYE">PAYE</label>&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--NHIS-->
                     <input type="checkbox" id="checkbox_NHIS" name="checkbox_NHIS" oninput = "change_NHIS()">
-                    <label for="checkbox_NHIS">NHIMA</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="checkbox"  for="checkbox_NHIS">NHIMA</label>&nbsp;&nbsp;&nbsp;&nbsp;
                 </div></div>
             </div>
             <div class="cell"></div>
         </div>
-        <!--NAPSA-->
-        <div class="row">
-            <div class="cellLeft">
-                NAPSA (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="text" id="output_NAPSA" name="output_NAPSA" class="output" readonly />
-            </div>
-        </div>
-        <!--PAYE-->
-        <div class="row">
-            <div class="cellLeft">
-                PAYE (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="text" id="output_PAYE" name="output_PAYE" class="output" readonly />
-            </div>
-        </div>
-        <!--NHIS-->
-        <div class="row">
-            <div class="cellLeft">
-                NHIMA (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="text" id="output_NHIS" name="output_NHIS" class="output" readonly />
-            </div>
-        </div>
+        
         <!--otherDeductions-->
         <div class="row">
-            <div class="cellLeft">
-                Other (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="number" id="input_otherDeductions" name="input_otherDeductions" oninput = "edit_otherDeductions()">
-            </div>
-        </div>
-        <!--totalDeductions-->
-        <div class="row">
-            <div class="cellLeft">
-                Total Deductions (ZMW):
-            </div>
-            <div class="cellRight">
-                <input type="text" id="output_totalDeductions" name="output_totalDeductions" class="output" readonly />
+            <div class="cell colspan">
+                <div><div>
+                    <div class="container">
+                        <div class="material-textfield">
+                            <input placeholder=" " type="number" id="input_otherDeductions" name="input_otherDeductions" oninput = "edit_otherDeductions()"/>
+                            <label>Other Deductions (ZMW)</label>
+                        </div>
+                    </div>
+                </div></div>
             </div>
         </div>
+        
         <!--sectionDivider-->
         <div class="row">
             <div class="cell colspan">
@@ -194,11 +164,12 @@
         </div>
         <!--Buttons-->
         <div class="row">
-            <div class="cellLeft">
-                <input type="button" id = "submit" value="Submit" onclick='onClick_submit()'/>&nbsp;&nbsp;&nbsp;&nbsp;
-            </div>
-            <div class="cell">
-                <input type="reset" id = "reset" value="Reset All" onclick='onClick_reset()'/>
+            
+            <div class="cell colspan">
+                <div><div>
+                        <input type="button" id = "submit" value="Calculate" onclick='onClick_submit()'/>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="reset" id = "reset" value="Reset All" onclick='onClick_reset()'/>
+                </div></div>
             </div>
         </div>
         <!--sectionDivider-->
@@ -210,13 +181,43 @@
             </div>
             <div class="cell"></div>
         </div>
+        <!--subTotal_grossPay-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <div class="container">
+                        <div class="material-textfield">
+                            <input placeholder=" " type="text" id="output_grossPay" name="output_grossPay" readonly/>
+                            <label>Gross Pay (ZMW)</label>
+                        </div>
+                    </div>
+                </div></div>
+            </div>
+        </div>
+        <!--totalDeductions-->
+        <div class="row">
+            <div class="cell colspan">
+                <div><div>
+                    <div class="container">
+                        <div class="material-textfield">
+                            <input placeholder=" " id="output_totalDeductions" name="output_totalDeductions" readonly/>
+                            <label>Total Deductions (ZMW)</label>
+                        </div>
+                    </div>
+                </div></div>
+            </div>
+        </div>
         <!--netPay-->
         <div class="row">
-            <div class="cellLeft">
-                <b>NET PAY (ZMW):</b>
-            </div>
-            <div class="cellRight" >
-                <input type="text" id="output_netPay" name="output_netPay" class="output" readonly/>
+            <div class="cell colspan">
+                <div><div>
+                    <div class="container">
+                        <div class="material-textfield">
+                            <input placeholder=" " id="output_netPay" name="output_netPay" readonly/>
+                            <label>NET PAY (ZMW)</label>
+                        </div>
+                    </div>
+                </div></div>
             </div>
         </div>
         <br><br>
@@ -238,6 +239,45 @@
             </div>
             <div class="cell"></div>
         </div>
+<!--NAPSA-->
+<div class="row">
+    <div class="cell colspan">
+        <div><div>
+            <div class="container">
+                <div class="material-textfield">
+                    <input placeholder=" " type="text" id="output_NAPSA" name="output_NAPSA" readonly/>
+                    <label>NAPSA (ZMW)</label>
+                </div>
+            </div>
+        </div></div>
+    </div>
+</div>
+<!--PAYE-->
+<div class="row">
+    <div class="cell colspan">
+        <div><div>
+            <div class="container">
+                <div class="material-textfield">
+                    <input placeholder=" " type="text" id="output_PAYE" name="output_PAYE" readonly/>
+                    <label>PAYE (ZMW)</label>
+                </div>
+            </div>
+        </div></div>
+    </div>
+</div>
+<!--NHIS-->
+<div class="row">
+    <div class="cell colspan">
+        <div><div>
+            <div class="container">
+                <div class="material-textfield">
+                    <input placeholder=" " type="text" id="output_NHIS" name="output_NHIS" readonly/>
+                    <label>NHIS (ZMW)</label>
+                </div>
+            </div>
+        </div></div>
+    </div>
+</div>
         <!--NAPSA-->
         <div class="row">
             <div class="cellLeft">
