@@ -43,7 +43,7 @@ div.colspan>div
   div.colspan>div>div 
 {
     position: relative;
-    width: 400px;
+    width: 350px;
     overflow: hidden;
     word-wrap: break-word;
 }
