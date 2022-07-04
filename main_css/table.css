@@ -1,7 +1,6 @@
 form.table 
 {
     display: table;
-    width: 500px;
     border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
@@ -44,7 +43,7 @@ div.colspan>div
   div.colspan>div>div 
 {
     position: relative;
-    width: 494px;
+    width: 400px;
     overflow: hidden;
-    
+    word-wrap: break-word;
 }
