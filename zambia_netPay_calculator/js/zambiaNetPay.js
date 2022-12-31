@@ -31,9 +31,9 @@ const NHIS_RATE = 0.01;
 
 //PAYE
 //Bands
-const BAND1_MAX_VALUE = 4500;
-const BAND2_MAX_VALUE = 4800;
-const BAND3_MAX_VALUE = 6900;
+const BAND1_MAX_VALUE = 4800;
+const BAND2_MAX_VALUE = 6800;
+const BAND3_MAX_VALUE = 8900;
 
 //band values
 var band1_value = 0;
