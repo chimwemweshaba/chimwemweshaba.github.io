@@ -104,13 +104,13 @@ function calculate_grossPay(basicPay, housing, transport, otherAllowances)
     this.grossPay = this.basicPay + this.housing + this.transport + this.otherAllowances;
 
     console.log(this.grossPay);
-    return grossPay.toFixed(2);
+    return grossPay.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 function get_grossPay()
 {
     console.log(this.grossPay);
-    return grossPay.toFixed(2);
+    return grossPay.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //calculate napsa
@@ -129,7 +129,7 @@ function calculate_napsa(checkbox_NAPSA)
     {
         this.napsa = 0;
     }
-    return napsa.toFixed(2);
+    return napsa.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //checked paye
@@ -143,7 +143,7 @@ function checked_paye(checkbox_PAYE)
     {
         this.paye = 0;
     }
-    return paye.toFixed(2);
+    return paye.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //calculate paye
@@ -173,7 +173,7 @@ function calculate_paye()
         band4_tax = band4_value * BAND4_TAX_RATE;
         paye = band1_max_tax + band2_max_tax + band3_max_tax + band4_tax;
     }
-    return paye.toFixed(2);
+    return paye.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //calculate nhis
@@ -190,7 +190,7 @@ function calculate_nhis(checkbox_NHIS)
 
     console.log(this.nhis);
 
-    return nhis.toFixed(2);
+    return nhis.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //set_otherDeductions
@@ -206,7 +206,7 @@ function calculate_totalDeductions()
 {
     this.totalDeductions = this.napsa + this.paye + this.nhis + this.otherDeductions;
     
-    return totalDeductions.toFixed(2);
+    return totalDeductions.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //calculate netPay
@@ -215,7 +215,7 @@ function calculate_netPay()
 
     this.netPay = this.grossPay - this.totalDeductions;
 
-    return netPay.toFixed(2);
+    return netPay.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //submit buttom
@@ -233,7 +233,7 @@ function  get_napsaRate()
 //output_napsaMaxValue
 function get_napsa_MaxValue()
 {
-    return MAX_NAPSA.toFixed(2);
+    return MAX_NAPSA.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //output_nhisRate
@@ -252,19 +252,19 @@ function get_year()
 //get_band1_max_amount
 function get_band1_max_amount()
 {
-    return band1_tax_diff.toFixed(2);
+    return band1_tax_diff.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //get_band2_max_amount
 function get_band2_max_amount()
 {
-    return band2_tax_diff.toFixed(2);
+    return band2_tax_diff.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //get_band3_max_amount
 function get_band3_max_amount()
 {
-    return band3_tax_diff.toFixed(2);
+    return band3_tax_diff.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 //GET_BAND_TAX_RATES
