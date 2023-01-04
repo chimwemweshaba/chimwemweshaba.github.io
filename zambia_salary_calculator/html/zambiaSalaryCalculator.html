@@ -358,8 +358,8 @@
         //onClick_submit
         function onClick_submit()
         {
-            document.getElementById('output_totalDeductions').value = calculate_totalDeductions();
-            document.getElementById('output_netPay').value = calculate_netPay();
+            document.getElementById('output_totalDeductions').value = (calculate_totalDeductions()).toLocaleString();
+            document.getElementById('output_netPay').value = (calculate_netPay()).toLocaleString();
         }
 
         //reset decuctions
