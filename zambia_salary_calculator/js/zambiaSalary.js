@@ -49,7 +49,7 @@ var band4_tax = 0;
 
 //Tax Rates
 const BAND1_TAX_RATE = 0;
-const BAND2_TAX_RATE = 0.25;
+const BAND2_TAX_RATE = 0.20;
 const BAND3_TAX_RATE = 0.30;
 const BAND4_TAX_RATE = 0.375;
 
