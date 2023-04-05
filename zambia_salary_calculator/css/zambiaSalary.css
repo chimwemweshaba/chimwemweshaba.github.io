@@ -44,7 +44,7 @@ body, html {
     top: 50%;
     transform: translateY(-50%);
     color: gray;
-    background-color: red;
+    background-color: white;
     padding: 0 0.3rem;
     margin: 0 0.5rem;
     transition: .1s ease-out;
