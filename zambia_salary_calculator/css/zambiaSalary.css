@@ -43,8 +43,8 @@ body, html {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background-color: white;
     color: gray;
+    background-color: white;
     padding: 0 0.3rem;
     margin: 0 0.5rem;
     transition: .1s ease-out;
