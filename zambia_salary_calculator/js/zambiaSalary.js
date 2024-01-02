@@ -20,7 +20,7 @@ var bal = 0;
 
 //CONSTANT
 //Year
-const YEAR = 2023;
+const YEAR = 2024;
 
 //Napsa
 const MAX_NAPSA = 1342.00;
@@ -31,9 +31,9 @@ const NHIS_RATE = 0.01;
 
 //PAYE
 //Bands
-const BAND1_MAX_VALUE = 4800;
-const BAND2_MAX_VALUE = 6800;
-const BAND3_MAX_VALUE = 8900;
+const BAND1_MAX_VALUE = 5100;
+const BAND2_MAX_VALUE = 7100;
+const BAND3_MAX_VALUE = 9200;
 
 //band values
 var band1_value = 0;
@@ -51,7 +51,7 @@ var band4_tax = 0;
 const BAND1_TAX_RATE = 0;
 const BAND2_TAX_RATE = 0.20;
 const BAND3_TAX_RATE = 0.30;
-const BAND4_TAX_RATE = 0.375;
+const BAND4_TAX_RATE = 0.37;
 
 //Tax Band Dif
 var band1_tax_diff = BAND1_MAX_VALUE;
