@@ -23,7 +23,7 @@ var bal = 0;
 const YEAR = 2024;
 
 //Napsa
-const MAX_NAPSA = 1342.00;
+const MAX_NAPSA = 1490.80;
 const NAPSA_RATE = 0.05;
 
 //NHIS
