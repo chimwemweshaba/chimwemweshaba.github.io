@@ -20,10 +20,10 @@ var bal = 0;
 
 //CONSTANT
 //Year
-const YEAR = 2024;
+const YEAR = 2025;
 
 //Napsa
-const MAX_NAPSA = 1490.80;
+const MAX_NAPSA = 1708.20;
 const NAPSA_RATE = 0.05;
 
 //NHIS
