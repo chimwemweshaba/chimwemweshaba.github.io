@@ -1,0 +1,431 @@
+<html>
+  <title>Keyboard Letters Game</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  html, body {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+  }
+  body {
+      background: DARKGREY;
+      font-family: Verdana, Helvetica, Arial, sans-serif;
+  }
+  span.letter {
+      font-size: 16em;
+      font-weight: bold;
+      /*text-shadow: 8px 8px 11px rgba(150, 150, 150, 0.74);*/
+      text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
+      z-index:-99;
+  }
+  span.image {
+      border: solid black 5px;
+      background: WHITE;
+      z-index:-99;
+  }
+  #instructions {
+      font-size: 1.2em;
+      color: WHITE;
+      padding:20px;
+      text-align:center;
+  }
+  select {
+      background: DARKGREY;
+      border:1px #444444 solid;
+  }
+  #settingsPanel {
+      background: DARKGREY;
+      z-index:99;
+      position: absolute;
+      right:8px;
+      bottom:8px;
+      padding:2px;
+      font-size:0.8em;
+  }
+  #infoAndCredits {
+      z-index:99;
+      position: absolute;
+      left:8px;
+      bottom:8px;
+      padding:2px;
+      font-size:0.8em;
+  }
+  #credits {
+      font-size:0.7em;
+  }|
+  </style>
+  <script>
+    var allLetters = '';
+    var allElements = [];
+    var keyheld = false;
+    var voice = null;
+    var voices = null;
+    var mode = null;
+    var timer = null;
+
+    var words = {
+        "A": { word: "Apple",     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Fuji_apple.jpg/320px-Fuji_apple.jpg",                                                                                     imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Fuji_apple.jpg'>Fuji apple - Scott Bauer of USDA ARS (PD)</a>                                                                                  (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/A'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet']},
+        "B": { word: "Ball",      image: "https://upload.wikimedia.org/wikipedia/commons/7/7f/Generic_football.png",                                                                                                          imageCredits: "<a href='https://www.freeimages.com/photo/soccer-ball-1466760'>Ball by Christopher Bruno</a> & <a href='https://commons.wikimedia.org/wiki/File:Generic_football.png'>Ed g2s (CC BY-SA 2.0)</a> (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/B'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "C": { word: "Cat",       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Black_hills_cat-tochichi.jpg/320px-Black_hills_cat-tochichi.jpg",                                                         imageCredits: "<a href='https://www.flickr.com/photos/tochichi/132178076/'>Cat by tochichi (CC BY-SA 2.0)</a>                                                                                                  (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/C'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "D": { word: "Dog",       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Siberian_husky1.JPG/320px-Siberian_husky1.JPG",                                                                           imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Siberian_husky1.JPG'>Siberian husky1 by Huskyfellaboy (PD)</a>                                                                                 (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/D'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "E": { word: "Egg",       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Natural_Easter_Colored_Eggs.jpg/320px-Natural_Easter_Colored_Eggs.jpg",                                                   imageCredits: "<a href='https://www.flickr.com/photos/merydith/5462639477/'>Natural Easter Colored Eggs - Will Curran (CC BY-SA 2.0)</a>                                                                       (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/E'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "F": { word: "Fish",      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Pseudorasbora_parva%28edited_version%29.jpg/320px-Pseudorasbora_parva%28edited_version%29.jpg",                           imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Pseudorasbora_parva%28edited_version%29.jpg'>Pseudorasbora parva - User:Seotaro (CC BY-SA 3.0)s</a>                                            (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/F'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "G": { word: "Gate",      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Garden_Gate.JPG/360px-Garden_Gate.JPG",                                                                                   imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Garden_Gate.JPG'>Garden Gate - Eptalon (CC BY-SA 3.0)</a>                                                                                      (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/G'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "H": { word: "Horse",     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Bess2.jpg/279px-Bess2.jpg",                                                                                               imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Bess2.jpg'>Bess2 - Martin Bahmann (CC BY-SA 3.0)</a>                                                                                           (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/H'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "I": { word: "Igloo",     image: "https://upload.wikimedia.org/wikipedia/commons/9/99/Igloo_outside.jpg",                                                                                                             imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Igloo_outside.jpg'>Igloo outside - Alpo Hassinen (CC BY-SA 3.0)</a>                                                                            (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/I'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "J": { word: "Jam",       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Marmeladesorten.jpg/320px-Marmeladesorten.jpg",                                                                           imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Marmeladesorten.jpg'>Marmeladesorten - Alice Wiegand (CC-BY-SA-3.0)</a>                                                                        (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/J'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "K": { word: "Kangaroo",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Kangaroo1.jpg/210px-Kangaroo1.jpg",                                                                                       imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Kangaroo1.jpg'>Kangaroo - User:Raul654 (CC BY-SA 3.0)</a>                                                                                      (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/K'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "L": { word: "Lion",      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Lion-1.jpg/320px-Lion-1.jpg",                                                                                             imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Lion-1.jpg'>Lion - William H. Majoros (CC BY-SA 3.0)</a>                                                                                       (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/L'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "M": { word: "Mouse",     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Apodemus_sylvaticus_bosmuis.jpg/320px-Apodemus_sylvaticus_bosmuis.jpg",                                                   imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Apodemus_sylvaticus_bosmuis.jpg'>Apodemus sylvaticus bosmuis - User:Rasbak (CC BY-SA 3.0)</a>                                                  (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/M'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "N": { word: "Nest",      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Hausrotschwanz_Brutpflege_2006-05-24_211.jpg/320px-Hausrotschwanz_Brutpflege_2006-05-24_211.jpg",                         imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Hausrotschwanz_Brutpflege_2006-05-24_211.jpg'>Hausrotschwanz Brutpflege - User:Stefan-Xp (CC BY-SA 3.0)</a>                                    (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/N'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "O": { word: "Octopus",   image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Expl0717_-_Flickr_-_NOAA_Photo_Library.jpg/320px-Expl0717_-_Flickr_-_NOAA_Photo_Library.jpg",                             imageCredits: "<a href='https://www.flickr.com/photos/noaaphotolib/5083608905/'>Octopus - NOAA Photo Library< (CC BY 2.0)/a>                                                                                   (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/O'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "P": { word: "Parrot",    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Rose-ringed_Parakeet_%28Psittacula_krameri%29_-male2.jpg/201px-Rose-ringed_Parakeet_%28Psittacula_krameri%29_-male2.jpg", imageCredits: "<a href='https://www.flickr.com/photos/49296659@N00/74606587'>Rose-ringed Parakeet - Charles Lam (CC BY-SA 2.0)</a>                                                                             (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/P'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "Q": { word: "Queen",     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Queen_Victoria_1887.jpg/287px-Queen_Victoria_1887.jpg",                                                                   imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Queen_Victoria_1887.jpg'>Queen Victoria 1887 - Royal Collection (PD)</a>                                                                       (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/Q'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "R": { word: "Rabbit",    image: "https://upload.wikimedia.org/wikipedia/commons/4/48/American_Grand_Champion_Dutch_Rabbit.jpg",                                                                                      imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:American_Grand_Champion_Dutch_Rabbit.jpg'>American Grand Champion Dutch Rabbit - User:Bunnybri (CC BY-SA 3.0)</a>                              (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/R'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "S": { word: "Sun",       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/April_dawn.jpg/500px-April_dawn.jpg",                                                                                     imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:April_dawn.jpg'>April dawn - User:Fir0002 (CC BY-SA 3.0)</a>                                                                                   (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/S'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "T": { word: "Turtle",    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Sea_Turtle.jpg/500px-Sea_Turtle.jpg",                                                                                     imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Sea_Turtle.jpg'>Sea Turtle - NASA (PD)</a>                                                                                                     (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/T'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "U": { word: "Umbrella",  image: "https://upload.wikimedia.org/wikipedia/commons/0/06/Umbrella.png",                                                                                                                  imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Umbrella.png'>Umbrella - cdc.gov (PD)</a>                                                                                                      (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/U'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "V": { word: "Volcano",   image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Augustine_Volcano_Jan_12_2006.jpg/500px-Augustine_Volcano_Jan_12_2006.jpg",                                               imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Augustine_Volcano_Jan_12_2006.jpg'>Augustine Volcano - USGS (PD)</a>                                                                           (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/V'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "W": { word: "Window",    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Gordijnen_aan_venster.JPG/500px-Gordijnen_aan_venster.JPG",                                                               imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Gordijnen_aan_venster.JPG'>Gordijnen aan venster - User:Nieuw (CC BY-SA 3.0)</a>                                                               (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/W'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "X": { word: "Xylophone", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Toy_xylophone.jpg/500px-Toy_xylophone.jpg",                                                                               imageCredits: "<a href='https://www.flickr.com/photos/8514720@N04/9272785557'>Toy xylophone - Frédérique Voisin-Demery (CC BY 2.0)</a>                                                                         (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/X'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "Y": { word: "Yo yo",     image: "https://upload.wikimedia.org/wikipedia/commons/9/92/Wooden_yo-yo.jpg",                                                                                                              imageCredits: "<a href='https://www.flickr.com/photos/xulianconx/824067292/'>Wooden yo-yo - Xulian Nava (CC BY-SA 2.0)</a>                                                                                     (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/Y'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] },
+        "Z": { word: "Zebra",     image: "https://upload.wikimedia.org/wikipedia/commons/5/53/Zebra_rownikowa_Equus_burchelli_boehmi_RB3.jpg",                                                                                imageCredits: "<a href='https://commons.wikimedia.org/wiki/File:Zebra_rownikowa_Equus_burchelli_boehmi_RB3.jpg'>Zebra - User:Radomil (CC BY-SA 3.0)</a>                                                        (via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet/Z'>WikiJunior Alphabet</a>)", collections: ['wikibooks-alphabet'] }
+    };
+
+    var animals = {
+        'CAT': 'mee-ow!',
+        'DOG': 'woof!',
+        'COW': 'moo!',
+        'FROG': 'croak',
+        'BEE': 'buzz',
+        'TURKEY': 'gobble!',
+        'PIG': 'oink!',
+        'SHEEP': 'baa!'
+    };
+
+    function init() {
+        initMode();
+
+        timer = setInterval(function() {
+            voices = speechSynthesis.getVoices();
+            if (voices.length !== 0) {
+                voice = setVoice();
+                clearInterval(timer);
+            }
+        }, 200);
+    }
+    window.speechSynthesis.onvoiceschanged = function() {
+        voice = setVoice();
+    };
+
+    document.onkeyup = function(e) {
+        keyheld = false;
+    }
+
+    document.onkeypress = function(e) {
+        e = e || window.event;
+        var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+        if (charCode && !keyheld) {
+            var text = String.fromCharCode(charCode).toUpperCase();
+            doLetter(text);
+        }
+    };
+
+    function doLetter(letter) {
+        // Clear all previous elements before adding new one
+        clearAllElements();
+        
+        document.getElementById('instructions').style.display = 'none';
+        text = letter;
+
+        if (mode=='words' || mode=='letter-is-for-word') {
+            wordData = words[letter];
+            text = wordData.word;
+            if (mode=='letter-is-for-word') {
+                text = letter + ", is for, " + text;
+            }
+
+            var imageCredits = "Open licensed images via <a href='https://en.wikibooks.org/wiki/Wikijunior:Alphabet'>WikiJunior Alphabet</a>";
+            if (wordData.imageCredits != null) imageCredits = wordData.imageCredits;
+            showImage(wordData.image, imageCredits);
+        }
+
+        if (letter == "=") text="equals";
+        if (letter == "+") text="plus";
+        if (letter == "-") text="minus";
+
+        var mid_sum = (allLetters.length>0 && allLetters[allLetters.length-1].match(/\d/))
+        if ((letter == "X" || letter == "*") && mid_sum) { text="times"; letter = "x" }
+        if ((letter == "/" || letter == "÷") && mid_sum) { text="divided by"; letter = "÷" }
+
+        say(text.toLowerCase());
+
+        allLetters += letter;
+
+        for (animal in animals) {
+            if(allLetters.endsWith(animal)) say(animals[animal]);
+        }
+
+        if (letter=="=") {
+            var answer = doSums(allLetters);
+            if (answer!=null && answer!=undefined) {
+                letter += answer;
+                say(answer);
+            }
+        }
+
+        drawColourfulText(letter);
+
+        keyheld = true;
+    }
+
+    function clearAllElements() {
+        // Remove all existing letter and image elements
+        while (allElements.length > 0) {
+            var removed = allElements.pop();
+            if (removed && removed.parentNode) {
+                document.body.removeChild(removed);
+            }
+        }
+        allLetters = ''; // Also reset the letter history
+    }
+
+    function doSums(allLetters) {
+        var pos = allLetters.length - 2;
+        var sum = ""
+        var found_start_of_sum = false
+        while(!found_start_of_sum) {
+            var onChar = allLetters[pos];
+            if (onChar=="÷") onChar="/";
+            if (onChar=="x") onChar="*";
+
+            if (onChar.match(/[+-/*0123456789]/i)) {
+                sum = onChar + sum;
+            } else {
+                found_start_of_sum = true;
+            }
+            if (pos==0) found_start_of_sum = true;
+            pos -= 1;
+        }
+        return eval(sum);
+    }
+
+    function drawColourfulText(text) {
+        var elem = document.createElement("span");
+        elem.setAttribute("class", "letter");
+        elem.textContent = text;
+        elem.style.position = "absolute";
+
+        document.body.appendChild(elem);
+        var x = Math.round(Math.random() * (window.innerWidth - elem.clientWidth));
+        var y = Math.round(Math.random() * (window.innerHeight - (elem.clientHeight - 100))) - 70;
+
+        elem.style.left = x + "px";
+        elem.style.top = y + "px";
+        elem.style.color = randomLightColour(); //colours[Math.floor(Math.random()*colours.length)];
+        allElements.push(elem);
+    }
+
+    document.onclick = function() {
+        if (allLetters=='') allLetters='@'; // before start of the alphabet
+        lastLetter = allLetters[allLetters.length -1];
+        nextLetter = String.fromCharCode(lastLetter.charCodeAt(0) + 1)
+        if (lastLetter == 'Z') {
+            say('alphabet!');
+            allLetters = '';
+        } else if (lastLetter == '9') {
+            doLetter('10');
+        } else {
+            doLetter(nextLetter);
+        }
+    };
+
+    function truncate() {
+        var maxLenParam = getParameterByName('maxlen');
+        if (maxLenParam == null) return;
+        var maxLength = parseInt(maxLenParam || '50');
+        if (maxLength < 1) return;
+        if (mode=='words') maxLength = maxLength * 2;
+
+        // Clean up so that there are only a certain amount of letters on screen.
+        while (allElements.length > maxLength) {
+            var removed = allElements.shift();
+            document.body.removeChild(removed);
+        }
+        if (allLetters.length > allElements.length) {
+            allLetters = allLetters.substring(allLetters.length - allElements.length);
+        }
+    }
+
+    function say(text) {
+        if (getParameterByName('voice') != 'None') {
+            var utterance = new SpeechSynthesisUtterance(text);
+            if (voice==null) voice=setVoice();
+            if (voice!=null) utterance.voice = voice
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function showImage(imageURL, imageCredits) {
+        if (imageURL=='') return;
+
+        var elem = document.createElement("span");
+        elem.setAttribute("class", "image");
+        elem.innerHTML = "<img src='" + imageURL + "'>";
+        elem.style.position = "absolute";
+        document.body.appendChild(elem);
+
+
+        var x = Math.round(Math.random() * (window.innerWidth - elem.clientWidth));
+        var y = Math.round(Math.random() * (window.innerHeight - elem.clientHeight));
+
+        elem.style.left = x + "px";
+        elem.style.top = y + "px";
+
+        allElements.push(elem);
+
+        document.getElementById('credits').innerHTML = imageCredits;
+    }
+
+    function setVoice() {
+        var langParam = getParameterByName('lang');
+        var voiceName = getParameterByName('voice');
+        var lang = langParam
+        if (langParam==null && voiceName==null) {
+            //Get browser langauge
+            lang = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage)
+        }
+
+        if (lang!==null) lang=lang.toLowerCase();
+
+        voices = window.speechSynthesis.getVoices();
+        var found = null;
+        var availableLangs = [];
+        var voicesByName = {};
+        for (var i=0; i<voices.length; i++) {
+            var v = voices[i];
+            if (availableLangs.indexOf(v.lang) == -1) availableLangs.push(v.lang);
+            voicesByName[v.name] = v.lang;
+            if (found == null) {
+                if (v.name==voiceName) found = v;
+                if (v.lang.toLowerCase()==lang) found = v;
+            }
+        }
+        if (voiceName=='None') {
+            updateVoiceChoice(voicesByName, 'None');
+            return null;
+        }
+        if (found==null) {
+            if (window.langParameter && lang!=null) {
+                alert('No voice for lang ' + lang + "\n\n" +
+                      'Available langs: ' + availableLangs.join());
+            }
+            if (voiceName!=null) alert('No voice for with name ' + voiceName);
+            found = voices[0];
+        }
+
+        updateVoiceChoice(voicesByName, found.name);
+        return found;
+
+    }
+
+    function updateVoiceChoice(voicesByName, selectedName) {
+        elem = document.getElementById('voicePicker');
+
+        names = Object.keys(voicesByName);
+        names.push('None');
+
+        optionTags  = '';
+        for (var i=0; i<names.length; i++) {
+            sel = '';
+            if (names[i]==selectedName) sel='selected';
+            optionTags += '<option value="' + names[i] + '" ' + sel + '>' + names[i] + '</option>';
+        }
+        elem.innerHTML = optionTags;
+    }
+
+    function voicePicked(elem) {
+        reloadSettings();
+    }
+
+    function modePicked(elem) {
+        mode = elem.value;
+        reloadSettings();
+    }
+
+    function reloadSettings() {
+        var voiceName = document.getElementById('voicePicker').value;
+        window.location = "?mode=" + mode + "&voice=" + encodeURI(voiceName);
+    }
+
+    function initMode() {
+        mode = getParameterByName('mode');
+        if (mode==null) mode = 'letter-is-for-word';
+        document.getElementById('modePicker').value = mode;
+
+        if (mode=='words' || mode=='letter-is-for-word') {
+            for (var i in words) {
+                wordData = words[i];
+                preloadImage(wordData.image);
+            }
+        }
+    }
+
+    function preloadImage (url) {
+        try {
+            var elem = document.createElement("span");
+            elem.setAttribute("class", "image");
+            elem.innerHTML = "<img src='" + url + "'>";
+        } catch (e) { }
+    }
+
+    function randomLightColour() {
+        var hue = Math.random() * 360;
+        var saturation = 100;
+        var varience = 50;
+        return 'hsl(' + hue + ', ' + saturation + '%, ' + varience + '%)';
+    }
+
+    // http://stackoverflow.com/a/901144/338265
+    function getParameterByName(name) {
+        var url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+  </script>
+</html>
+<body onLoad="init();">
+
+<div id="settingsPanel">
+  <label for="voicePicker">Voice:</label>
+  <select id="voicePicker" onChange="voicePicked(this);">
+    <option value="Alex">Alex</option>
+    <option value="None">None</option>
+  </select>
+
+  <label for="modePicker">Mode:</label>
+  <select id="modePicker" onChange="modePicked(this);">
+    <option value="letter-is-for-word">letter is for word</option>
+    <option value="letters">letters</option>
+    <option value="words">words</option>
+  </select>
+</div>
+
+<div id="instructions">
+   If you are a baby, whack your keyboard randomly now
+</div>
+
+<div id="infoAndCredits">
+   (<a href="https://harrywood.co.uk/blog/2016/09/10/keyboard-letters-game/" title="Blog post about this">About</a>)
+   <span id="credits">
+   </span>
+</div>
+</body>
+</html>
