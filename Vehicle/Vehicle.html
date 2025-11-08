@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zambia Vehicle Import Cost Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f6f9;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .calculator {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+    h1 {
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 0.3rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.7rem;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>Vehicle Import Cost Calculator (Zambia)</h1>
+    <label for="age">Vehicle Age</label>
+    <select id="age">
+      <option value="above5">Above 5 Years</option>
+      <option value="2to5">2–5 Years</option>
+    </select>
+
+    <label for="type">Vehicle Type</label>
+    <select id="type">
+      <option value="sedan">Sedan / Hatchback</option>
+      <option value="suv">SUV</option>
+      <option value="bus">Bus</option>
+      <option value="truck">Truck</option>
+    </select>
+
+    <label for="engine">Engine Capacity (cc)</label>
+    <select id="engine">
+      <option value="1000">Up to 1000cc</option>
+      <option value="1500">1001–1500cc</option>
+      <option value="2500">1501–2500cc</option>
+      <option value="3000">2501–3000cc</option>
+      <option value="4000">Above 3001cc</option>
+    </select>
+
+    <button onclick="calculateCost()">Calculate Cost</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const rates = {
+      above5: {
+        sedan: {1000: 22243.10, 1500: 26095.10, 2500: 29947.10, 3000: 36688.10, 4000: 41503.10},
+        suv:   {1000: 22243.10, 1500: 26095.10, 2500: 31872.96, 3000: 36688.10, 4000: 41503.10},
+        bus:   {1000: 31873.10, 1500: 33799.10, 2500: 46318.10, 3000: 99283.10, 4000: 99283.10},
+        truck: {1000: 22243.10, 1500: 36688.10, 2500: 41503.10, 3000: 55948.10, 4000: 61244.60}
+      },
+      "2to5": {
+        sedan: {1000: 34688.10, 1500: 44318.10, 2500: 53948.10, 3000: 58763.10, 4000: 73208.10},
+        suv:   {1000: 34688.10, 1500: 44318.10, 2500: 68393.10, 3000: 78023.10, 4000: 92468.10},
+        bus:   {1000: 58763.10, 1500: 87653.10, 2500: 193583.10, 3000: 241733.10, 4000: 241733.10},
+        truck: {1000: 49133.10, 1500: 58763.10, 2500: 68393.10, 3000: 75134.10, 4000: 116543.10}
+      }
+    };
+
+    const surtax = [
+      {limit: 1500, fee: 84},
+      {limit: 2000, fee: 168},
+      {limit: 3000, fee: 240},
+      {limit: Infinity, fee: 330}
+    ];
+
+    function calculateCost() {
+      const age = document.getElementById('age').value;
+      const type = document.getElementById('type').value;
+      const engine = parseInt(document.getElementById('engine').value);
+
+      const base = rates[age][type][engine];
+      const tax = surtax.find(s => engine <= s.limit).fee;
+
+      const total = base + tax;
+
+      document.getElementById('result').innerText =
+        `Estimated Import Cost: ZMW ${total.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+    }
+  </script>
+</body>
+</html>
