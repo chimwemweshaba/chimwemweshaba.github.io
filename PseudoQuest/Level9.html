@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CIE IGCSE Computer Science Pseudocode Quest - Level 9: 1D Arrays</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:#0f172a;color:#e5e7eb}
+header{background:#111827;border-bottom:1px solid #334155;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-weight:800;font-size:20px;text-decoration:none;color:#e5e7eb;display:flex;align-items:center;gap:10px}.logo span{color:#38bdf8}
+.logo-badge{background:#0c4a6e;color:#38bdf8;border:1px solid #0284c7;font-size:12px;padding:3px 8px;border-radius:6px;font-weight:600}
+.stats{display:flex;gap:18px;font-size:14px;align-items:center}.pill{background:#1e293b;padding:7px 11px;border-radius:999px}
+main{max-width:1400px;margin:0 auto;padding:22px}.grid{display:grid;grid-template-columns:320px 1fr;gap:18px}
+.panel,.card{background:#111827;border:1px solid #334155;border-radius:14px}.levels{padding:16px;max-height:85vh;overflow-y:auto}.levels h2{margin:0 0 12px;font-size:16px}
+.level{width:100%;text-align:left;background:#1e293b;color:#e5e7eb;border:1px solid #334155;padding:11px;border-radius:10px;margin:7px 0;cursor:pointer}
+.level:hover{background:#263449}.level.active{border-color:#38bdf8;background:#0c4a6e}.level.locked{opacity:.45;cursor:not-allowed}.level small{display:block;color:#94a3b8;margin-top:3px}
+.content{padding:20px}.mission{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.mission h1{margin:0 0 7px;font-size:26px}.mission p{margin:0;color:#cbd5e1;line-height:1.5}
+.badge{background:#0284c7;padding:7px 10px;border-radius:8px;font-size:12px;white-space:nowrap}
+.objective{margin:18px 0;padding:15px;border-left:4px solid #38bdf8;background:#0b1220;border-radius:8px}
+
+.workspace-challenge{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px}
+.box{background:#0b1220;border:1px solid #334155;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boxhead{padding:10px 13px;background:#172033;font-weight:700;font-size:13px}.boxbody{padding:14px;flex:1;display:flex;flex-direction:column}
+pre{margin:0;white-space:pre-wrap;font-family:Consolas,monospace;font-size:13px;line-height:1.65;color:#bae6fd}
+textarea{width:100%;height:360px;resize:vertical;background:#020617;color:#e2e8f0;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;outline:none}
+textarea:focus{border-color:#38bdf8}
+.output-display{width:100%;height:360px;background:#020617;color:#4ade80;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;overflow-y:auto;white-space:pre-wrap}
+.output-display.error-text{color:#f87171}
+
+.workspace-mcq{background:#0b1220;border:1px solid #38bdf8;border-radius:12px;padding:24px;max-width:800px;margin:0 auto}
+.mcq-question{font-size:18px;font-weight:600;margin-bottom:20px;color:#f8fafc}
+.mcq-container{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.mcq-option{background:#1e293b;border:2px solid #334155;padding:14px 18px;border-radius:10px;cursor:pointer;text-align:left;color:#e5e7eb;font-size:15px;transition:all 0.2s}
+.mcq-option:hover{background:#334155;border-color:#64748b}
+.mcq-option.selected{border-color:#38bdf8;background:#0c4a6e;font-weight:600}
+
+.buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+button.action{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:700;background:#0284c7;color:white}.action.secondary{background:#334155}.action.hint{background:#b45309}.action.next{background:#166534}.action.prev{background:#475569}.action.indent{background:#475569}
+.feedback{margin-top:13px;padding:13px;border-radius:8px;display:none;line-height:1.45}.success{display:block;background:#052e1b;border:1px solid #166534;color:#bbf7d0}.error{display:block;background:#3b0a0a;border:1px solid #991b1b;color:#fecaca}.info{display:block;background:#172033;border:1px solid #475569;color:#cbd5e1}
+.footer{color:#64748b;font-size:12px;margin-top:18px;text-align:center}
+@media(max-width:1100px){.workspace-challenge{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.levels{order:2}.mission{flex-direction:column}.stats{gap:7px;font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html" class="logo">
+  📝 CIE Pseudocode <span>Quest</span>
+  <span class="logo-badge">Level 9</span>
+</a>
+<div class="stats">
+  <div class="pill">Level <b>9: 1D Arrays</b></div>
+  <div class="pill">Task <b id="taskStat">1</b>/<span id="totalTasks">10</span></div>
+  <div class="pill">⭐ <b id="score">0</b></div>
+</div>
+</header>
+<main>
+<div class="grid">
+<aside class="panel levels">
+<h2>Level 9: 1D Arrays</h2>
+<div id="levelList"></div>
+</aside>
+<section class="card content">
+<div class="mission">
+  <div>
+    <h1 id="title"></h1>
+    <p id="description"></p>
+  </div>
+  <div class="badge" id="topic">Level 9: Data Structures</div>
+</div>
+<div class="objective"><b>🎯 Objective:</b> <span id="objective"></span></div>
+<div id="workspaceContainer"></div>
+<div class="footer">Compliant with Cambridge IGCSE Computer Science Pseudocode Standard.</div>
+</section>
+</div>
+</main>
+<script>
+const tasks = [
+  // TASK 1: MCQ
+  {
+    type: "mcq",
+    sub: "1. Array Basics",
+    title: "MCQ: CIE Array Index Standard",
+    desc: "Understanding index bounds in Cambridge Pseudocode.",
+    objective: "Identify the standard lower bound index for CIE 1D arrays.",
+    challenge: "In CIE IGCSE Computer Science, what index value is conventionally used for the first element in DECLARE ArrayName : ARRAY[1:N] OF INTEGER?",
+    options: ["1", "0", "-1", "N"],
+    answer: 0,
+    hint: "CIE pseudocode explicitly specifies array bounds starting at index 1 (e.g., 1:10)."
+  },
+  // TASK 2
+  {
+    type: "code",
+    sub: "1. Array Basics",
+    title: "Array Declaration & Direct Access",
+    desc: "Declaring a 1D array and assigning values directly.",
+    objective: "Declare an array of 3 integers and assign elements manually.",
+    challenge: "DECLARE Numbers : ARRAY[1:3] OF INTEGER\nNumbers[1] ← 10\nNumbers[2] ← 20\nNumbers[3] ← 30\nOUTPUT Numbers[2]",
+    need: ["DECLARE", "ARRAY", "OF", "INTEGER", "OUTPUT"],
+    defaultCode: "DECLARE Numbers : ARRAY[1:3] OF INTEGER\nNumbers[1] ← 10\nNumbers[2] ← 20\nNumbers[3] ← 30\nOUTPUT Numbers[2]",
+    hint: "Arrays are indexed using square brackets, e.g., Numbers[1]."
+  },
+  // TASK 3
+  {
+    type: "code",
+    sub: "2. Traversal",
+    title: "Populate Array with Loop",
+    desc: "Use a FOR loop to enter several values into an array, then traverse the array again.",
+    objective: "Enter 4 numbers, store them in an array, and output all 4 values.",
+    challenge: "DECLARE Marks : ARRAY[1:4] OF INTEGER\nDECLARE Index : INTEGER\nFOR Index ← 1 TO 4\n    INPUT Marks[Index]\nNEXT Index\nFOR Index ← 1 TO 4\n    OUTPUT Marks[Index]\nNEXT Index",
+    need: ["DECLARE", "ARRAY", "FOR", "TO", "NEXT", "INPUT", "OUTPUT"],
+    defaultCode: "DECLARE Marks : ARRAY[1:4] OF INTEGER\nDECLARE Index : INTEGER\nFOR Index ← 1 TO 4\n    INPUT Marks[Index]\nNEXT Index\nFOR Index ← 1 TO 4\n    OUTPUT Marks[Index]\nNEXT Index",
+    hint: "The program should ask for input four times. Each answer is stored in Marks[Index]."
+  },
+  // TASK 4
+  {
+    type: "code",
+    sub: "2. Traversal",
+    title: "Array Accumulation & Average",
+    desc: "Use a loop to enter array values, add them together, and calculate their average.",
+    objective: "Enter 5 numbers, calculate the total, then calculate and output the average.",
+    challenge: "DECLARE Values : ARRAY[1:5] OF INTEGER\nDECLARE Total : INTEGER\nDECLARE Average : REAL\nDECLARE i : INTEGER\nTotal ← 0\nFOR i ← 1 TO 5\n    INPUT Values[i]\n    Total ← Total + Values[i]\nNEXT i\nAverage ← Total / 5\nOUTPUT Total\nOUTPUT Average",
+    need: ["DECLARE", "ARRAY", "FOR", "TO", "NEXT", "INPUT", "OUTPUT"],
+    defaultCode: "DECLARE Values : ARRAY[1:5] OF INTEGER\nDECLARE Total : INTEGER\nDECLARE Average : REAL\nDECLARE i : INTEGER\nTotal ← 0\nFOR i ← 1 TO 5\n    INPUT Values[i]\n    Total ← Total + Values[i]\nNEXT i\nAverage ← Total / 5\nOUTPUT Total\nOUTPUT Average",
+    hint: "Inside the loop, input Values[i] and immediately add Values[i] to Total."
+  },
+  // TASK 5
+  {
+    type: "code",
+    sub: "3. Array Operations",
+    title: "Finding Maximum Value",
+    desc: "Scanning a 1D array to locate the highest value.",
+    objective: "Find and output the largest integer stored in an array.",
+    challenge: "DECLARE Scores : ARRAY[1:5] OF INTEGER\nDECLARE Max : INTEGER\nDECLARE i : INTEGER\nFOR i ← 1 TO 5\n    INPUT Scores[i]\nNEXT i\nMax ← Scores[1]\nFOR i ← 2 TO 5\n    IF Scores[i] > Max THEN\n        Max ← Scores[i]\n    ENDIF\nNEXT i\nOUTPUT Max",
+    need: ["DECLARE", "ARRAY", "FOR", "TO", "NEXT", "INPUT", "IF", "THEN", "ENDIF", "OUTPUT"],
+    defaultCode: "DECLARE Scores : ARRAY[1:5] OF INTEGER\nDECLARE Max : INTEGER\nDECLARE i : INTEGER\nFOR i ← 1 TO 5\n    INPUT Scores[i]\nNEXT i\nMax ← Scores[1]\nFOR i ← 2 TO 5\n    IF Scores[i] > Max THEN\n        Max ← Scores[i]\n    ENDIF\nNEXT i\nOUTPUT Max",
+    hint: "First fill the array. Then set Max to Scores[1] and compare the remaining elements."
+  },
+  // TASK 6
+  {
+    type: "code",
+    sub: "3. Array Operations",
+    title: "Linear Search in 1D Array",
+    desc: "Search an array for a user-provided target value.",
+    objective: "Perform a linear search and report if target was found.",
+    challenge: "DECLARE Data : ARRAY[1:4] OF INTEGER\nDECLARE Target, i : INTEGER\nDECLARE Found : BOOLEAN\nData[1] ← 5\nData[2] ← 15\nData[3] ← 25\nData[4] ← 35\nINPUT Target\nFound ← FALSE\nFOR i ← 1 TO 4\n    IF Data[i] = Target THEN\n        Found ← TRUE\n    ENDIF\nNEXT i\nIF Found = TRUE THEN\n    OUTPUT \"Found\"\nELSE\n    OUTPUT \"Not Found\"\nENDIF",
+    need: ["DECLARE", "ARRAY", "BOOLEAN", "FOR", "TO", "NEXT", "IF", "THEN", "ELSE", "ENDIF"],
+    defaultCode: "DECLARE Data : ARRAY[1:4] OF INTEGER\nDECLARE Target, i : INTEGER\nDECLARE Found : BOOLEAN\nData[1] ← 5\nData[2] ← 15\nData[3] ← 25\nData[4] ← 35\nINPUT Target\nFound ← FALSE\nFOR i ← 1 TO 4\n    IF Data[i] = Target THEN\n        Found ← TRUE\n    ENDIF\nNEXT i\nIF Found = TRUE THEN\n    OUTPUT \"Found\"\nELSE\n    OUTPUT \"Not Found\"\nENDIF",
+    hint: "Set a flag Found ← TRUE when Data[i] matches Target."
+  },
+  // TASK 7: MCQ
+  {
+    type: "mcq",
+    sub: "4. Exam Scenarios",
+    title: "MCQ: Parallel Arrays Concept",
+    desc: "Understanding matching indices across multiple 1D arrays.",
+    objective: "Identify the defining characteristic of parallel 1D arrays.",
+    challenge: "Two 1D arrays, StudentName[1:30] and StudentMark[1:30], are used together. What links the data stored in both arrays?",
+    options: [
+      "The same index position in both arrays refers to the same student",
+      "They must share the exact same data type",
+      "Values in StudentName automatically sort StudentMark",
+      "They combine into a single string variable"
+    ],
+    answer: 0,
+    hint: "Parallel arrays store related records by matching array indices (e.g., index 5 holds name and mark for student 5)."
+  },
+  // TASK 8
+  {
+    type: "code",
+    sub: "4. Exam Scenarios",
+    title: "Parallel Array Lookup",
+    desc: "Matching student ID to test score using parallel 1D arrays.",
+    objective: "Search ID array and print corresponding Grade array element.",
+    challenge: "DECLARE StudentID : ARRAY[1:3] OF INTEGER\nDECLARE Grade : ARRAY[1:3] OF STRING\nDECLARE SearchID, i : INTEGER\nDECLARE Found : BOOLEAN\nStudentID[1] ← 101\nStudentID[2] ← 102\nStudentID[3] ← 103\nGrade[1] ← \"A\"\nGrade[2] ← \"B\"\nGrade[3] ← \"A*\"\nINPUT SearchID\nFound ← FALSE\nFOR i ← 1 TO 3\n    IF StudentID[i] = SearchID THEN\n        OUTPUT Grade[i]\n        Found ← TRUE\n    ENDIF\nNEXT i\nIF Found = FALSE THEN\n    OUTPUT \"ID not found\"\nENDIF",
+    need: ["DECLARE", "ARRAY", "STRING", "BOOLEAN", "FOR", "TO", "NEXT", "IF", "THEN", "ENDIF", "OUTPUT"],
+    defaultCode: "DECLARE StudentID : ARRAY[1:3] OF INTEGER\nDECLARE Grade : ARRAY[1:3] OF STRING\nDECLARE SearchID, i : INTEGER\nDECLARE Found : BOOLEAN\nStudentID[1] ← 101\nStudentID[2] ← 102\nStudentID[3] ← 103\nGrade[1] ← \"A\"\nGrade[2] ← \"B\"\nGrade[3] ← \"A*\"\nINPUT SearchID\nFound ← FALSE\nFOR i ← 1 TO 3\n    IF StudentID[i] = SearchID THEN\n        OUTPUT Grade[i]\n        Found ← TRUE\n    ENDIF\nNEXT i\nIF Found = FALSE THEN\n    OUTPUT \"ID not found\"\nENDIF",
+    hint: "Use a Found flag. Set it to TRUE when StudentID[i] matches, then handle the FALSE case after the loop."
+  },
+  // TASK 9
+  {
+    type: "code",
+    sub: "4. Exam Scenarios",
+    title: "Array Threshold Count",
+    desc: "Counting elements in an array that satisfy a threshold condition.",
+    objective: "Count how many exam scores meet or exceed the pass mark of 50.",
+    challenge: "DECLARE Marks : ARRAY[1:5] OF INTEGER\nDECLARE PassCount, i : INTEGER\nMarks[1] ← 45\nMarks[2] ← 78\nMarks[3] ← 50\nMarks[4] ← 23\nMarks[5] ← 91\nPassCount ← 0\nFOR i ← 1 TO 5\n    IF Marks[i] >= 50 THEN\n        PassCount ← PassCount + 1\n    ENDIF\nNEXT i\nOUTPUT PassCount",
+    need: ["DECLARE", "ARRAY", "FOR", "TO", "NEXT", "IF", "THEN", "ENDIF", "OUTPUT"],
+    defaultCode: "DECLARE Marks : ARRAY[1:5] OF INTEGER\nDECLARE PassCount, i : INTEGER\nMarks[1] ← 45\nMarks[2] ← 78\nMarks[3] ← 50\nMarks[4] ← 23\nMarks[5] ← 91\nPassCount ← 0\nFOR i ← 1 TO 5\n    IF Marks[i] >= 50 THEN\n        PassCount ← PassCount + 1\n    ENDIF\nNEXT i\nOUTPUT PassCount",
+    hint: "Increment PassCount whenever Marks[i] is greater than or equal to 50."
+  },
+  // TASK 10
+  {
+    type: "code",
+    sub: "4. Exam Scenarios",
+    title: "Array Element Replacement",
+    desc: "Modifying elements within a 1D array based on conditions.",
+    objective: "Replace any negative values in an array with 0.",
+    challenge: "DECLARE Reading : ARRAY[1:4] OF INTEGER\nDECLARE i : INTEGER\nReading[1] ← 15\nReading[2] ← -5\nReading[3] ← 20\nReading[4] ← -2\nFOR i ← 1 TO 4\n    IF Reading[i] < 0 THEN\n        Reading[i] ← 0\n    ENDIF\n    OUTPUT Reading[i]\nNEXT i",
+    need: ["DECLARE", "ARRAY", "FOR", "TO", "NEXT", "IF", "THEN", "ENDIF", "OUTPUT"],
+    defaultCode: "DECLARE Reading : ARRAY[1:4] OF INTEGER\nDECLARE i : INTEGER\nReading[1] ← 15\nReading[2] ← -5\nReading[3] ← 20\nReading[4] ← -2\nFOR i ← 1 TO 4\n    IF Reading[i] < 0 THEN\n        Reading[i] ← 0\n    ENDIF\n    OUTPUT Reading[i]\nNEXT i",
+    hint: "Assign 0 to Reading[i] if its current value is less than 0."
+  }
+];
+
+let currentIdx = 0, score = 0, selectedMcqOption = null;
+const completedTasks = new Set();
+
+function renderSubSections() {
+  let el = document.getElementById("levelList");
+  el.innerHTML = "";
+  tasks.forEach((t, i) => {
+    let b = document.createElement("button");
+    b.className = "level " + (i === currentIdx ? "active" : "");
+    b.innerHTML = `Task ${i + 1}: ${t.title}<small>${t.sub}</small>`;
+    b.onclick = () => loadTask(i);
+    el.appendChild(b);
+  });
+}
+
+function loadTask(idx) {
+  currentIdx = idx;
+  selectedMcqOption = null;
+  let t = tasks[idx];
+  document.getElementById("taskStat").textContent = idx + 1;
+  document.getElementById("totalTasks").textContent = tasks.length;
+  document.getElementById("title").textContent = `Level 9 - Task ${idx + 1}: ${t.title}`;
+  document.getElementById("description").textContent = t.desc;
+  document.getElementById("objective").textContent = t.objective;
+  
+  let ws = document.getElementById("workspaceContainer");
+  hideFeedback();
+
+  if (t.type === "mcq") {
+    let html = `
+      <div class="workspace-mcq">
+        <div class="mcq-question">${t.challenge}</div>
+        <div class="mcq-container">`;
+    t.options.forEach((opt, oIdx) => {
+      html += `<div class="mcq-option" id="opt${oIdx}" onclick="selectMcq(${oIdx})">${String.fromCharCode(65 + oIdx)}. ${opt}</div>`;
+    });
+    html += `</div>
+        <div class="buttons">
+          <button class="action" onclick="checkMcqAnswer()">Submit Choice</button>
+          <button class="action hint" onclick="showHint()">💡 Hint</button>
+          <button class="action prev" onclick="prevTask()">⏮ Previous Activity</button>
+          <button class="action next" onclick="nextTask()">⏭ Next Activity</button>
+        </div>
+        <div id="feedback" class="feedback"></div>
+      </div>`;
+    ws.innerHTML = html;
+  } else {
+    ws.innerHTML = `
+      <div class="workspace-challenge">
+        <div class="box">
+          <div class="boxhead">📋 Task Specification (Level 9)</div>
+          <div class="boxbody"><pre>${t.challenge}</pre></div>
+        </div>
+        <div class="box">
+          <div class="boxhead">⌨️ Level 9 Workspace</div>
+          <div class="boxbody">
+            <textarea id="code" spellcheck="false"></textarea>
+            <div class="buttons">
+              <button class="action" onclick="runAndExecuteCode()">▶ Run & Execute</button>
+              <button class="action indent" onclick="insertIndent()">⇥ Indent (4 Spaces)</button>
+              <button class="action secondary" onclick="resetCode()">↻ Reset</button>
+              <button class="action hint" onclick="showHint()">💡 Hint</button>
+              <button class="action prev" onclick="prevTask()">⏮ Previous Activity</button>
+              <button class="action next" onclick="nextTask()">⏭ Next Activity</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="boxhead">🖥️ Interactive Execution Terminal</div>
+          <div class="boxbody"><div id="output" class="output-display">Press "Run & Execute" to validate indentation and simulate the pseudocode. INPUT statements will ask for each value in sequence.</div></div>
+        </div>
+      </div>`;
+    
+    let ta = document.getElementById("code");
+    ta.value = t.defaultCode || "";
+    ta.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        insertIndent();
+      }
+    });
+  }
+  renderSubSections();
+}
+
+function insertIndent() {
+  let ta = document.getElementById("code");
+  if (!ta) return;
+  let start = ta.selectionStart;
+  let end = ta.selectionEnd;
+  const spaces = "    ";
+  ta.value = ta.value.substring(0, start) + spaces + ta.value.substring(end);
+  ta.selectionStart = ta.selectionEnd = start + spaces.length;
+  ta.focus();
+}
+
+function selectMcq(oIdx) {
+  selectedMcqOption = oIdx;
+  let t = tasks[currentIdx];
+  t.options.forEach((_, i) => {
+    let el = document.getElementById("opt" + i);
+    if (el) el.className = "mcq-option" + (i === oIdx ? " selected" : "");
+  });
+}
+
+function checkMcqAnswer() {
+  let t = tasks[currentIdx];
+  let fb = document.getElementById("feedback");
+
+  if (selectedMcqOption === null) {
+    fb.className = "feedback error";
+    fb.innerHTML = "⚠️ Please select an option before submitting.";
+    return;
+  }
+
+  if (selectedMcqOption === t.answer) {
+    if (!completedTasks.has(currentIdx)) {
+      completedTasks.add(currentIdx);
+      score += 50;
+      document.getElementById("score").textContent = score;
+    }
+    fb.className = "feedback success";
+    fb.innerHTML = "✅ <b>Correct!</b> Excellent job. Click <b>Next Activity</b> to proceed.";
+  } else {
+    fb.className = "feedback error";
+    fb.innerHTML = "❌ <b>Incorrect choice.</b> Review the question or click Hint for guidance.";
+  }
+}
+
+function checkMultiLevelIndentation(code) {
+  const lines = code.split('\n');
+  let currentDepth = 0;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i];
+    const trimmed = rawLine.trim();
+    if (!trimmed) continue;
+    
+    let upper = trimmed.toUpperCase();
+    
+    if (upper.startsWith("ENDWHILE") || upper.startsWith("ENDIF") || upper.startsWith("NEXT") || upper.startsWith("ENDCASE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    } else if (upper.startsWith("ELSE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    }
+
+    const expectedSpaces = currentDepth * 4;
+    const actualSpaces = rawLine.search(/\S|$/);
+
+    if (actualSpaces < expectedSpaces) {
+      return {
+        valid: false,
+        lineNum: i + 1,
+        lineText: trimmed,
+        expectedSpaces: expectedSpaces,
+        actualSpaces: actualSpaces
+      };
+    }
+
+    if ((upper.startsWith("WHILE ") && upper.includes(" DO")) || upper.includes("THEN") || upper.startsWith("ELSE") || upper.startsWith("FOR ")) {
+      currentDepth++;
+    }
+  }
+
+  return { valid: true };
+}
+
+/* === ARRAY PSEUDOCODE EXECUTION ENGINE === */
+function evaluateExpr(expr, env, arrays) {
+  let clean = String(expr).trim();
+  const strings = [];
+
+  // Protect quoted strings while variables and operators are translated.
+  clean = clean.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, m => {
+    strings.push(m);
+    return `__STR_${strings.length - 1}__`;
+  });
+
+  // Resolve array access first, including expressions such as Values[i].
+  clean = clean.replace(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\[\s*([^\]]+)\s*\]/g,
+    function(match, arrName, indexExpr) {
+      const idxValue = evaluateExpr(indexExpr, env, arrays);
+      const idx = Math.round(Number(idxValue));
+      if (arrays && arrays[arrName] && Object.prototype.hasOwnProperty.call(arrays[arrName], idx)) {
+        return JSON.stringify(arrays[arrName][idx]);
+      }
+      return "0";
+    });
+
+  // Substitute scalar variables, longest names first.
+  Object.keys(env).sort((a, b) => b.length - a.length).forEach(k => {
+    const reg = new RegExp("\\b" + k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "g");
+    const value = env[k];
+    clean = clean.replace(reg, typeof value === "string" ? JSON.stringify(value) : String(value));
+  });
+
+  clean = clean.replace(/\bTRUE\b/gi, "true")
+               .replace(/\bFALSE\b/gi, "false")
+               .replace(/<>/g, "!=")
+               .replace(/←/g, "=")
+               .replace(/(^|[^<>!])=([^=])/g, "$1===$2")
+               .replace(/AND/gi, "&&")
+               .replace(/OR/gi, "||")
+               .replace(/NOT/gi, "!");
+
+  clean = clean.replace(/__STR_(\d+)__/g, (_, i) => strings[Number(i)]);
+
+  try {
+    return Function(`"use strict"; return (${clean})`)();
+  } catch (e) {
+    return clean;
+  }
+}
+
+function executePseudocode(code) {
+  const lines = code.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const outputs = [];
+  const env = {};
+  const arrays = {};
+  let cancelled = false;
+  let log = "Starting Execution...\n";
+
+  function findMatching(start, openType, closeType) {
+    let depth = 0;
+    for (let n = start; n < lines.length; n++) {
+      const u = lines[n].toUpperCase();
+      if (u.startsWith(openType)) depth++;
+      if (u.startsWith(closeType)) {
+        depth--;
+        if (depth === 0) return n;
+      }
+    }
+    return -1;
+  }
+
+  function findIfParts(start) {
+    let depth = 0;
+    let elseIndex = -1;
+    for (let n = start; n < lines.length; n++) {
+      const u = lines[n].toUpperCase();
+      if (u.startsWith("IF ") && u.endsWith("THEN")) depth++;
+      else if (u.startsWith("ENDIF")) {
+        depth--;
+        if (depth === 0) return { elseIndex, endIndex: n };
+      } else if (u.startsWith("ELSE") && depth === 1 && elseIndex === -1) {
+        elseIndex = n;
+      }
+    }
+    return { elseIndex, endIndex: -1 };
+  }
+
+  function parseInputValue(raw) {
+    const text = String(raw).trim();
+    if (text === "") return "";
+    if (/^-?(?:\d+\.?\d*|\.\d+)$/.test(text)) return Number(text);
+    if (/^(TRUE|FALSE)$/i.test(text)) return /^TRUE$/i.test(text);
+    return text;
+  }
+
+  function executeRange(start, endExclusive) {
+    let pc = start;
+    while (pc < endExclusive && !cancelled) {
+      const line = lines[pc];
+      const upper = line.toUpperCase();
+
+      if (upper.startsWith("DECLARE ") && upper.includes("ARRAY")) {
+        const colon = line.indexOf(":");
+        const varName = line.substring(8, colon).trim();
+        const m = line.match(/ARRAY\s*\[\s*(-?\d+)\s*:\s*(-?\d+)\s*\]/i);
+        if (!m) throw new Error(`Invalid array declaration on line ${pc + 1}.`);
+        const lo = Number(m[1]), hi = Number(m[2]);
+        arrays[varName] = {};
+        for (let x = lo; x <= hi; x++) arrays[varName][x] = 0;
+        log += `[Array Declared] ${varName}[${lo}:${hi}]\n`;
+        pc++;
+        continue;
+      }
+
+      if (upper.startsWith("DECLARE ")) {
+        const beforeColon = line.substring(8).split(":")[0];
+        beforeColon.split(",").map(v => v.trim()).filter(Boolean).forEach(v => env[v] = 0);
+        pc++;
+        continue;
+      }
+
+      if (upper.startsWith("INPUT ")) {
+        const target = line.substring(6).trim();
+        const a = target.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*\[\s*([^\]]+)\s*\]$/);
+        const arrName = a ? a[1] : null;
+        const idx = a ? Math.round(Number(evaluateExpr(a[2], env, arrays))) : null;
+        const label = a ? `${arrName}[${idx}]` : target;
+        const userVal = prompt(`[INPUT Required]\nEnter value for ${label}:`, "85");
+        if (userVal === null) {
+          cancelled = true;
+          log += "[Execution Halted by User]\n";
+          return;
+        }
+        const parsed = parseInputValue(userVal);
+        if (arrName) {
+          if (!arrays[arrName]) arrays[arrName] = {};
+          arrays[arrName][idx] = parsed;
+          log += `[INPUT Stored] ${arrName}[${idx}] = ${parsed}\n`;
+        } else {
+          env[target] = parsed;
+          log += `[INPUT Stored] ${target} = ${parsed}\n`;
+        }
+        pc++;
+        continue;
+      }
+
+      if (upper.startsWith("FOR ")) {
+        const nextIndex = findMatching(pc, "FOR ", "NEXT");
+        if (nextIndex < 0) throw new Error(`FOR on line ${pc + 1} has no matching NEXT.`);
+        const header = line.substring(4).trim();
+        const parts = header.split(/\s+TO\s+/i);
+        if (parts.length !== 2 || !parts[0].includes("←")) {
+          throw new Error(`Invalid FOR statement on line ${pc + 1}.`);
+        }
+        const [varPart, startExpr] = parts[0].split("←");
+        const varName = varPart.trim();
+        const startValue = Number(evaluateExpr(startExpr, env, arrays));
+        const endValue = Number(evaluateExpr(parts[1], env, arrays));
+        const increment = startValue <= endValue ? 1 : -1;
+        for (let value = startValue; increment > 0 ? value <= endValue : value >= endValue; value += increment) {
+          env[varName] = value;
+          executeRange(pc + 1, nextIndex);
+          if (cancelled) return;
+        }
+        pc = nextIndex + 1;
+        continue;
+      }
+
+      if (upper.startsWith("IF ")) {
+        const parts = findIfParts(pc);
+        if (parts.endIndex < 0) throw new Error(`IF on line ${pc + 1} has no matching ENDIF.`);
+        const match = line.match(/^IF\s+(.*?)\s+THEN$/i);
+        if (!match) throw new Error(`Invalid IF statement on line ${pc + 1}.`);
+        const condition = Boolean(evaluateExpr(match[1], env, arrays));
+        if (condition) {
+          executeRange(pc + 1, parts.elseIndex >= 0 ? parts.elseIndex : parts.endIndex);
+        } else if (parts.elseIndex >= 0) {
+          executeRange(parts.elseIndex + 1, parts.endIndex);
+        }
+        if (cancelled) return;
+        pc = parts.endIndex + 1;
+        continue;
+      }
+
+      if (upper.startsWith("OUTPUT ")) {
+        const exprText = line.substring(7).trim();
+        // Split OUTPUT arguments only at top-level commas.
+        const pieces = exprText.split(/,(?![^"']*["'])/).map(v => v.trim()).filter(Boolean);
+        outputs.push(pieces.map(p => evaluateExpr(p, env, arrays)).join(" "));
+        pc++;
+        continue;
+      }
+
+      if (line.includes("←")) {
+        const [leftPart, rightPart] = line.split("←");
+        const left = leftPart.trim();
+        const value = evaluateExpr(rightPart, env, arrays);
+        const a = left.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*\[\s*([^\]]+)\s*\]$/);
+        if (a) {
+          const arrName = a[1];
+          const idx = Math.round(Number(evaluateExpr(a[2], env, arrays)));
+          if (!arrays[arrName]) arrays[arrName] = {};
+          arrays[arrName][idx] = value;
+          log += `[Array Update] ${arrName}[${idx}] = ${value}\n`;
+        } else {
+          env[left] = value;
+          log += `[Var Update] ${left} = ${value}\n`;
+        }
+        pc++;
+        continue;
+      }
+
+      // NEXT / ELSE / ENDIF should normally be consumed by their parent block.
+      if (upper.startsWith("NEXT") || upper.startsWith("ELSE") || upper.startsWith("ENDIF")) {
+        pc++;
+        continue;
+      }
+
+      pc++;
+    }
+  }
+
+  try {
+    executeRange(0, lines.length);
+  } catch (error) {
+    return { cancelled: false, error: error.message, log, output: outputs.join("\n") };
+  }
+  return { cancelled, log, output: outputs.join("\n") };
+}
+
+function runAndExecuteCode() {
+  let codeRaw = document.getElementById("code").value;
+  let t = tasks[currentIdx];
+  let outEl = document.getElementById("output");
+  
+  if (!codeRaw.trim()) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = "Error: Code field is empty.";
+    showFeedback("❌ Please enter pseudocode before running.", false);
+    return;
+  }
+
+  let upperCode = codeRaw.toUpperCase();
+  let missing = t.need.filter(x => !upperCode.includes(x));
+  if (missing.length > 0) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `SyntaxError: Missing required keyword(s): ${missing.join(", ")}`;
+    showFeedback(`❌ Missing required keywords: <b>${missing.join(", ")}</b>`, false);
+    return;
+  }
+
+  let indentCheck = checkMultiLevelIndentation(codeRaw);
+  if (!indentCheck.valid) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `IndentationError (Line ${indentCheck.lineNum}): "${indentCheck.lineText}"\nExpected ${indentCheck.expectedSpaces} spaces, found ${indentCheck.actualSpaces}.`;
+    showFeedback(`❌ <b>Indentation Error:</b> Line ${indentCheck.lineNum} requires ${indentCheck.expectedSpaces} spaces.`, false);
+    return;
+  }
+
+  let result = executePseudocode(codeRaw);
+
+  if (result.error) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `ExecutionError: ${result.error}`;
+    showFeedback(`❌ <b>Execution Error:</b> ${result.error}`, false);
+    return;
+  }
+
+  if (result.cancelled) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = result.log;
+    hideFeedback();
+    return;
+  }
+
+  outEl.className = "output-display";
+  outEl.textContent = result.log + "---------------------------------\n[OUTPUT]:\n" + result.output;
+
+  if (!completedTasks.has(currentIdx)) {
+    completedTasks.add(currentIdx);
+    score += 100;
+    document.getElementById("score").textContent = score;
+  }
+  showFeedback("✅ <b>Execution Successful!</b> The pseudocode ran correctly with your input.", true);
+}
+
+function prevTask() {
+  if (currentIdx > 0) {
+    loadTask(currentIdx - 1);
+  } else {
+    loadTask(tasks.length - 1);
+  }
+}
+
+function nextTask() {
+  if (currentIdx < tasks.length - 1) {
+    loadTask(currentIdx + 1);
+  } else {
+    loadTask(0);
+  }
+}
+
+function showHint() {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback info";
+  fb.innerHTML = "💡 " + tasks[currentIdx].hint;
+}
+
+function resetCode() {
+  let t = tasks[currentIdx];
+  let ta = document.getElementById("code");
+  if (ta) ta.value = t.defaultCode || "";
+  let outEl = document.getElementById("output");
+  if (outEl) {
+    outEl.className = "output-display";
+    outEl.textContent = 'Press "Run & Execute" to validate indentation and simulate the pseudocode. INPUT statements will ask for each value in sequence.';
+  }
+  hideFeedback();
+}
+
+function showFeedback(msg, isSuccess) {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback " + (isSuccess ? "success" : "error");
+  fb.innerHTML = msg;
+}
+
+function hideFeedback() {
+  let fb = document.getElementById("feedback");
+  if (fb) {
+    fb.className = "feedback";
+    fb.innerHTML = "";
+  }
+}
+
+loadTask(0);
+</script>
+</body>
+</html>

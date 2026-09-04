@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIE Pseudocode - Level 1: Data Types & OUTPUT Mastery</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      background: #111827;
+      border-bottom: 1px solid #334155;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .home-link {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      background: #1e293b;
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      transition: background 0.2s;
+    }
+    .home-link:hover {
+      background: #263449;
+    }
+    .logo { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
+    .logo span { color: #38bdf8; }
+    .level-badge {
+      background: #0284c7;
+      color: white;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 6px;
+    }
+    .stats { display: flex; gap: 14px; font-size: 14px; }
+    .pill { background: #1e293b; padding: 6px 14px; border-radius: 40px; border: 1px solid #334155; }
+    .pill b { color: #facc15; }
+
+    .app-wrapper {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 320px;
+      background: #0f172a;
+      border-right: 1px solid #1e293b;
+      padding: 16px 12px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .sidebar-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 12px;
+      padding-left: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sidebar h3 { font-size: 11px; text-transform: uppercase; color: #64748b; letter-spacing: 1px; margin-bottom: 10px; padding-left: 4px; }
+    .step-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 5px;
+      transition: 0.2s;
+      border: 1px solid transparent;
+      font-weight: 500;
+      font-size: 12.5px;
+      background: #1e293b;
+      color: #cbd5e1;
+    }
+    .step-item:hover { background: #263449; }
+    .step-item.active { background: #0c4a6e; border-color: #38bdf8; color: #38bdf8; }
+    .step-item .tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #334155; color: #94a3b8; }
+    .step-item.active .tag { background: #0284c7; color: #fff; }
+
+    .main-area {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      background: #0f172a;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mission { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 14px; }
+    .mission h1 { font-size: 22px; font-weight: 700; color: #f8fafc; }
+    .mission p { color: #94a3b8; font-size: 13.5px; margin-top: 4px; }
+    .badge { background: #0284c7; color: white; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+
+    .objective { margin-bottom: 18px; padding: 12px 16px; border-left: 4px solid #38bdf8; background: #0b1220; border-radius: 8px; font-size: 13.5px; color: #cbd5e1; }
+    .objective b { color: #f8fafc; }
+
+    .mcq-container {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 820px;
+    }
+    .mcq-code {
+      background: #020617;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+      color: #bae6fd;
+      font-family: 'Consolas', monospace;
+      font-size: 14px;
+      margin-bottom: 16px;
+      white-space: pre-wrap;
+    }
+    .predict-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .predict-options button {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-align: left;
+      font-family: 'Consolas', monospace;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 13.5px;
+    }
+    .predict-options button:hover:not(:disabled) { background: #263449; border-color: #38bdf8; }
+    .predict-options button.correct { background: #14532d !important; border-color: #22c55e !important; color: #bbf7d0; }
+    .predict-options button.wrong { background: #7f1d1d !important; border-color: #ef4444 !important; color: #fecaca; }
+    .predict-options button:disabled { opacity: 0.8; cursor: default; }
+
+    .workspace { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 16px; flex: 1; }
+    .box { background: #111827; border: 1px solid #334155; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+    .boxhead { padding: 10px 14px; background: #172033; font-weight: 700; font-size: 13px; color: #94a3b8; border-bottom: 1px solid #334155; }
+    .boxbody { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+    pre.spec { margin: 0; white-space: pre-wrap; font-family: 'Consolas', monospace; font-size: 13.5px; line-height: 1.6; color: #bae6fd; }
+    textarea { width: 100%; height: 240px; resize: none; background: #020617; color: #e2e8f0; border: 1px solid #475569; border-radius: 8px; padding: 12px; font: 14px/1.6 'Consolas', monospace; outline: none; }
+    textarea:focus { border-color: #38bdf8; }
+    .output-display { width: 100%; height: 240px; background: #020617; color: #4ade80; border: 1px solid #475569; border-radius: 8px; padding: 12px; font: 14px/1.6 'Consolas', monospace; overflow-y: auto; white-space: pre-wrap; }
+    .output-display.error-text { color: #f87171; }
+
+    .buttons { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    button.action { border: 0; border-radius: 8px; padding: 9px 14px; cursor: pointer; font-weight: 700; font-size: 13px; background: #0284c7; color: white; transition: 0.2s; }
+    button.action:hover { filter: brightness(1.1); }
+    button.action.secondary { background: #334155; }
+    button.action.hint { background: #b45309; }
+    button.action.next { background: #166534; }
+
+    .feedback { margin-top: 14px; padding: 12px; border-radius: 8px; display: none; font-size: 13.5px; line-height: 1.45; }
+    .feedback.success { display: block; background: #052e1b; border: 1px solid #166534; color: #bbf7d0; }
+    .feedback.error { display: block; background: #3b0a0a; border: 1px solid #991b1b; color: #fecaca; }
+    .feedback.info { display: block; background: #172033; border: 1px solid #475569; color: #cbd5e1; }
+
+    @media(max-width: 1100px) {
+      .workspace { grid-template-columns: 1fr; }
+      .app-wrapper { flex-direction: column; }
+      .sidebar { width: 100%; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <a href="index.html" class="home-link">← Home</a>
+    <div class="logo">
+      <span class="level-badge">Level 1</span>
+      📝 CIE Pseudocode Quest <span>(Data Types & OUTPUT)</span>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="pill">Progress: <b id="progressStat">1/18</b></div>
+    <div class="pill">⭐ <b id="scoreStat">0</b></div>
+  </div>
+</header>
+
+<div class="app-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-title">📌 LEVEL 1: Data Types & Output</div>
+    <div id="activityList"></div>
+  </aside>
+
+  <main class="main-area">
+    <div class="mission">
+      <div>
+        <h1 id="actTitle">Activity Title</h1>
+        <p id="actDesc">Activity description goes here.</p>
+      </div>
+      <div class="badge" id="actType">Quiz</div>
+    </div>
+
+    <div class="objective">
+      <b>🎯 Objective:</b> <span id="actObj">Goal description...</span>
+    </div>
+
+    <div id="viewContainer"></div>
+
+    <div id="feedback" class="feedback"></div>
+  </main>
+</div>
+
+<script>
+  const activities = [
+    // ==========================================
+    // MODULE A: DATA TYPES (MCQs)
+    // ==========================================
+    {
+      id: 1,
+      section: "Data Types",
+      type: "MCQ",
+      title: "DT MCQ 1: CIE Primitive Data Types",
+      desc: "Identify standard CIE primitive data types.",
+      objective: "Recognize valid data type names in Cambridge pseudocode standard.",
+      code: '// Which set contains ONLY valid standard CIE pseudocode data types?',
+      options: [
+        'INTEGER, REAL, CHAR, STRING, BOOLEAN',
+        'INT, FLOAT, CHAR, STRING, BOOL',
+        'NUMBER, DECIMAL, TEXT, BOOLEAN',
+        'INTEGER, DOUBLE, CHARACTER, STRING, LOGICAL'
+      ],
+      correct: 0,
+      explain: 'CIE Pseudocode explicitly standardizes: INTEGER, REAL, CHAR, STRING, and BOOLEAN (all uppercase).',
+      hint: 'CIE full keywords are INTEGER (not INT), REAL (not FLOAT/DOUBLE), and BOOLEAN (not BOOL).'
+    },
+    {
+      id: 2,
+      section: "Data Types",
+      type: "MCQ",
+      title: "DT MCQ 2: REAL vs INTEGER Literals",
+      desc: "Distinguish numeric literal formats.",
+      objective: "Select the correct data type for a floating-point numeric literal.",
+      code: 'OUTPUT 3.14159',
+      options: [
+        'INTEGER literal',
+        'REAL literal',
+        'STRING literal',
+        'BOOLEAN literal'
+      ],
+      correct: 1,
+      explain: 'Numbers containing decimal points are REAL literals in CIE pseudocode.',
+      hint: 'Decimal values belong to the REAL numeric type.'
+    },
+    {
+      id: 3,
+      section: "Data Types",
+      type: "MCQ",
+      title: "DT MCQ 3: CHAR vs STRING Literals",
+      desc: "Differentiate single characters from text strings.",
+      objective: "Identify the correct representation of a CHAR literal.",
+      code: 'OUTPUT \'A\'',
+      options: [
+        'CHAR literal enclosed in single quotes',
+        'STRING literal enclosed in double quotes',
+        'INTEGER value',
+        'BOOLEAN value'
+      ],
+      correct: 0,
+      explain: 'In CIE standard syntax, single characters (CHAR) are delimited by single quotes (\'A\'). Strings use double quotes.',
+      hint: 'Single quotes designate CHAR literals.'
+    },
+
+    // ==========================================
+    // MODULE B: BASIC OUTPUT (MCQs + Challenges)
+    // ==========================================
+    {
+      id: 4,
+      section: "Basic Output",
+      type: "MCQ",
+      title: "MCQ 1: Basic Output",
+      desc: "Understand what the OUTPUT keyword does.",
+      objective: "Predict the exact text generated by the code.",
+      code: 'OUTPUT "Hello World"',
+      options: ['Hello World', '"Hello World"', 'OUTPUT "Hello World"', 'Error'],
+      correct: 0,
+      explain: 'In CIE Pseudocode, string literals enclosed in double quotes are printed without quotes.',
+      hint: 'The OUTPUT instruction prints whatever is inside the string without double quotes.'
+    },
+    {
+      id: 5,
+      section: "Basic Output",
+      type: "MCQ",
+      title: "MCQ 2: Case Sensitivity",
+      desc: "Identify standard CIE keyword syntax.",
+      objective: "Recognize valid CIE Pseudocode commands.",
+      code: 'output "Welcome to CS"\nOutput "Welcome to CS"',
+      options: [
+        'Both lines are valid',
+        'Only uppercase OUTPUT is standard CIE syntax',
+        'Both lines produce errors',
+        'Pseudocode is completely case-insensitive in exams'
+      ],
+      correct: 1,
+      explain: 'Cambridge (CIE) standard pseudocode mandates uppercase keywords (e.g., OUTPUT, INPUT, IF).',
+      hint: 'Check CIE syllabus rules regarding uppercase keywords.'
+    },
+    {
+      id: 6,
+      section: "Basic Output",
+      type: "MCQ",
+      title: "MCQ 3: Numbers vs Strings",
+      desc: "Distinguish between literal strings and numeric values.",
+      objective: "Determine how numbers are evaluated in OUTPUT statements.",
+      code: 'OUTPUT 42\nOUTPUT "42"',
+      options: [
+        'Line 1 outputs 42, Line 2 outputs "42"',
+        'Both lines output 42',
+        'Line 1 produces a syntax error',
+        'Line 2 produces a syntax error'
+      ],
+      correct: 1,
+      explain: 'Both output 42 on separate lines. Numbers do not need quotes, but string literals omit quotes when printed.',
+      hint: 'The visual result in the output panel is identical for both.'
+    },
+    {
+      id: 7,
+      section: "Basic Output",
+      type: "Code",
+      title: "Challenge 1: Static Text Output",
+      desc: "Output static text string.",
+      objective: "Output the string “Hello World”.",
+      challenge: "Write pseudocode to output the exact string “Hello World”.",
+      need: ["OUTPUT", "Hello World"],
+      hint: "Use uppercase OUTPUT with quotes around the string.",
+      sampleOutput: "Hello World"
+    },
+    {
+      id: 8,
+      section: "Basic Output",
+      type: "Code",
+      title: "Challenge 2: Static Integer Output",
+      desc: "Output a static integer.",
+      objective: "Output the integer 42.",
+      challenge: "Write pseudocode to output the integer 42.",
+      need: ["OUTPUT", "42"],
+      hint: "Use OUTPUT followed by the integer 42.",
+      sampleOutput: "42"
+    },
+
+    // ==========================================
+    // MODULE C: COMBINING LITERALS (MCQs + Challenges)
+    // ==========================================
+    {
+      id: 9,
+      section: "Combining Literals",
+      type: "MCQ",
+      title: "MCQ 4: Comma Separation",
+      desc: "Understand how commas combine values in OUTPUT.",
+      objective: "Determine how commas separate multiple values.",
+      code: 'OUTPUT "Score:", 100',
+      options: ['Score:100', 'Score: 100', 'Score:, 100', 'Error: cannot combine string and integer'],
+      correct: 1,
+      explain: 'In CIE pseudocode, separating arguments with commas automatically inserts a space or joins items cleanly on the same line.',
+      hint: 'Commas output multiple items sequentially on the same line.'
+    },
+    {
+      id: 10,
+      section: "Combining Literals",
+      type: "MCQ",
+      title: "MCQ 4b: Mixing STRING, REAL, and BOOLEAN",
+      desc: "Output multiple data types together.",
+      objective: "Trace an OUTPUT statement containing multiple literals of different data types.",
+      code: 'OUTPUT "Temperature:", 36.6, "Status:", TRUE',
+      options: [
+        'Temperature: 36.6 Status: TRUE',
+        'Temperature:36.6Status:TRUE',
+        'Temperature:, 36.6, Status:, TRUE',
+        'TypeError: Invalid operands'
+      ],
+      correct: 0,
+      explain: 'Comma-separated values in an OUTPUT statement are printed sequentially on the same line with space separation.',
+      hint: 'Items separate across commas on a single line.'
+    },
+    {
+      id: 11,
+      section: "Combining Literals",
+      type: "MCQ",
+      title: "MCQ 4c: String Concatenation Operator (&)",
+      desc: "Differentiate comma separation from string concatenation.",
+      objective: "Recognize CIE string concatenation syntax using &.",
+      code: 'OUTPUT "Item " & "A" & " - Price: $" & "15"',
+      options: [
+        'Item A - Price: $15',
+        'Item  A  - Price: $ 15',
+        'Item "A" - Price: $"15"',
+        'Error: & operator not allowed'
+      ],
+      correct: 0,
+      explain: 'In CIE pseudocode, the & operator joins strings directly without inserting extra automatic spaces.',
+      hint: '& joins strings together into a single string.'
+    },
+    {
+      id: 12,
+      section: "Combining Literals",
+      type: "Code",
+      title: "Challenge 3: Combine String & Integer",
+      desc: "Output labeled numeric data.",
+      objective: "Output \"Age: \" followed by integer 16 on the same line.",
+      challenge: "Write pseudocode to output \"Age: \" and the integer 16 on one single line using a comma.",
+      need: ["OUTPUT", "Age:", "16"],
+      hint: "Use a single OUTPUT statement with a comma: OUTPUT \"Age:\", 16",
+      sampleOutput: "Age: 16"
+    },
+    {
+      id: 13,
+      section: "Combining Literals",
+      type: "Code",
+      title: "Challenge 4: Multiple Data Type Header",
+      desc: "Output mixed literals in one line.",
+      objective: "Output \"Item:\", CHAR 'X', \"Price:\", REAL 19.99 on one line.",
+      challenge: "Write pseudocode to output \"Item:\", 'X', \"Price:\", and 19.99 separated by commas on one line.",
+      need: ["OUTPUT", "Item:", "X", "Price:", "19.99"],
+      hint: "Separate all four items with commas in one OUTPUT statement.",
+      sampleOutput: "Item: X Price: 19.99"
+    },
+
+    // ==========================================
+    // MODULE D: MULTI-LINE OUTPUT (MCQs + Challenges)
+    // ==========================================
+    {
+      id: 14,
+      section: "Multi-line Output",
+      type: "MCQ",
+      title: "MCQ 5: Multi-line Sequential Statements",
+      desc: "Trace sequential OUTPUT instructions.",
+      objective: "Identify line-break behavior between distinct statements.",
+      code: 'OUTPUT "Line 1"\nOUTPUT "Line 2"',
+      options: ['Line 1 Line 2', 'Line 1Line 2', 'Line 1\nLine 2', 'Line 2\nLine 1'],
+      correct: 2,
+      explain: 'Each individual OUTPUT instruction writes its result on a new line.',
+      hint: 'Separate OUTPUT commands print on separate lines.'
+    },
+    {
+      id: 15,
+      section: "Multi-line Output",
+      type: "MCQ",
+      title: "MCQ 5b: Multiline Formatted Receipt",
+      desc: "Trace sequential formatted outputs.",
+      objective: "Determine the exact multi-line structure created by 3 OUTPUT commands.",
+      code: 'OUTPUT "--- RECEIPT ---"\nOUTPUT "Total:", 45\nOUTPUT "Thank you!"',
+      options: [
+        '--- RECEIPT ---\nTotal: 45\nThank you!',
+        '--- RECEIPT --- Total: 45 Thank you!',
+        '--- RECEIPT ---\nTotal:45Thank you!',
+        'Error: Missing concatenation'
+      ],
+      correct: 0,
+      explain: 'Three OUTPUT statements produce three distinct lines of output in sequential order.',
+      hint: 'Count the number of OUTPUT keywords to count the total lines.'
+    },
+    {
+      id: 16,
+      section: "Multi-line Output",
+      type: "MCQ",
+      title: "MCQ 5c: Blank Lines & Formatting",
+      desc: "Predict empty line output.",
+      objective: "Understand how empty string outputs behave.",
+      code: 'OUTPUT "Header"\nOUTPUT ""\nOUTPUT "Footer"',
+      options: [
+        'Header\n\nFooter',
+        'Header\nFooter',
+        'Header "" Footer',
+        'Syntax error on line 2'
+      ],
+      correct: 0,
+      explain: 'OUTPUT "" prints an empty string on its line, effectively creating a blank line space between Header and Footer.',
+      hint: 'An empty string OUTPUT still moves cursor to a new line.'
+    },
+    {
+      id: 17,
+      section: "Multi-line Output",
+      type: "Code",
+      title: "Challenge 5: Three-Line Banner",
+      desc: "Write multi-line output pseudocode.",
+      objective: "Output 3 distinct lines: \"START\", \"PROCESSING\", \"END\".",
+      challenge: "Write pseudocode using 3 separate OUTPUT commands to display \"START\", \"PROCESSING\", and \"END\" on separate lines.",
+      need: ["OUTPUT", "START", "PROCESSING", "END"],
+      hint: "Use three separate OUTPUT statements on three lines.",
+      sampleOutput: "START\nPROCESSING\nEND"
+    },
+    {
+      id: 18,
+      section: "Multi-line Output",
+      type: "Code",
+      title: "Challenge 6: Formatted Address Label",
+      desc: "Output address label on separate lines.",
+      objective: "Output Name, City, and Postal Code on 3 lines.",
+      challenge: "Write pseudocode to output \"Name: Alice\" on line 1, \"City: London\" on line 2, and \"Postcode: SW1A 1AA\" on line 3.",
+      need: ["OUTPUT", "Alice", "London", "SW1A 1AA"],
+      hint: "Use 3 OUTPUT commands with labeled strings.",
+      sampleOutput: "Name: Alice\nCity: London\nPostcode: SW1A 1AA"
+    }
+  ];
+
+  let currentIdx = 0;
+  let score = 0;
+  let mcqChosen = -1;
+
+  function renderSidebar() {
+    const listEl = document.getElementById("activityList");
+    listEl.innerHTML = "";
+    
+    let currentSec = "";
+    activities.forEach((act, idx) => {
+      if (act.section !== currentSec) {
+        currentSec = act.section;
+        const h = document.createElement("h3");
+        h.textContent = currentSec;
+        h.style.marginTop = idx > 0 ? "14px" : "0px";
+        listEl.appendChild(h);
+      }
+
+      const btn = document.createElement("div");
+      btn.className = `step-item ${idx === currentIdx ? 'active' : ''}`;
+      btn.innerHTML = `
+        <span>${idx + 1}. ${act.title.split(':')[0]}</span>
+        <span class="tag">${act.type}</span>
+      `;
+      btn.onclick = () => loadActivity(idx);
+      listEl.appendChild(btn);
+    });
+    
+    document.getElementById("progressStat").textContent = `${currentIdx + 1}/${activities.length}`;
+    document.getElementById("scoreStat").textContent = score;
+  }
+
+  function loadActivity(idx) {
+    currentIdx = idx;
+    mcqChosen = -1;
+    const act = activities[idx];
+
+    document.getElementById("actTitle").textContent = act.title;
+    document.getElementById("actDesc").textContent = act.desc;
+    document.getElementById("actType").textContent = act.type === "MCQ" ? "Multiple Choice" : "Coding Challenge";
+    document.getElementById("actObj").textContent = act.objective;
+
+    hideFeedback();
+    renderSidebar();
+
+    const container = document.getElementById("viewContainer");
+    if (act.type === "MCQ") {
+      renderMCQView(container, act);
+    } else {
+      renderCodeView(container, act);
+    }
+  }
+
+  function renderMCQView(container, act) {
+    let html = `
+      <div class="mcq-container">
+        <div class="mcq-code">${act.code}</div>
+        <div class="predict-options" id="mcqOptions">
+    `;
+    act.options.forEach((opt, idx) => {
+      html += `<button data-idx="${idx}" onclick="handleMCQSelect(${idx})">${opt}</button>`;
+    });
+    html += `
+        </div>
+        <div class="buttons">
+          <button class="action secondary" onclick="prevActivity()">⏮ Previous Activity</button>
+          <button class="action hint" onclick="showHint()">💡 Hint</button>
+          <button class="action next" onclick="nextActivity()">⏭ Next Activity</button>
+        </div>
+      </div>
+    `;
+    container.innerHTML = html;
+  }
+
+  function handleMCQSelect(idx) {
+    const act = activities[currentIdx];
+    if (mcqChosen !== -1) return;
+    mcqChosen = idx;
+
+    const btns = document.querySelectorAll("#mcqOptions button");
+    btns.forEach((btn, bIdx) => {
+      btn.disabled = true;
+      if (bIdx === act.correct) {
+        btn.classList.add("correct");
+      } else if (bIdx === idx) {
+        btn.classList.add("wrong");
+      }
+    });
+
+    if (idx === act.correct) {
+      score += 100;
+      showFeedback("success", `✅ <b>Correct!</b> ${act.explain}`);
+    } else {
+      showFeedback("error", `❌ <b>Incorrect.</b> ${act.explain}`);
+    }
+    renderSidebar();
+  }
+
+  function renderCodeView(container, act) {
+    container.innerHTML = `
+      <div class="workspace">
+        <div class="box">
+          <div class="boxhead">📋 Challenge Specification</div>
+          <div class="boxbody"><pre class="spec">${act.challenge}</pre></div>
+        </div>
+        <div class="box">
+          <div class="boxhead">⌨️ Your Level 1 Pseudocode Solution</div>
+          <div class="boxbody">
+            <textarea id="codeEditor" placeholder="Type your CIE Pseudocode here..." spellcheck="false"></textarea>
+            <div class="buttons">
+              <button class="action" onclick="checkCodeAnswer()">▶ Run & Check</button>
+              <button class="action secondary" onclick="resetCodeEditor()">↻ Clear</button>
+              <button class="action secondary" onclick="prevActivity()">⏮ Previous Activity</button>
+              <button class="action hint" onclick="showHint()">💡 Hint</button>
+              <button class="action next" onclick="nextActivity()">⏭ Next Activity</button>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="boxhead">🖥️ Program Output</div>
+          <div class="boxbody">
+            <div id="outputDisplay" class="output-display">Press "Run & Check" to execute...</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function checkCodeAnswer() {
+    const act = activities[currentIdx];
+    const editor = document.getElementById("codeEditor");
+    const outEl = document.getElementById("outputDisplay");
+    const codeRaw = editor.value.trim();
+    const codeUpper = codeRaw.toUpperCase();
+
+    if (!codeRaw) {
+      outEl.classList.add("error-text");
+      outEl.textContent = "SyntaxError: No pseudocode entered.\nExecution halted.";
+      showFeedback("error", "❌ Please write your solution before running.");
+      return;
+    }
+
+    const missing = act.need.filter(kw => !codeUpper.includes(kw.toUpperCase()));
+
+    if (missing.length > 0) {
+      outEl.classList.add("error-text");
+      outEl.textContent = `SyntaxError: Pseudocode non-compliant with CIE standard.\nMissing expected term(s): ${missing.join(", ")}`;
+      showFeedback("error", `❌ Non-compliant syntax. Missing: <b>${missing.join(", ")}</b>`);
+    } else {
+      outEl.classList.remove("error-text");
+      outEl.textContent = act.sampleOutput;
+      score += 100;
+      showFeedback("success", `✅ <b>Correct CIE Pseudocode!</b> +100 points. Output verified!`);
+    }
+    renderSidebar();
+  }
+
+  function resetCodeEditor() {
+    const editor = document.getElementById("codeEditor");
+    const outEl = document.getElementById("outputDisplay");
+    if (editor) editor.value = "";
+    if (outEl) {
+      outEl.classList.remove("error-text");
+      outEl.textContent = 'Press "Run & Check" to execute...';
+    }
+    hideFeedback();
+  }
+
+  function showHint() {
+    const act = activities[currentIdx];
+    showFeedback("info", `💡 <b>Hint:</b> ${act.hint}`);
+  }
+
+  function prevActivity() {
+    if (currentIdx > 0) {
+      loadActivity(currentIdx - 1);
+    } else {
+      showFeedback("info", "ℹ️ <b>First Activity!</b> You are already at the beginning of Level 1.");
+    }
+  }
+
+  function nextActivity() {
+    if (currentIdx < activities.length - 1) {
+      loadActivity(currentIdx + 1);
+    } else {
+      showFeedback("info", "🎉 <b>Level 1 Complete!</b> You have mastered CIE Data Types & OUTPUT commands! Return to Home to start Level 2.");
+    }
+  }
+
+  function showFeedback(type, message) {
+    const fb = document.getElementById("feedback");
+    fb.className = `feedback ${type}`;
+    fb.innerHTML = message;
+  }
+
+  function hideFeedback() {
+    const fb = document.getElementById("feedback");
+    fb.className = "feedback";
+    fb.innerHTML = "";
+  }
+
+  // Initial load
+  loadActivity(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CIE IGCSE Computer Science Pseudocode Quest - Level 11: Procedures and Functions</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:#0f172a;color:#e5e7eb}
+header{background:#111827;border-bottom:1px solid #334155;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-weight:800;font-size:20px;text-decoration:none;color:#e5e7eb;display:inline-flex;align-items:center;gap:6px}.logo span{color:#38bdf8}
+.logo:hover{opacity:0.9}
+.stats{display:flex;gap:18px;font-size:14px}.pill{background:#1e293b;padding:7px 11px;border-radius:999px}
+main{max-width:1400px;margin:0 auto;padding:22px}.grid{display:grid;grid-template-columns:320px 1fr;gap:18px}
+.panel,.card{background:#111827;border:1px solid #334155;border-radius:14px}.levels{padding:16px;max-height:85vh;overflow-y:auto}.levels h2{margin:0 0 12px;font-size:16px;color:#38bdf8}
+.level{width:100%;text-align:left;background:#1e293b;color:#e5e7eb;border:1px solid #334155;padding:11px;border-radius:10px;margin:7px 0;cursor:pointer}
+.level:hover{background:#263449}.level.active{border-color:#38bdf8;background:#0c4a6e}.level.locked{opacity:.45;cursor:not-allowed}.level small{display:block;color:#94a3b8;margin-top:3px}
+.content{padding:20px}.mission{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.mission h1{margin:0 0 7px;font-size:26px}.mission p{margin:0;color:#cbd5e1;line-height:1.5}
+.badge{background:#0284c7;padding:7px 10px;border-radius:8px;font-size:12px;white-space:nowrap}
+.objective{margin:18px 0;padding:15px;border-left:4px solid #38bdf8;background:#0b1220;border-radius:8px}
+
+.workspace-challenge{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px}
+.box{background:#0b1220;border:1px solid #334155;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boxhead{padding:10px 13px;background:#172033;font-weight:700;font-size:13px}.boxbody{padding:14px;flex:1;display:flex;flex-direction:column}
+pre{margin:0;white-space:pre-wrap;font-family:Consolas,monospace;font-size:13px;line-height:1.65;color:#bae6fd}
+textarea{width:100%;height:360px;resize:vertical;background:#020617;color:#e2e8f0;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;outline:none}
+textarea:focus{border-color:#38bdf8}
+.output-display{width:100%;height:360px;background:#020617;color:#4ade80;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;overflow-y:auto;white-space:pre-wrap}
+.output-display.error-text{color:#f87171}
+
+.workspace-mcq{background:#0b1220;border:1px solid #38bdf8;border-radius:12px;padding:24px;max-width:800px;margin:0 auto}
+.mcq-question{font-size:18px;font-weight:600;margin-bottom:20px;color:#f8fafc}
+.mcq-container{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.mcq-option{background:#1e293b;border:2px solid #334155;padding:14px 18px;border-radius:10px;cursor:pointer;text-align:left;color:#e5e7eb;font-size:15px;transition:all 0.2s}
+.mcq-option:hover{background:#334155;border-color:#64748b}
+.mcq-option.selected{border-color:#38bdf8;background:#0c4a6e;font-weight:600}
+
+.buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+button.action{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:700;background:#0284c7;color:white}.action.secondary{background:#334155}.action.hint{background:#b45309}.action.next{background:#166534}.action.prev{background:#475569}.action.indent{background:#475569}
+.feedback{margin-top:13px;padding:13px;border-radius:8px;display:none;line-height:1.45}.success{display:block;background:#052e1b;border:1px solid #166534;color:#bbf7d0}.error{display:block;background:#3b0a0a;border:1px solid #991b1b;color:#fecaca}.info{display:block;background:#172033;border:1px solid #475569;color:#cbd5e1}
+.footer{color:#64748b;font-size:12px;margin-top:18px;text-align:center}
+@media(max-width:1100px){.workspace-challenge{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.levels{order:2}.mission{flex-direction:column}.stats{gap:7px;font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html" class="logo">📝 CIE Pseudocode <span>Quest</span></a>
+<div class="stats">
+  <div class="pill">Level <b>11: Subroutines</b></div>
+  <div class="pill">Task <b id="taskStat">1</b>/<span id="totalTasks">10</span></div>
+  <div class="pill">⭐ <b id="score">0</b></div>
+</div>
+</header>
+<main>
+<div class="grid">
+<aside class="panel levels">
+<h2>Level 11: Subroutines</h2>
+<div id="levelList"></div>
+</aside>
+<section class="card content">
+<div class="mission"><div><h1 id="title"></h1><p id="description"></p></div><div class="badge" id="topic">Level 11: Procedures & Functions</div></div>
+<div class="objective"><b>🎯 Objective:</b> <span id="objective"></span></div>
+<div id="workspaceContainer"></div>
+<div class="footer">Compliant with Cambridge IGCSE Computer Science Pseudocode Standard.</div>
+</section>
+</div>
+</main>
+<script>
+const tasks = [
+  // TASK 1: MCQ
+  {
+    type: "mcq",
+    sub: "1. Subroutine Fundamentals",
+    title: "MCQ: Procedures vs Functions",
+    desc: "Understanding core differences in CIE subroutine definitions.",
+    objective: "Identify the defining distinction between a PROCEDURE and a FUNCTION in CIE pseudocode.",
+    challenge: "Which statement accurately describes the main distinction between a PROCEDURE and a FUNCTION according to CIE standards?",
+    options: [
+      "A FUNCTION returns a single value using RETURN and is called in expressions; a PROCEDURE performs actions and is executed using CALL.",
+      "A PROCEDURE must take parameters, whereas a FUNCTION cannot accept any parameters.",
+      "A FUNCTION can modify global variables, but a PROCEDURE only works with local parameters.",
+      "A PROCEDURE returns a value using RETURN, whereas a FUNCTION outputs directly using PRINT."
+    ],
+    answer: 0,
+    hint: "Functions calculate and RETURN a value; Procedures execute a series of actions via CALL."
+  },
+  // TASK 2
+  {
+    type: "code",
+    sub: "1. Subroutine Fundamentals",
+    title: "Basic Procedure Declaration",
+    desc: "Defining and executing a non-parameterized procedure.",
+    objective: "Declare a PROCEDURE named DisplayHeader and call it to display a banner.",
+    challenge: "PROCEDURE DisplayHeader()\n    OUTPUT \"====================\"\n    OUTPUT \"  STUDENT SYSTEM    \"\n    OUTPUT \"====================\"\nENDPROCEDURE\n\nCALL DisplayHeader()",
+    need: ["PROCEDURE", "ENDPROCEDURE", "CALL", "OUTPUT"],
+    defaultCode: "PROCEDURE DisplayHeader()\n    OUTPUT \"====================\"\n    OUTPUT \"  STUDENT SYSTEM    \"\n    OUTPUT \"====================\"\nENDPROCEDURE\n\nCALL DisplayHeader()",
+    hint: "Define procedure blocks using PROCEDURE name() ... ENDPROCEDURE, then call using CALL name()."
+  },
+  // TASK 3
+  {
+    type: "code",
+    sub: "2. Parameter Passing",
+    title: "Procedure with Parameters",
+    desc: "Passing values into a procedure to print personalized welcomes.",
+    objective: "Create a procedure Greetings that receives a name parameter and prints a formal greeting.",
+    challenge: "PROCEDURE Greetings(UserName : STRING)\n    OUTPUT \"Welcome back, \"\n    OUTPUT UserName\nENDPROCEDURE\n\nCALL Greetings(\"Alice\")\nCALL Greetings(\"Bob\")",
+    need: ["PROCEDURE", "ENDPROCEDURE", "CALL", "OUTPUT"],
+    defaultCode: "PROCEDURE Greetings(UserName : STRING)\n    OUTPUT \"Welcome back, \"\n    OUTPUT UserName\nENDPROCEDURE\n\nCALL Greetings(\"Alice\")\nCALL Greetings(\"Bob\")",
+    hint: "Parameters are declared in parentheses with types: PROCEDURE Greetings(UserName : STRING)."
+  },
+  // TASK 4
+  {
+    type: "code",
+    sub: "2. Parameter Passing",
+    title: "Basic Function Returning Values",
+    desc: "Calculating square values with a functional subroutine.",
+    objective: "Define a FUNCTION Square that takes an integer parameter and RETURNS its squared value.",
+    challenge: "FUNCTION Square(Num : INTEGER) RETURNS INTEGER\n    RETURN Num * Num\nENDFUNCTION\n\nDECLARE Result : INTEGER\nResult ← Square(5)\nOUTPUT Result",
+    need: ["FUNCTION", "RETURNS", "RETURN", "ENDFUNCTION", "DECLARE", "OUTPUT"],
+    defaultCode: "FUNCTION Square(Num : INTEGER) RETURNS INTEGER\n    RETURN Num * Num\nENDFUNCTION\n\nDECLARE Result : INTEGER\nResult ← Square(5)\nOUTPUT Result",
+    hint: "Specify return type with RETURNS <Type>, and use RETURN inside the function block."
+  },
+  // TASK 5
+  {
+    type: "code",
+    sub: "3. Functional Logic",
+    title: "Multi-Parameter Function",
+    desc: "Writing a subroutine to compute rectangle areas.",
+    objective: "Define FUNCTION CalculateArea taking Length and Width, then output the computed result.",
+    challenge: "FUNCTION CalculateArea(Length : INTEGER, Width : INTEGER) RETURNS INTEGER\n    RETURN Length * Width\nENDFUNCTION\n\nDECLARE Area : INTEGER\nArea ← CalculateArea(10, 5)\nOUTPUT Area",
+    need: ["FUNCTION", "RETURNS", "RETURN", "ENDFUNCTION", "DECLARE", "OUTPUT"],
+    defaultCode: "FUNCTION CalculateArea(Length : INTEGER, Width : INTEGER) RETURNS INTEGER\n    RETURN Length * Width\nENDFUNCTION\n\nDECLARE Area : INTEGER\nArea ← CalculateArea(10, 5)\nOUTPUT Area",
+    hint: "Separate multiple parameters using commas inside the parameter list."
+  },
+  // TASK 6
+  {
+    type: "code",
+    sub: "3. Functional Logic",
+    title: "Boolean Validation Function",
+    desc: "Creating reusable conditional checking logic.",
+    objective: "Build a FUNCTION IsEven that returns TRUE if a number is divisible by 2, otherwise FALSE.",
+    challenge: "FUNCTION IsEven(Num : INTEGER) RETURNS BOOLEAN\n    IF Num MOD 2 = 0 THEN\n        RETURN TRUE\n    ELSE\n        RETURN FALSE\n    ENDIF\nENDFUNCTION\n\nIF IsEven(8) = TRUE THEN\n    OUTPUT \"Even\"\nELSE\n    OUTPUT \"Odd\"\nENDIF",
+    need: ["FUNCTION", "RETURNS", "RETURN", "ENDFUNCTION", "IF", "THEN", "ELSE", "ENDIF", "OUTPUT"],
+    defaultCode: "FUNCTION IsEven(Num : INTEGER) RETURNS BOOLEAN\n    IF Num MOD 2 = 0 THEN\n        RETURN TRUE\n    ELSE\n        RETURN FALSE\n    ENDIF\nENDFUNCTION\n\nIF IsEven(8) = TRUE THEN\n    OUTPUT \"Even\"\nELSE\n    OUTPUT \"Odd\"\nENDIF",
+    hint: "Use the MOD operator to evaluate remainder and return boolean flags."
+  },
+  // TASK 7: MCQ
+  {
+    type: "mcq",
+    sub: "4. Parameter Passing Modes",
+    title: "MCQ: BYVAL vs BYREF Mechanics",
+    desc: "Understanding parameter passing mechanisms in CIE examinations.",
+    objective: "Distinguish between pass-by-value (BYVAL) and pass-by-reference (BYREF).",
+    challenge: "What happens when a variable is passed BYREF (by reference) to a procedure in CIE pseudocode?",
+    options: [
+      "A reference to the original variable is passed, meaning any changes made inside the procedure alter the original caller variable.",
+      "A local copy of the value is created, ensuring the original variable remains completely unchanged.",
+      "The value is automatically converted into a string type before processing.",
+      "The parameter becomes read-only and cannot be assigned new values."
+    ],
+    answer: 0,
+    hint: "BYVAL passes a copy (original protected), while BYREF passes the original location address (original modified)."
+  },
+  // TASK 8
+  {
+    type: "code",
+    sub: "4. Parameter Passing Modes",
+    title: "Modifying Variables with BYREF",
+    desc: "Using reference parameters to alter variable states directly.",
+    objective: "Implement a procedure DoubleValue using BYREF to double the value of an external variable.",
+    challenge: "PROCEDURE DoubleValue(BYREF Val : INTEGER)\n    Val ← Val * 2\nENDPROCEDURE\n\nDECLARE Num : INTEGER\nNum ← 25\nCALL DoubleValue(Num)\nOUTPUT Num",
+    need: ["PROCEDURE", "BYREF", "ENDPROCEDURE", "DECLARE", "CALL", "OUTPUT"],
+    defaultCode: "PROCEDURE DoubleValue(BYREF Val : INTEGER)\n    Val ← Val * 2\nENDPROCEDURE\n\nDECLARE Num : INTEGER\nNum ← 25\nCALL DoubleValue(Num)\nOUTPUT Num",
+    hint: "Precede parameter names with BYREF to pass variables by reference."
+  },
+  // TASK 9
+  {
+    type: "code",
+    sub: "5. Comprehensive Applications",
+    title: "Discount Calculator Subroutine",
+    desc: "Applying commercial business logic within subroutines.",
+    objective: "Implement FUNCTION ApplyDiscount that calculates price reductions for purchases.",
+    challenge: "FUNCTION ApplyDiscount(Price : REAL, Rate : REAL) RETURNS REAL\n    DECLARE FinalPrice : REAL\n    FinalPrice ← Price - (Price * Rate)\n    RETURN FinalPrice\nENDFUNCTION\n\nDECLARE Total : REAL\nTotal ← ApplyDiscount(100.0, 0.15)\nOUTPUT Total",
+    need: ["FUNCTION", "RETURNS", "RETURN", "ENDFUNCTION", "DECLARE", "OUTPUT"],
+    defaultCode: "FUNCTION ApplyDiscount(Price : REAL, Rate : REAL) RETURNS REAL\n    DECLARE FinalPrice : REAL\n    FinalPrice ← Price - (Price * Rate)\n    RETURN FinalPrice\nENDFUNCTION\n\nDECLARE Total : REAL\nTotal ← ApplyDiscount(100.0, 0.15)\nOUTPUT Total",
+    hint: "Functions can contain local DECLARE statements to hold intermediate values."
+  },
+  // TASK 10
+  {
+    type: "code",
+    sub: "5. Comprehensive Applications",
+    title: "Grade Evaluation Function",
+    desc: "Converting numeric test marks into letter grades.",
+    objective: "Create FUNCTION GetGrade that evaluates mark thresholds and returns letter grades.",
+    challenge: "FUNCTION GetGrade(Score : INTEGER) RETURNS STRING\n    IF Score >= 80 THEN\n        RETURN \"A\"\n    ELSE\n        IF Score >= 60 THEN\n            RETURN \"B\"\n        ELSE\n            RETURN \"C\"\n        ENDIF\n    ENDIF\nENDFUNCTION\n\nDECLARE StudentGrade : STRING\nStudentGrade ← GetGrade(75)\nOUTPUT StudentGrade",
+    need: ["FUNCTION", "RETURNS", "RETURN", "ENDFUNCTION", "IF", "THEN", "ELSE", "ENDIF", "DECLARE", "OUTPUT"],
+    defaultCode: "FUNCTION GetGrade(Score : INTEGER) RETURNS STRING\n    IF Score >= 80 THEN\n        RETURN \"A\"\n    ELSE\n        IF Score >= 60 THEN\n            RETURN \"B\"\n        ELSE\n            RETURN \"C\"\n        ENDIF\n    ENDIF\nENDFUNCTION\n\nDECLARE StudentGrade : STRING\nStudentGrade ← GetGrade(75)\nOUTPUT StudentGrade",
+    hint: "Nested IF statements can return distinct string outcomes according to test boundaries."
+  }
+];
+
+let currentIdx = 0, score = 0, selectedMcqOption = null;
+const completedTasks = new Set();
+
+function renderSubSections() {
+  let el = document.getElementById("levelList");
+  el.innerHTML = "";
+  tasks.forEach((t, i) => {
+    let b = document.createElement("button");
+    b.className = "level " + (i === currentIdx ? "active" : "");
+    b.innerHTML = `Task ${i + 1}: ${t.title}<small>${t.sub}</small>`;
+    b.onclick = () => loadTask(i);
+    el.appendChild(b);
+  });
+}
+
+function loadTask(idx) {
+  currentIdx = idx;
+  selectedMcqOption = null;
+  let t = tasks[idx];
+  document.getElementById("taskStat").textContent = idx + 1;
+  document.getElementById("totalTasks").textContent = tasks.length;
+  document.getElementById("title").textContent = `Level 11 - Task ${idx + 1}: ${t.title}`;
+  document.getElementById("description").textContent = t.desc;
+  document.getElementById("objective").textContent = t.objective;
+  
+  let ws = document.getElementById("workspaceContainer");
+  hideFeedback();
+
+  if (t.type === "mcq") {
+    let html = `
+      <div class="workspace-mcq">
+        <div class="mcq-question">${t.challenge}</div>
+        <div class="mcq-container">`;
+    t.options.forEach((opt, oIdx) => {
+      html += `<div class="mcq-option" id="opt${oIdx}" onclick="selectMcq(${oIdx})">${String.fromCharCode(65 + oIdx)}. ${opt}</div>`;
+    });
+    html += `</div>
+        <div class="buttons">
+          <button class="action" onclick="checkMcqAnswer()">Submit Choice</button>
+          <button class="action hint" onclick="showHint()">💡 Hint</button>
+          <button class="action prev" onclick="prevTask()">⏮ Previous Activity</button>
+          <button class="action next" onclick="nextTask()">⏭ Next Activity</button>
+        </div>
+        <div id="feedback" class="feedback"></div>
+      </div>`;
+    ws.innerHTML = html;
+  } else {
+    ws.innerHTML = `
+      <div class="workspace-challenge">
+        <div class="box">
+          <div class="boxhead">📋 Task Specification</div>
+          <div class="boxbody"><pre>${t.challenge}</pre></div>
+        </div>
+        <div class="box">
+          <div class="boxhead">⌨️ Workspace (Level 11)</div>
+          <div class="boxbody">
+            <textarea id="code" spellcheck="false"></textarea>
+            <div class="buttons">
+              <button class="action" onclick="runAndExecuteCode()">▶ Run & Execute</button>
+              <button class="action indent" onclick="insertIndent()">⇥ Indent (4 Spaces)</button>
+              <button class="action secondary" onclick="resetCode()">↻ Reset</button>
+              <button class="action hint" onclick="showHint()">💡 Hint</button>
+              <button class="action prev" onclick="prevTask()">⏮ Previous Activity</button>
+              <button class="action next" onclick="nextTask()">⏭ Next Activity</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="boxhead">🖥️ Interactive Execution Terminal</div>
+          <div class="boxbody"><div id="output" class="output-display">Press "Run & Execute" to validate subroutines and simulate execution...</div></div>
+        </div>
+      </div>`;
+    
+    let ta = document.getElementById("code");
+    ta.value = t.defaultCode || "";
+    ta.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        insertIndent();
+      }
+    });
+  }
+  renderSubSections();
+}
+
+function insertIndent() {
+  let ta = document.getElementById("code");
+  if (!ta) return;
+  let start = ta.selectionStart;
+  let end = ta.selectionEnd;
+  const spaces = "    ";
+  ta.value = ta.value.substring(0, start) + spaces + ta.value.substring(end);
+  ta.selectionStart = ta.selectionEnd = start + spaces.length;
+  ta.focus();
+}
+
+function selectMcq(oIdx) {
+  selectedMcqOption = oIdx;
+  let t = tasks[currentIdx];
+  t.options.forEach((_, i) => {
+    let el = document.getElementById("opt" + i);
+    if (el) el.className = "mcq-option" + (i === oIdx ? " selected" : "");
+  });
+}
+
+function checkMcqAnswer() {
+  let t = tasks[currentIdx];
+  let fb = document.getElementById("feedback");
+
+  if (selectedMcqOption === null) {
+    fb.className = "feedback error";
+    fb.innerHTML = "⚠️ Please select an option before submitting.";
+    return;
+  }
+
+  if (selectedMcqOption === t.answer) {
+    if (!completedTasks.has(currentIdx)) {
+      completedTasks.add(currentIdx);
+      score += 50;
+      document.getElementById("score").textContent = score;
+    }
+    fb.className = "feedback success";
+    fb.innerHTML = "✅ <b>Correct!</b> Excellent job. Click <b>Next Activity</b> to proceed.";
+  } else {
+    fb.className = "feedback error";
+    fb.innerHTML = "❌ <b>Incorrect choice.</b> Review the question or click Hint for guidance.";
+  }
+}
+
+function checkMultiLevelIndentation(code) {
+  const lines = code.split('\n');
+  let currentDepth = 0;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i];
+    const trimmed = rawLine.trim();
+    if (!trimmed) continue;
+    
+    let upper = trimmed.toUpperCase();
+    
+    if (upper.startsWith("ENDWHILE") || upper.startsWith("ENDIF") || upper.startsWith("NEXT") || upper.startsWith("ENDCASE") || upper.startsWith("ENDPROCEDURE") || upper.startsWith("ENDFUNCTION")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    } else if (upper.startsWith("ELSE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    }
+
+    const expectedSpaces = currentDepth * 4;
+    const actualSpaces = rawLine.search(/\S|$/);
+
+    if (actualSpaces < expectedSpaces) {
+      return {
+        valid: false,
+        lineNum: i + 1,
+        lineText: trimmed,
+        expectedSpaces: expectedSpaces,
+        actualSpaces: actualSpaces
+      };
+    }
+
+    if ((upper.startsWith("WHILE ") && upper.includes(" DO")) || upper.includes("THEN") || upper.startsWith("ELSE") || upper.startsWith("FOR ") || upper.startsWith("PROCEDURE ") || upper.startsWith("FUNCTION ")) {
+      currentDepth++;
+    }
+  }
+
+  return { valid: true };
+}
+
+/* === INTERPRETER WITH PROCEDURES & FUNCTIONS SUPPORT === */
+function evaluateExpr(expr, env, arrays, subroutines) {
+  let clean = String(expr).trim();
+  const strings = [];
+
+  clean = clean.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, m => {
+    strings.push(m.slice(1, -1));
+    return `__STR_${strings.length - 1}__`;
+  });
+
+  // Evaluate function calls embedded in expressions
+  if (subroutines) {
+    let hasFunc = true;
+    while (hasFunc) {
+      let replaced = false;
+      clean = clean.replace(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^()]*)\)/g, function(match, name, argsStr) {
+        if (subroutines[name] && subroutines[name].type === "FUNCTION") {
+          replaced = true;
+          const rawArgs = splitOutputArguments(argsStr);
+          const evalArgs = rawArgs.map(a => evaluateExpr(a, env, arrays, subroutines));
+          const retVal = executeSubroutine(subroutines[name], evalArgs, env, arrays, subroutines);
+          if (typeof retVal === "string") {
+            strings.push(retVal);
+            return `__STR_${strings.length - 1}__`;
+          }
+          return String(retVal);
+        }
+        return match;
+      });
+      if (!replaced) hasFunc = false;
+    }
+  }
+
+  // Resolve 1D Array lookups
+  let has1D = true;
+  while (has1D) {
+    let replaced = false;
+    clean = clean.replace(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\[\s*([^\[\]]+)\s*\]/g, function(match, arrName, indexExpr) {
+      replaced = true;
+      const idxVal = Math.round(Number(evaluateExpr(indexExpr, env, arrays, subroutines)));
+      if (arrays && arrays[arrName] && Object.prototype.hasOwnProperty.call(arrays[arrName], idxVal)) {
+        const storedVal = arrays[arrName][idxVal];
+        if (typeof storedVal === "string") {
+          strings.push(storedVal);
+          return `__STR_${strings.length - 1}__`;
+        }
+        return String(storedVal);
+      }
+      return "0";
+    });
+    if (!replaced) has1D = false;
+  }
+
+  // Substitute scalar variables
+  Object.keys(env).sort((a, b) => b.length - a.length).forEach(k => {
+    const reg = new RegExp("\\b" + k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "g");
+    const value = env[k];
+    if (typeof value === "string") {
+      strings.push(value);
+      clean = clean.replace(reg, `__STR_${strings.length - 1}__`);
+    } else {
+      clean = clean.replace(reg, String(value));
+    }
+  });
+
+  const pureStrMatch = clean.match(/^__STR_(\d+)__$/);
+  if (pureStrMatch) {
+    return strings[Number(pureStrMatch[1])];
+  }
+
+  clean = clean.replace(/\bTRUE\b/gi, "true")
+               .replace(/\bFALSE\b/gi, "false")
+               .replace(/\bMOD\b/gi, "%")
+               .replace(/<>/g, "!=")
+               .replace(/←/g, "=")
+               .replace(/(^|[^<>!])=([^=])/g, "$1===$2")
+               .replace(/\bAND\b/gi, "&&")
+               .replace(/\bOR\b/gi, "||")
+               .replace(/\bNOT\b/gi, "!");
+
+  clean = clean.replace(/__STR_(\d+)__/g, (_, i) => JSON.stringify(strings[Number(i)]));
+
+  try {
+    return Function(`"use strict"; return (${clean})`)();
+  } catch (e) {
+    return clean;
+  }
+}
+
+function executeSubroutine(sub, argValues, callerEnv, arrays, subroutines) {
+  const localEnv = { ...callerEnv };
+  const byRefMap = {};
+
+  sub.params.forEach((p, idx) => {
+    localEnv[p.name] = argValues[idx] !== undefined ? argValues[idx] : 0;
+    if (p.isByRef) {
+      byRefMap[p.name] = sub.rawArgNames[idx];
+    }
+  });
+
+  const lines = sub.body;
+  let pc = 0;
+  let returnValue = undefined;
+
+  function findIfParts(start) {
+    let depth = 0;
+    let elseIndex = -1;
+    for (let n = start; n < lines.length; n++) {
+      const u = lines[n].toUpperCase();
+      if (u.startsWith("IF ") && u.endsWith("THEN")) depth++;
+      else if (u.startsWith("ENDIF")) {
+        depth--;
+        if (depth === 0) return { elseIndex, endIndex: n };
+      } else if (u.startsWith("ELSE") && depth === 1 && elseIndex === -1) {
+        elseIndex = n;
+      }
+    }
+    return { elseIndex, endIndex: -1 };
+  }
+
+  function executeRange(start, endExclusive) {
+    let idx = start;
+    while (idx < endExclusive && returnValue === undefined) {
+      const line = lines[idx];
+      const upper = line.toUpperCase();
+
+      if (upper.startsWith("DECLARE ")) {
+        const beforeColon = line.substring(8).split(":")[0];
+        beforeColon.split(",").map(v => v.trim()).filter(Boolean).forEach(v => localEnv[v] = 0);
+        idx++;
+        continue;
+      }
+
+      if (upper.startsWith("RETURN ")) {
+        returnValue = evaluateExpr(line.substring(7).trim(), localEnv, arrays, subroutines);
+        return;
+      }
+
+      if (upper.startsWith("IF ")) {
+        const parts = findIfParts(idx);
+        const match = line.match(/^IF\s+(.*?)\s+THEN$/i);
+        const condition = Boolean(evaluateExpr(match[1], localEnv, arrays, subroutines));
+        if (condition) {
+          executeRange(idx + 1, parts.elseIndex >= 0 ? parts.elseIndex : parts.endIndex);
+        } else if (parts.elseIndex >= 0) {
+          executeRange(parts.elseIndex + 1, parts.endIndex);
+        }
+        if (returnValue !== undefined) return;
+        idx = parts.endIndex + 1;
+        continue;
+      }
+
+      if (upper.startsWith("OUTPUT ")) {
+        const exprText = line.substring(7).trim();
+        const pieces = splitOutputArguments(exprText);
+        sub.outputs.push(pieces.map(p => evaluateExpr(p, localEnv, arrays, subroutines)).join(" "));
+        idx++;
+        continue;
+      }
+
+      if (line.includes("←")) {
+        const [left, right] = line.split("←").map(s => s.trim());
+        const val = evaluateExpr(right, localEnv, arrays, subroutines);
+        localEnv[left] = val;
+        if (byRefMap[left]) {
+          callerEnv[byRefMap[left]] = val;
+        }
+        idx++;
+        continue;
+      }
+
+      idx++;
+    }
+  }
+
+  executeRange(0, lines.length);
+
+  Object.keys(byRefMap).forEach(pName => {
+    callerEnv[byRefMap[pName]] = localEnv[pName];
+  });
+
+  return returnValue;
+}
+
+function parseSubroutineHeader(header, type) {
+  const isFunc = type === "FUNCTION";
+  let name = "";
+  let paramStr = "";
+
+  if (isFunc) {
+    const match = header.match(/^FUNCTION\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)\s*RETURNS\s+([a-zA-Z_]+)/i);
+    if (!match) throw new Error("Invalid FUNCTION header format.");
+    name = match[1];
+    paramStr = match[2];
+  } else {
+    const match = header.match(/^PROCEDURE\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)/i);
+    if (!match) throw new Error("Invalid PROCEDURE header format.");
+    name = match[1];
+    paramStr = match[2];
+  }
+
+  const params = [];
+  if (paramStr.trim()) {
+    const pTokens = paramStr.split(",");
+    pTokens.forEach(p => {
+      let trimmed = p.trim();
+      let isByRef = false;
+      if (trimmed.toUpperCase().startsWith("BYREF ")) {
+        isByRef = true;
+        trimmed = trimmed.substring(6).trim();
+      } else if (trimmed.toUpperCase().startsWith("BYVAL ")) {
+        trimmed = trimmed.substring(6).trim();
+      }
+      const parts = trimmed.split(":");
+      params.push({ name: parts[0].trim(), type: parts[1] ? parts[1].trim() : "INTEGER", isByRef });
+    });
+  }
+
+  return { name, params, type };
+}
+
+function executePseudocode(code) {
+  const lines = code.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const outputs = [];
+  const env = {};
+  const arrays = {};
+  const subroutines = {};
+  let log = "Starting Level 11 Execution...\n";
+
+  // Pre-pass: Register Subroutines
+  let i = 0;
+  const mainProgramLines = [];
+  while (i < lines.length) {
+    const line = lines[i];
+    const upper = line.toUpperCase();
+
+    if (upper.startsWith("PROCEDURE ") || upper.startsWith("FUNCTION ")) {
+      const type = upper.startsWith("PROCEDURE ") ? "PROCEDURE" : "FUNCTION";
+      const endKeyword = type === "PROCEDURE" ? "ENDPROCEDURE" : "ENDFUNCTION";
+      const subInfo = parseSubroutineHeader(line, type);
+      const body = [];
+      i++;
+      while (i < lines.length && !lines[i].toUpperCase().startsWith(endKeyword)) {
+        body.push(lines[i]);
+        i++;
+      }
+      subInfo.body = body;
+      subInfo.outputs = outputs;
+      subroutines[subInfo.name] = subInfo;
+      log += `[Subroutine Registered] ${type} ${subInfo.name}\n`;
+      i++;
+      continue;
+    }
+    mainProgramLines.push(line);
+    i++;
+  }
+
+  function findIfParts(linesList, start) {
+    let depth = 0;
+    let elseIndex = -1;
+    for (let n = start; n < linesList.length; n++) {
+      const u = linesList[n].toUpperCase();
+      if (u.startsWith("IF ") && u.endsWith("THEN")) depth++;
+      else if (u.startsWith("ENDIF")) {
+        depth--;
+        if (depth === 0) return { elseIndex, endIndex: n };
+      } else if (u.startsWith("ELSE") && depth === 1 && elseIndex === -1) {
+        elseIndex = n;
+      }
+    }
+    return { elseIndex, endIndex: -1 };
+  }
+
+  function executeRange(linesList, start, endExclusive) {
+    let pc = start;
+    while (pc < endExclusive) {
+      const line = linesList[pc];
+      const upper = line.toUpperCase();
+
+      if (upper.startsWith("DECLARE ")) {
+        const beforeColon = line.substring(8).split(":")[0];
+        beforeColon.split(",").map(v => v.trim()).filter(Boolean).forEach(v => env[v] = 0);
+        pc++;
+        continue;
+      }
+
+      if (upper.startsWith("CALL ")) {
+        const callStr = line.substring(5).trim();
+        const match = callStr.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\)$/);
+        if (match) {
+          const subName = match[1];
+          const rawArgs = splitOutputArguments(match[2]);
+          const sub = subroutines[subName];
+          if (sub) {
+            sub.rawArgNames = rawArgs;
+            const evalArgs = rawArgs.map(a => evaluateExpr(a, env, arrays, subroutines));
+            executeSubroutine(sub, evalArgs, env, arrays, subroutines);
+            log += `[CALL Executed] PROCEDURE ${subName}\n`;
+          }
+        }
+        pc++;
+        continue;
+      }
+
+      if (upper.startsWith("IF ")) {
+        const parts = findIfParts(linesList, pc);
+        const match = line.match(/^IF\s+(.*?)\s+THEN$/i);
+        const condition = Boolean(evaluateExpr(match[1], env, arrays, subroutines));
+        if (condition) {
+          executeRange(linesList, pc + 1, parts.elseIndex >= 0 ? parts.elseIndex : parts.endIndex);
+        } else if (parts.elseIndex >= 0) {
+          executeRange(parts.elseIndex + 1, parts.endIndex);
+        }
+        pc = parts.endIndex + 1;
+        continue;
+      }
+
+      if (upper.startsWith("OUTPUT ")) {
+        const exprText = line.substring(7).trim();
+        const pieces = splitOutputArguments(exprText);
+        outputs.push(pieces.map(p => evaluateExpr(p, env, arrays, subroutines)).join(" "));
+        pc++;
+        continue;
+      }
+
+      if (line.includes("←")) {
+        const [left, right] = line.split("←").map(s => s.trim());
+        const value = evaluateExpr(right, env, arrays, subroutines);
+        env[left] = value;
+        log += `[Var Update] ${left} = ${value}\n`;
+        pc++;
+        continue;
+      }
+
+      pc++;
+    }
+  }
+
+  try {
+    executeRange(mainProgramLines, 0, mainProgramLines.length);
+  } catch (error) {
+    return { cancelled: false, error: error.message, log, output: outputs.join("\n") };
+  }
+
+  return { cancelled: false, log, output: outputs.join("\n") };
+}
+
+function splitOutputArguments(text) {
+  const parts = [];
+  let current = "";
+  let bracketDepth = 0;
+  let quote = null;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+
+    if (quote) {
+      current += ch;
+      if (ch === quote && text[i - 1] !== "\\") quote = null;
+      continue;
+    }
+
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      current += ch;
+      continue;
+    }
+
+    if (ch === "[" || ch === "(") bracketDepth++;
+    else if (ch === "]" || ch === ")") bracketDepth = Math.max(0, bracketDepth - 1);
+
+    if (ch === "," && bracketDepth === 0) {
+      if (current.trim()) parts.push(current.trim());
+      current = "";
+    } else {
+      current += ch;
+    }
+  }
+
+  if (current.trim()) parts.push(current.trim());
+  return parts;
+}
+
+function runAndExecuteCode() {
+  let codeRaw = document.getElementById("code").value;
+  let t = tasks[currentIdx];
+  let outEl = document.getElementById("output");
+  
+  if (!codeRaw.trim()) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = "Error: Code field is empty.";
+    showFeedback("❌ Please enter pseudocode before running.", false);
+    return;
+  }
+
+  let upperCode = codeRaw.toUpperCase();
+  let missing = t.need.filter(x => !upperCode.includes(x));
+  if (missing.length > 0) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `SyntaxError: Missing required keyword(s): ${missing.join(", ")}`;
+    showFeedback(`❌ Missing required keywords: <b>${missing.join(", ")}</b>`, false);
+    return;
+  }
+
+  let indentCheck = checkMultiLevelIndentation(codeRaw);
+  if (!indentCheck.valid) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `IndentationError (Line ${indentCheck.lineNum}): "${indentCheck.lineText}"\nExpected ${indentCheck.expectedSpaces} spaces, found ${indentCheck.actualSpaces}.`;
+    showFeedback(`❌ <b>Indentation Error:</b> Line ${indentCheck.lineNum} requires ${indentCheck.expectedSpaces} spaces.`, false);
+    return;
+  }
+
+  let result = executePseudocode(codeRaw);
+
+  if (result.error) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `ExecutionError: ${result.error}`;
+    showFeedback(`❌ <b>Execution Error:</b> ${result.error}`, false);
+    return;
+  }
+
+  outEl.className = "output-display";
+  outEl.textContent = result.log + "---------------------------------\n[OUTPUT]:\n" + result.output;
+
+  if (!completedTasks.has(currentIdx)) {
+    completedTasks.add(currentIdx);
+    score += 100;
+    document.getElementById("score").textContent = score;
+  }
+  showFeedback("✅ <b>Execution Successful!</b> Subroutines and CIE pseudocode syntax verified.", true);
+}
+
+function prevTask() {
+  if (currentIdx > 0) {
+    loadTask(currentIdx - 1);
+  } else {
+    loadTask(tasks.length - 1);
+  }
+}
+
+function nextTask() {
+  if (currentIdx < tasks.length - 1) {
+    loadTask(currentIdx + 1);
+  } else {
+    loadTask(0);
+  }
+}
+
+function showHint() {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback info";
+  fb.innerHTML = "💡 " + tasks[currentIdx].hint;
+}
+
+function resetCode() {
+  let t = tasks[currentIdx];
+  let ta = document.getElementById("code");
+  if (ta) ta.value = t.defaultCode || "";
+  let outEl = document.getElementById("output");
+  if (outEl) {
+    outEl.className = "output-display";
+    outEl.textContent = 'Press "Run & Execute" to validate subroutines and simulate execution...';
+  }
+  hideFeedback();
+}
+
+function showFeedback(msg, isSuccess) {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback " + (isSuccess ? "success" : "error");
+  fb.innerHTML = msg;
+}
+
+function hideFeedback() {
+  let fb = document.getElementById("feedback");
+  if (fb) {
+    fb.className = "feedback";
+    fb.innerHTML = "";
+  }
+}
+
+loadTask(0);
+</script>
+</body>
+</html>

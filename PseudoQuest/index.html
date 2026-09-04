@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIE IGCSE Computer Science Pseudocode Quest - Home</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, Segoe UI, Arial, sans-serif;
+    background: #0f172a;
+    color: #e5e7eb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    background: #111827;
+    border-bottom: 1px solid #334155;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo { font-weight: 800; font-size: 24px; }
+  .logo span { color: #38bdf8; }
+  .badge { background: #0284c7; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+  
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    flex: 1;
+  }
+  
+  .hero {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .hero h1 { font-size: 36px; margin-bottom: 10px; color: #f8fafc; }
+  .hero p { font-size: 16px; color: #94a3b8; max-width: 600px; margin: 0 auto; }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  
+  .card {
+    background: #111827;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, border-color 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: #38bdf8;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .level-num {
+    background: #1e293b;
+    color: #38bdf8;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #334155;
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #f8fafc;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .card-btn {
+    background: #0284c7;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .card:hover .card-btn {
+    background: #0369a1;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+    font-size: 13px;
+    border-top: 1px solid #1e293b;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">📝 CIE Pseudocode <span>Quest</span></div>
+  <div class="badge">11 Interactive Levels</div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Master CIE Computer Science Pseudocode</h1>
+    <p>Select a level to practice interactive challenges, trace code execution, and test your exam knowledge.</p>
+  </section>
+
+  <div class="grid" id="levelGrid"></div>
+</main>
+
+<footer>
+  Compliant with Cambridge IGCSE Computer Science Pseudocode Standard.
+</footer>
+
+<script>
+  const levels = [
+    { num: 1, title: "Data Types & Output", desc: "Learn essential primitive data types (INTEGER, REAL, CHAR, STRING, BOOLEAN) and standard output statements.", file: "Level1.html" },
+    { num: 2, title: "Variables & Assignment", desc: "Declare variables using correct CIE syntax, perform variable assignments using the left arrow operator, and work with expressions.", file: "Level2.html" },
+    { num: 3, title: "User Input", desc: "Interactive prompt handling, gathering inputs via INPUT statements, and validating input types.", file: "Level3.html" },
+    { num: 4, title: "Built-in Functions", desc: "Utilize built-in standard library functions including string manipulation and mathematical helper functions.", file: "Level4.html" },
+    { num: 5, title: "Selection", desc: "Implement conditional logic structures using IF...THEN...ELSE and CASE OF statements.", file: "Level5.html" },
+    { num: 6, title: "FOR Loop", desc: "Master fixed count-controlled iteration using FOR...TO...STEP...NEXT loops.", file: "Level6.html" },
+    { num: 7, title: "Repeat...Until", desc: "Construct post-condition iteration blocks using REPEAT...UNTIL conditions.", file: "Level7.html" },
+    { num: 8, title: "While...Do", desc: "Build pre-condition iteration structures using WHILE...DO...ENDWHILE loops.", file: "Level8.html" },
+    { num: 9, title: "1D Array", desc: "Declare, populate, traverse, and search through one-dimensional array data structures.", file: "Level9.html" },
+    { num: 10, title: "2D Array", desc: "Manage multi-dimensional grids, matrix structures, and nested indexing loops.", file: "Level10.html" },
+    { num: 11, title: "Subroutines", desc: "Declare procedures and functions, manage parameter passing (BYVAL/BYREF), and handle return values.", file: "Level11.html" }
+  ];
+
+  const grid = document.getElementById("levelGrid");
+
+  levels.forEach(lvl => {
+    const card = document.createElement("a");
+    card.className = "card";
+    card.href = lvl.file;
+    card.innerHTML = `
+      <div>
+        <div class="card-header">
+          <span class="level-num">LEVEL ${lvl.num}</span>
+        </div>
+        <div class="card-title">${lvl.title}</div>
+        <div class="card-desc">${lvl.desc}</div>
+      </div>
+      <div class="card-btn">Start Level ${lvl.num} →</div>
+    `;
+    grid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>

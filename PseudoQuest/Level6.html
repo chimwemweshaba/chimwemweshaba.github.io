@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CIE IGCSE Computer Science Pseudocode Quest - Level 6: Count-Controlled Loops</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:#0f172a;color:#e5e7eb}
+header{background:#111827;border-bottom:1px solid #334155;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-weight:800;font-size:20px;text-decoration:none;color:#e5e7eb;display:flex;align-items:center;gap:10px}.logo span{color:#38bdf8}
+.logo-badge{background:#0c4a6e;color:#38bdf8;border:1px solid #0284c7;font-size:12px;padding:3px 8px;border-radius:6px;font-weight:600}
+.stats{display:flex;gap:18px;font-size:14px;align-items:center}.pill{background:#1e293b;padding:7px 11px;border-radius:999px}
+main{max-width:1400px;margin:0 auto;padding:22px}.grid{display:grid;grid-template-columns:320px 1fr;gap:18px}
+.panel,.card{background:#111827;border:1px solid #334155;border-radius:14px}.levels{padding:16px;max-height:85vh;overflow-y:auto}.levels h2{margin:0 0 12px;font-size:16px}
+.level{width:100%;text-align:left;background:#1e293b;color:#e5e7eb;border:1px solid #334155;padding:11px;border-radius:10px;margin:7px 0;cursor:pointer}
+.level:hover{background:#263449}.level.active{border-color:#38bdf8;background:#0c4a6e}.level.locked{opacity:.45;cursor:not-allowed}.level small{display:block;color:#94a3b8;margin-top:3px}
+.content{padding:20px}.mission{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.mission h1{margin:0 0 7px;font-size:26px}.mission p{margin:0;color:#cbd5e1;line-height:1.5}
+.badge{background:#0284c7;padding:7px 10px;border-radius:8px;font-size:12px;white-space:nowrap}
+.objective{margin:18px 0;padding:15px;border-left:4px solid #38bdf8;background:#0b1220;border-radius:8px}
+
+.workspace-challenge{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px}
+.box{background:#0b1220;border:1px solid #334155;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boxhead{padding:10px 13px;background:#172033;font-weight:700;font-size:13px}.boxbody{padding:14px;flex:1;display:flex;flex-direction:column}
+pre{margin:0;white-space:pre-wrap;font-family:Consolas,monospace;font-size:13px;line-height:1.65;color:#bae6fd}
+textarea{width:100%;height:360px;resize:vertical;background:#020617;color:#e2e8f0;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;outline:none}
+textarea:focus{border-color:#38bdf8}
+.output-display{width:100%;height:360px;background:#020617;color:#4ade80;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;overflow-y:auto;white-space:pre-wrap}
+.output-display.error-text{color:#f87171}
+
+.workspace-mcq{background:#0b1220;border:1px solid #38bdf8;border-radius:12px;padding:24px;max-width:800px;margin:0 auto}
+.mcq-question{font-size:18px;font-weight:600;margin-bottom:20px;color:#f8fafc}
+.mcq-container{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.mcq-option{background:#1e293b;border:2px solid #334155;padding:14px 18px;border-radius:10px;cursor:pointer;text-align:left;color:#e5e7eb;font-size:15px;transition:all 0.2s}
+.mcq-option:hover{background:#334155;border-color:#64748b}
+.mcq-option.selected{border-color:#38bdf8;background:#0c4a6e;font-weight:600}
+
+.buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+button.action{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:700;background:#0284c7;color:white}.action.secondary{background:#334155}.action.hint{background:#b45309}.action.next{background:#166534}.action.prev{background:#475569}.action.indent{background:#475569}
+.feedback{margin-top:13px;padding:13px;border-radius:8px;display:none;line-height:1.45}.success{display:block;background:#052e1b;border:1px solid #166534;color:#bbf7d0}.error{display:block;background:#3b0a0a;border:1px solid #991b1b;color:#fecaca}.info{display:block;background:#172033;border:1px solid #475569;color:#cbd5e1}
+.footer{color:#64748b;font-size:12px;margin-top:18px;text-align:center}
+@media(max-width:1100px){.workspace-challenge{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.levels{order:2}.mission{flex-direction:column}.stats{gap:7px;font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html" class="logo">
+  📝 CIE Pseudocode <span>Quest</span>
+  <span class="logo-badge">Level 6</span>
+</a>
+<div class="stats">
+  <div class="pill">Level <b>6: FOR Loops</b></div>
+  <div class="pill">Task <b id="taskStat">1</b>/<span id="totalTasks">12</span></div>
+  <div class="pill">⭐ <b id="score">0</b></div>
+</div>
+</header>
+<main>
+<div class="grid">
+<aside class="panel levels">
+<h2>Level 6: Count-Controlled Loops</h2>
+<div id="levelList"></div>
+</aside>
+<section class="card content">
+<div class="mission">
+  <div>
+    <h1 id="title"></h1>
+    <p id="description"></p>
+  </div>
+  <div class="badge" id="topic">Level 6: FOR Loops</div>
+</div>
+<div class="objective"><b>🎯 Objective:</b> <span id="objective"></span></div>
+<div id="workspaceContainer"></div>
+<div class="footer">Compliant with Cambridge IGCSE Computer Science Pseudocode Standard.</div>
+</section>
+</div>
+</main>
+<script>
+const tasks = [
+  // SUB-SECTION 1: BASIC FOR LOOPS
+  {
+    type: "mcq",
+    sub: "1. FOR Loop Syntax",
+    title: "MCQ: Standard Loop Keywords",
+    desc: "Understanding standard CIE FOR loop constructs.",
+    objective: "Identify the correct structure used to close a FOR loop.",
+    challenge: "Which keyword structure is required by CIE standards to close a count-controlled FOR loop?",
+    options: ["END FOR", "NEXT <variable>", "ENDFOR", "DONE"],
+    answer: 1,
+    hint: "CIE pseudocode closes a FOR loop using NEXT followed by the counter variable name (e.g., NEXT Counter)."
+  },
+  {
+    type: "code",
+    sub: "1. FOR Loop Syntax",
+    title: "Basic Counter: 1 to 5",
+    desc: "Iterating a fixed number of times.",
+    objective: "Write a simple count-controlled loop displaying numbers 1 to 5.",
+    challenge: "Write pseudocode using a FOR loop with variable 'Count' running from 1 TO 5.\nInside the loop, output the value of Count.",
+    need: ["FOR", "TO", "NEXT", "OUTPUT"],
+    sampleInputs: {},
+    defaultCode: "FOR Count ← 1 TO 5\n    OUTPUT Count\nNEXT Count",
+    hint: "Indent the inner OUTPUT statement by 4 spaces."
+  },
+  {
+    type: "code",
+    sub: "1. FOR Loop Syntax",
+    title: "Fixed Iteration Message Printer",
+    desc: "Repeating a fixed output string multiple times.",
+    objective: "Repeat a standard string output using a count-controlled loop.",
+    challenge: "Write pseudocode to output 'Computer Science' 3 times using a loop variable 'I' from 1 TO 3.",
+    need: ["FOR", "TO", "NEXT", "OUTPUT"],
+    sampleInputs: {},
+    defaultCode: "FOR I ← 1 TO 3\n    OUTPUT \"Computer Science\"\nNEXT I",
+    hint: "Ensure the NEXT statement matches your counter variable I."
+  },
+
+  // SUB-SECTION 2: STEP & INCREMENT VARIATIONS
+  {
+    type: "mcq",
+    sub: "2. Custom Increments (STEP)",
+    title: "MCQ: STEP Clause Functionality",
+    desc: "Understanding non-default iteration step sizes.",
+    objective: "Determine how many times a FOR loop with a STEP clause will execute.",
+    challenge: "How many times will the following loop execute?\n\nFOR Counter ← 2 TO 10 STEP 2\n    OUTPUT Counter\nNEXT Counter",
+    options: ["10 times", "5 times", "4 times", "9 times"],
+    answer: 1,
+    hint: "The counter values generated will be 2, 4, 6, 8, and 10."
+  },
+  {
+    type: "code",
+    sub: "2. Custom Increments (STEP)",
+    title: "Even Number Generator",
+    desc: "Skipping values using positive STEP increments.",
+    objective: "Generate even numbers from 2 to 10 using STEP 2.",
+    challenge: "Write a FOR loop with variable 'Num' running from 2 TO 10 STEP 2.\nOutput 'Num' inside the loop.",
+    need: ["FOR", "TO", "STEP", "NEXT", "OUTPUT"],
+    sampleInputs: {},
+    defaultCode: "FOR Num ← 2 TO 10 STEP 2\n    OUTPUT Num\nNEXT Num",
+    hint: "Place 'STEP 2' directly after the upper limit of the FOR line."
+  },
+  {
+    type: "code",
+    sub: "2. Custom Increments (STEP)",
+    title: "Countdown Timer",
+    desc: "Decrementing loops using negative STEP increments.",
+    objective: "Create a descending loop from 5 down to 1.",
+    challenge: "Write pseudocode using FOR 'Timer' ← 5 TO 1 STEP -1.\nInside the loop, output 'Timer'.",
+    need: ["FOR", "TO", "STEP", "NEXT", "OUTPUT"],
+    sampleInputs: { Timer: "5" },
+    defaultCode: "FOR Timer ← 5 TO 1 STEP -1\n    OUTPUT Timer\nNEXT Timer",
+    hint: "Use STEP -1 to count downwards."
+  },
+
+  // SUB-SECTION 3: ACCUMULATORS & INPUT LOOPS
+  {
+    type: "code",
+    sub: "3. Accumulators & Inputs",
+    title: "Running Total Accumulator",
+    desc: "Summing numbers inside a loop with dynamic iteration prompts.",
+    objective: "Prompt the user for 4 numbers dynamically as the loop iterates and accumulate their total sum.",
+    challenge: "Set Total ← 0.\nLoop 4 times using FOR I ← 1 TO 4.\nInside the loop, INPUT Num and add Num to Total.\nAfter NEXT I, OUTPUT Total.",
+    need: ["FOR", "TO", "NEXT", "INPUT", "OUTPUT"],
+    sampleInputs: { Num: "10" },
+    defaultCode: "Total ← 0\nFOR I ← 1 TO 4\n    INPUT Num\n    Total ← Total + Num\nNEXT I\nOUTPUT Total",
+    hint: "Initialize Total to 0 outside the loop. Place OUTPUT Total outside the loop at 0 spaces."
+  },
+  {
+    type: "code",
+    sub: "3. Accumulators & Inputs",
+    title: "Dynamic Limit Loop",
+    desc: "Using a variable to set loop boundaries.",
+    objective: "Accept an upper bound from user input to control loop iterations.",
+    challenge: "INPUT Limit.\nRun a loop FOR Counter ← 1 TO Limit.\nOutput Counter inside the loop.",
+    need: ["INPUT", "FOR", "TO", "NEXT", "OUTPUT"],
+    sampleInputs: { Limit: "4" },
+    defaultCode: "INPUT Limit\nFOR Counter ← 1 TO Limit\n    OUTPUT Counter\nNEXT Counter",
+    hint: "The variable Limit is used directly as the upper bound in the FOR line."
+  },
+
+  // SUB-SECTION 4: NESTED FOR LOOPS (EXPANDED CIE EXAM SCENARIOS)
+  {
+    type: "mcq",
+    sub: "4. Nested FOR Loops",
+    title: "MCQ: Total Iteration Calculation",
+    desc: "Calculating operations in nested count-controlled loops.",
+    objective: "Calculate the total number of times an inner statement runs.",
+    challenge: "How many times will OUTPUT \"X\" execute?\n\nFOR R ← 1 TO 3\n    FOR C ← 1 TO 4\n        OUTPUT \"X\"\n    NEXT C\nNEXT R",
+    options: ["7 times", "12 times", "4 times", "3 times"],
+    answer: 1,
+    hint: "The inner loop runs 4 times for each of the 3 outer loop iterations (3 × 4 = 12)."
+  },
+  {
+    type: "code",
+    sub: "4. Nested FOR Loops",
+    title: "Nested Grid Coordinates",
+    desc: "Constructing multi-level nested FOR loops.",
+    objective: "Implement a 2x2 coordinate generator with 4-space multi-level indentation.",
+    challenge: "Create nested loops:\nOuter loop Row ← 1 TO 2.\nInner loop Col ← 1 TO 2.\nInside inner loop, output Row and Col.",
+    need: ["FOR", "TO", "NEXT", "OUTPUT"],
+    sampleInputs: {},
+    defaultCode: "FOR Row ← 1 TO 2\n    FOR Col ← 1 TO 2\n        OUTPUT Row, Col\n    NEXT Col\nNEXT Row",
+    hint: "The inner FOR statement is indented by 4 spaces, and inner OUTPUT by 8 spaces."
+  },
+  {
+    type: "code",
+    sub: "4. Nested FOR Loops",
+    title: "Student Exam Results Entry System",
+    desc: "A common CIE scenario: entering 3 test marks for 2 students.",
+    objective: "Use outer loop for students and inner loop for tests, resetting student totals per iteration.",
+    challenge: "Outer loop: Student ← 1 TO 2.\nInside outer loop, set StudentTotal ← 0.\nInner loop: Test ← 1 TO 3.\nInside inner loop: INPUT Mark, and add Mark to StudentTotal.\nAfter inner loop: OUTPUT StudentTotal.",
+    need: ["FOR", "TO", "NEXT", "INPUT", "OUTPUT"],
+    sampleInputs: { Mark: "15" },
+    defaultCode: "FOR Student ← 1 TO 2\n    StudentTotal ← 0\n    FOR Test ← 1 TO 3\n        INPUT Mark\n        StudentTotal ← StudentTotal + Mark\n    NEXT Test\n    OUTPUT StudentTotal\nNEXT Student",
+    hint: "Make sure StudentTotal ← 0 is inside the outer loop, but BEFORE the inner loop begins!"
+  },
+  {
+    type: "code",
+    sub: "4. Nested FOR Loops",
+    title: "Sports Tournament Score Tracker",
+    desc: "Processing 2 teams across 3 matches each with running totals.",
+    objective: "Track and accumulate individual team scores using double-nested FOR loops.",
+    challenge: "Outer loop: Team ← 1 TO 2.\nInitialize TeamScore ← 0.\nInner loop: Match ← 1 TO 3.\nINPUT Points and accumulate into TeamScore.\nAfter inner loop finishes: OUTPUT Team, TeamScore.",
+    need: ["FOR", "TO", "NEXT", "INPUT", "OUTPUT"],
+    sampleInputs: { Points: "3" },
+    defaultCode: "FOR Team ← 1 TO 2\n    TeamScore ← 0\n    FOR Match ← 1 TO 3\n        INPUT Points\n        TeamScore ← TeamScore + Points\n    NEXT Match\n    OUTPUT Team, TeamScore\nNEXT Team",
+    hint: "Ensure TeamScore resets to 0 for each new team in the outer loop."
+  }
+];
+
+let currentIdx = 0, score = 0, selectedMcqOption = null;
+
+function renderSubSections() {
+  let el = document.getElementById("levelList");
+  el.innerHTML = "";
+  tasks.forEach((t, i) => {
+    let b = document.createElement("button");
+    b.className = "level " + (i === currentIdx ? "active" : "");
+    b.innerHTML = `Task ${i + 1}: ${t.title}<small>${t.sub}</small>`;
+    b.onclick = () => loadTask(i);
+    el.appendChild(b);
+  });
+}
+
+function loadTask(idx) {
+  currentIdx = idx;
+  selectedMcqOption = null;
+  let t = tasks[idx];
+  document.getElementById("taskStat").textContent = idx + 1;
+  document.getElementById("totalTasks").textContent = tasks.length;
+  document.getElementById("title").textContent = `Level 6 - Task ${idx + 1}: ${t.title}`;
+  document.getElementById("description").textContent = t.desc;
+  document.getElementById("objective").textContent = t.objective;
+  
+  let ws = document.getElementById("workspaceContainer");
+  hideFeedback();
+
+  if (t.type === "mcq") {
+    let html = `
+      <div class="workspace-mcq">
+        <div class="mcq-question">${t.challenge}</div>
+        <div class="mcq-container">`;
+    t.options.forEach((opt, oIdx) => {
+      html += `<div class="mcq-option" id="opt${oIdx}" onclick="selectMcq(${oIdx})">${String.fromCharCode(65 + oIdx)}. ${opt}</div>`;
+    });
+    html += `</div>
+        <div class="buttons">
+          <button class="action" onclick="checkMcqAnswer()">Submit Choice</button>
+          <button class="action hint" onclick="showHint()">💡 Hint</button>
+          <button class="action prev" onclick="prevTask()">⏮ Previous Activity</button>
+          <button class="action next" onclick="nextTask()">⏭ Next Activity</button>
+        </div>
+        <div id="feedback" class="feedback"></div>
+      </div>`;
+    ws.innerHTML = html;
+  } else {
+    ws.innerHTML = `
+      <div class="workspace-challenge">
+        <div class="box">
+          <div class="boxhead">📋 Task Specification (Level 6)</div>
+          <div class="boxbody"><pre>${t.challenge}</pre></div>
+        </div>
+        <div class="box">
+          <div class="boxhead">⌨️ Level 6 Workspace</div>
+          <div class="boxbody">
+            <textarea id="code" spellcheck="false"></textarea>
+            <div class="buttons">
+              <button class="action" onclick="runAndExecuteCode()">▶ Run & Execute</button>
+              <button class="action indent" onclick="insertIndent()">⇥ Indent (4 Spaces)</button>
+              <button class="action secondary" onclick="resetCode()">↻ Reset</button>
+              <button class="action hint" onclick="showHint()">💡 Hint</button>
+              <button class="action prev" onclick="prevTask()">⏮ Previous Activity</button>
+              <button class="action next" onclick="nextTask()">⏭ Next Activity</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="boxhead">🖥️ Interactive Execution Terminal</div>
+          <div class="boxbody"><div id="output" class="output-display">Press "Run & Execute" to validate indentation and simulate FOR loop execution...</div></div>
+        </div>
+      </div>`;
+    
+    let ta = document.getElementById("code");
+    ta.value = t.defaultCode || "";
+    ta.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        insertIndent();
+      }
+    });
+  }
+  renderSubSections();
+}
+
+function insertIndent() {
+  let ta = document.getElementById("code");
+  if (!ta) return;
+  let start = ta.selectionStart;
+  let end = ta.selectionEnd;
+  const spaces = "    ";
+  ta.value = ta.value.substring(0, start) + spaces + ta.value.substring(end);
+  ta.selectionStart = ta.selectionEnd = start + spaces.length;
+  ta.focus();
+}
+
+function selectMcq(oIdx) {
+  selectedMcqOption = oIdx;
+  let t = tasks[currentIdx];
+  t.options.forEach((_, i) => {
+    let el = document.getElementById("opt" + i);
+    if (el) el.className = "mcq-option" + (i === oIdx ? " selected" : "");
+  });
+}
+
+function checkMcqAnswer() {
+  let t = tasks[currentIdx];
+  let fb = document.getElementById("feedback");
+
+  if (selectedMcqOption === null) {
+    fb.className = "feedback error";
+    fb.innerHTML = "⚠️ Please select an option before submitting.";
+    return;
+  }
+
+  if (selectedMcqOption === t.answer) {
+    score += 50;
+    document.getElementById("score").textContent = score;
+    fb.className = "feedback success";
+    fb.innerHTML = "✅ <b>Correct!</b> Excellent job. Click <b>Next Activity</b> to proceed.";
+  } else {
+    fb.className = "feedback error";
+    fb.innerHTML = "❌ <b>Incorrect choice.</b> Review the question or click Hint for guidance.";
+  }
+}
+
+// 1. Multi-Level Indentation Engine
+function checkMultiLevelIndentation(code) {
+  const lines = code.split('\n');
+  let currentDepth = 0;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i];
+    const trimmed = rawLine.trim();
+    if (!trimmed) continue;
+    
+    let upper = trimmed.toUpperCase();
+    
+    if (upper.startsWith("NEXT") || upper.startsWith("ENDIF") || upper.startsWith("ENDCASE") || upper.startsWith("ENDWHILE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    } else if (upper.startsWith("ELSE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    }
+
+    const expectedSpaces = currentDepth * 4;
+    const actualSpaces = rawLine.search(/\S|$/);
+
+    if (actualSpaces < expectedSpaces) {
+      return {
+        valid: false,
+        lineNum: i + 1,
+        lineText: trimmed,
+        expectedSpaces: expectedSpaces,
+        actualSpaces: actualSpaces
+      };
+    }
+
+    if (upper.startsWith("FOR ") || upper.includes("THEN") || upper.startsWith("ELSE") || upper.startsWith("CASE ")) {
+      currentDepth++;
+    }
+  }
+
+  return { valid: true };
+}
+
+// 2. Safe Expression Evaluator
+function evaluateExpr(expr, env) {
+  let clean = expr.trim();
+  let keys = Object.keys(env).sort((a,b) => b.length - a.length);
+  keys.forEach(k => {
+    let reg = new RegExp("\\b" + k + "\\b", "g");
+    clean = clean.replace(reg, typeof env[k] === "string" ? `"${env[k]}"` : env[k]);
+  });
+  clean = clean.replace(/←/g, "=").replace(/=/g, "===").replace(/<===/g, "<=").replace(/>===/g, ">=");
+  try {
+    return Function(`"use strict"; return (${clean})`)();
+  } catch (e) {
+    return expr;
+  }
+}
+
+// 3. Dynamic Pseudocode Execution Engine for FOR Loops
+function executeDynamicFORPseudocode(code, taskInputs, terminalLogRef) {
+  let lines = code.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  let outputs = [];
+  let env = {};
+  let i = 0;
+  let cancelled = false;
+
+  function runBlock(stopKeywords) {
+    while (i < lines.length && !cancelled) {
+      let line = lines[i];
+      let upper = line.toUpperCase();
+
+      if (stopKeywords.some(k => upper.startsWith(k))) {
+        return;
+      }
+
+      // Variable Assignment
+      if (upper.includes("←") && !upper.startsWith("FOR ")) {
+        let parts = line.split("←");
+        let varName = parts[0].trim();
+        let val = evaluateExpr(parts[1], env);
+        env[varName] = val;
+        i++;
+        continue;
+      }
+
+      // Dynamic INPUT Prompting
+      if (upper.startsWith("INPUT ")) {
+        let varName = line.substring(6).trim();
+        let defaultVal = (taskInputs && taskInputs[varName]) ? taskInputs[varName] : "10";
+        let userVal = prompt(`[Program Input]\nEnter value for variable '${varName}':`, defaultVal);
+        
+        if (userVal === null) {
+          cancelled = true;
+          return;
+        }
+
+        let parsedVal = !isNaN(userVal) && userVal.trim() !== "" ? Number(userVal) : userVal;
+        env[varName] = parsedVal;
+        terminalLogRef.log += `[INPUT Prompt] ${varName} = ${JSON.stringify(parsedVal)}\n`;
+        i++;
+        continue;
+      }
+
+      // Count-Controlled FOR Loop Execution
+      if (upper.startsWith("FOR ")) {
+        let match = line.match(/FOR\s+([A-Za-z0-9_]+)\s*←\s*(.*?)\s+TO\s+(.*?)(?:\s+STEP\s+(.*?))?$/i);
+        if (match) {
+          let varName = match[1].trim();
+          let startVal = Number(evaluateExpr(match[2], env));
+          let endVal = Number(evaluateExpr(match[3], env));
+          let stepVal = match[4] ? Number(evaluateExpr(match[4], env)) : 1;
+
+          let loopBodyStartIdx = i + 1;
+          let loopFunc = (stepVal > 0) ? (v => v <= endVal) : (v => v >= endVal);
+
+          for (let currentVal = startVal; loopFunc(currentVal) && !cancelled; currentVal += stepVal) {
+            env[varName] = currentVal;
+            i = loopBodyStartIdx;
+            runBlock(["NEXT"]);
+          }
+
+          if (i < lines.length && lines[i].toUpperCase().startsWith("NEXT")) {
+            i++;
+          }
+        } else {
+          i++;
+        }
+        continue;
+      }
+
+      // Output Handling
+      if (upper.startsWith("OUTPUT ")) {
+        let expr = line.substring(7);
+        let parts = expr.split(",").map(p => evaluateExpr(p, env));
+        outputs.push(parts.join(" "));
+        i++;
+        continue;
+      }
+
+      i++;
+    }
+  }
+
+  runBlock([]);
+  return { cancelled, result: outputs.join("\n") };
+}
+
+function runAndExecuteCode() {
+  let codeRaw = document.getElementById("code").value;
+  let t = tasks[currentIdx];
+  let fb = document.getElementById("feedback");
+  let outEl = document.getElementById("output");
+  
+  if (!codeRaw.trim()) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = "Error: Code field is empty. Please enter pseudocode.";
+    showFeedback("❌ Please enter pseudocode before running.", false);
+    return;
+  }
+
+  // Syntax Keyword check
+  let upperCode = codeRaw.toUpperCase();
+  let missing = t.need.filter(x => !upperCode.includes(x));
+  if (missing.length > 0) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `SyntaxError: Missing required keyword(s): ${missing.join(", ")}`;
+    showFeedback(`❌ Missing required keywords: <b>${missing.join(", ")}</b>`, false);
+    return;
+  }
+
+  // 4-Space Indentation Check
+  let indentCheck = checkMultiLevelIndentation(codeRaw);
+  if (!indentCheck.valid) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `IndentationError (Line ${indentCheck.lineNum}): "${indentCheck.lineText}"\nExpected ${indentCheck.expectedSpaces} spaces for level depth, but found ${indentCheck.actualSpaces}.`;
+    showFeedback(`❌ <b>Indentation Error:</b> Line ${indentCheck.lineNum} requires ${indentCheck.expectedSpaces} spaces.`, false);
+    return;
+  }
+
+  let terminalLogRef = { log: "Starting Execution...\n" };
+  let execution = executeDynamicFORPseudocode(codeRaw, t.sampleInputs, terminalLogRef);
+
+  if (execution.cancelled) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = "Execution halted: Input prompt was cancelled by user.";
+    hideFeedback();
+    return;
+  }
+
+  terminalLogRef.log += `---------------------------------\n[OUTPUT]:\n${execution.result || "(No output produced)"}\n---------------------------------\nExecution finished with 0 errors.`;
+
+  outEl.className = "output-display";
+  outEl.textContent = terminalLogRef.log;
+
+  score += 100;
+  document.getElementById("score").textContent = score;
+  showFeedback("✅ <b>Execution Successful!</b> Loop logic, dynamic prompts, and indentation verified.", true);
+}
+
+function prevTask() {
+  if (currentIdx > 0) {
+    loadTask(currentIdx - 1);
+  } else {
+    loadTask(tasks.length - 1);
+  }
+}
+
+function nextTask() {
+  if (currentIdx < tasks.length - 1) {
+    loadTask(currentIdx + 1);
+  } else {
+    loadTask(0);
+  }
+}
+
+function showHint() {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback info";
+  fb.innerHTML = "💡 " + tasks[currentIdx].hint;
+}
+
+function resetCode() {
+  let t = tasks[currentIdx];
+  let ta = document.getElementById("code");
+  if (ta) ta.value = t.defaultCode || "";
+  let outEl = document.getElementById("output");
+  if (outEl) {
+    outEl.className = "output-display";
+    outEl.textContent = 'Press "Run & Execute" to validate indentation and simulate FOR loop execution...';
+  }
+  hideFeedback();
+}
+
+function showFeedback(msg, isSuccess) {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback " + (isSuccess ? "success" : "error");
+  fb.innerHTML = msg;
+}
+
+function hideFeedback() {
+  let fb = document.getElementById("feedback");
+  if (fb) {
+    fb.className = "feedback";
+    fb.innerHTML = "";
+  }
+}
+
+loadTask(0);
+</script>
+</body>
+</html>

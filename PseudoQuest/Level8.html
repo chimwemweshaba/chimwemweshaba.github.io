@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CIE IGCSE Computer Science Pseudocode Quest - Level 8: WHILE...DO Loops</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:#0f172a;color:#e5e7eb}
+header{background:#111827;border-bottom:1px solid #334155;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-weight:800;font-size:20px;text-decoration:none;color:#e5e7eb;display:flex;align-items:center;gap:10px}.logo span{color:#38bdf8}
+.logo-badge{background:#0c4a6e;color:#38bdf8;border:1px solid #0284c7;font-size:12px;padding:3px 8px;border-radius:6px;font-weight:600}
+.stats{display:flex;gap:18px;font-size:14px;align-items:center}.pill{background:#1e293b;padding:7px 11px;border-radius:999px}
+main{max-width:1400px;margin:0 auto;padding:22px}.grid{display:grid;grid-template-columns:320px 1fr;gap:18px}
+.panel,.card{background:#111827;border:1px solid #334155;border-radius:14px}.levels{padding:16px;max-height:85vh;overflow-y:auto}.levels h2{margin:0 0 12px;font-size:16px}
+.level{width:100%;text-align:left;background:#1e293b;color:#e5e7eb;border:1px solid #334155;padding:11px;border-radius:10px;margin:7px 0;cursor:pointer}
+.level:hover{background:#263449}.level.active{border-color:#38bdf8;background:#0c4a6e}.level.locked{opacity:.45;cursor:not-allowed}.level small{display:block;color:#94a3b8;margin-top:3px}
+.content{padding:20px}.mission{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.mission h1{margin:0 0 7px;font-size:26px}.mission p{margin:0;color:#cbd5e1;line-height:1.5}
+.badge{background:#0284c7;padding:7px 10px;border-radius:8px;font-size:12px;white-space:nowrap}
+.objective{margin:18px 0;padding:15px;border-left:4px solid #38bdf8;background:#0b1220;border-radius:8px}
+
+.workspace-challenge{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px}
+.box{background:#0b1220;border:1px solid #334155;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boxhead{padding:10px 13px;background:#172033;font-weight:700;font-size:13px}.boxbody{padding:14px;flex:1;display:flex;flex-direction:column}
+pre{margin:0;white-space:pre-wrap;font-family:Consolas,monospace;font-size:13px;line-height:1.65;color:#bae6fd}
+textarea{width:100%;height:360px;resize:vertical;background:#020617;color:#e2e8f0;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;outline:none}
+textarea:focus{border-color:#38bdf8}
+.output-display{width:100%;height:360px;background:#020617;color:#4ade80;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;overflow-y:auto;white-space:pre-wrap}
+.output-display.error-text{color:#f87171}
+
+.workspace-mcq{background:#0b1220;border:1px solid #38bdf8;border-radius:12px;padding:24px;max-width:800px;margin:0 auto}
+.mcq-question{font-size:18px;font-weight:600;margin-bottom:20px;color:#f8fafc}
+.mcq-container{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.mcq-option{background:#1e293b;border:2px solid #334155;padding:14px 18px;border-radius:10px;cursor:pointer;text-align:left;color:#e5e7eb;font-size:15px;transition:all 0.2s}
+.mcq-option:hover{background:#334155;border-color:#64748b}
+.mcq-option.selected{border-color:#38bdf8;background:#0c4a6e;font-weight:600}
+
+.buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+button.action{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:700;background:#0284c7;color:white}.action.secondary{background:#334155}.action.hint{background:#b45309}.action.next{background:#166534}.action.prev{background:#475569}.action.indent{background:#475569}
+.feedback{margin-top:13px;padding:13px;border-radius:8px;display:none;line-height:1.45}.success{display:block;background:#052e1b;border:1px solid #166534;color:#bbf7d0}.error{display:block;background:#3b0a0a;border:1px solid #991b1b;color:#fecaca}.info{display:block;background:#172033;border:1px solid #475569;color:#cbd5e1}
+.footer{color:#64748b;font-size:12px;margin-top:18px;text-align:center}
+@media(max-width:1100px){.workspace-challenge{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.levels{order:2}.mission{flex-direction:column}.stats{gap:7px;font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html" class="logo">
+  📝 CIE Pseudocode <span>Quest</span>
+  <span class="logo-badge">Level 8</span>
+</a>
+<div class="stats">
+  <div class="pill">Level <b>8: WHILE Loops</b></div>
+  <div class="pill">Task <b id="taskStat">1</b>/<span id="totalTasks">10</span></div>
+  <div class="pill">⭐ <b id="score">0</b></div>
+</div>
+</header>
+<main>
+<div class="grid">
+<aside class="panel levels">
+<h2>Level 8: WHILE...DO</h2>
+<div id="levelList"></div>
+</aside>
+<section class="card content">
+<div class="mission">
+  <div>
+    <h1 id="title"></h1>
+    <p id="description"></p>
+  </div>
+  <div class="badge" id="topic">Level 8: WHILE Loops</div>
+</div>
+<div class="objective"><b>🎯 Objective:</b> <span id="objective"></span></div>
+<div id="workspaceContainer"></div>
+<div class="footer">Compliant with Cambridge IGCSE Computer Science Pseudocode Standard.</div>
+</section>
+</div>
+</main>
+<script>
+const tasks = [
+  // SUB-SECTION 1: WHILE...DO BASICS
+  {
+    type: "mcq",
+    sub: "1. WHILE Basics",
+    title: "MCQ: Pre-Condition Mechanics",
+    desc: "Understanding execution flow in pre-condition loops.",
+    objective: "Identify the minimum execution count of WHILE...DO.",
+    challenge: "What is the minimum number of times a WHILE...DO loop body will execute if the initial condition is FALSE?",
+    options: ["0 times", "1 time", "2 times", "Depends on ENDWHILE"],
+    answer: 0,
+    hint: "WHILE...DO tests its condition BEFORE entering the loop body, allowing zero executions."
+  },
+  {
+    type: "code",
+    sub: "1. WHILE Basics",
+    title: "Pre-Condition Counter",
+    desc: "Building a simple incremental pre-tested loop.",
+    objective: "Output numbers 1 through 3 using WHILE...DO.",
+    challenge: "Count ← 1\nWHILE Count <= 3 DO\n    OUTPUT Count\n    Count ← Count + 1\nENDWHILE",
+    need: ["WHILE", "DO", "ENDWHILE", "OUTPUT"],
+    sampleInputs: {},
+    defaultCode: "Count ← 1\nWHILE Count <= 3 DO\n    OUTPUT Count\n    Count ← Count + 1\nENDWHILE",
+    hint: "The loop continues executing as long as the WHILE condition evaluates to TRUE."
+  },
+  {
+    type: "code",
+    sub: "1. WHILE Basics",
+    title: "Pre-Tested Countdown",
+    desc: "Decrementing inside a WHILE loop.",
+    objective: "Count down from 3 to 1 using WHILE...DO.",
+    challenge: "Timer ← 3\nWHILE Timer > 0 DO\n    OUTPUT Timer\n    Timer ← Timer - 1\nENDWHILE",
+    need: ["WHILE", "DO", "ENDWHILE", "OUTPUT"],
+    sampleInputs: {},
+    defaultCode: "Timer ← 3\nWHILE Timer > 0 DO\n    OUTPUT Timer\n    Timer ← Timer - 1\nENDWHILE",
+    hint: "Decrement Timer inside the block and check WHILE Timer > 0 DO."
+  },
+
+  // SUB-SECTION 2: INPUT VALIDATION
+  {
+    type: "code",
+    sub: "2. Input Validation",
+    title: "Password Entry Guard",
+    desc: "Using WHILE...DO to reject incorrect inputs.",
+    objective: "Prompt user until the correct password 'secret' is entered.",
+    challenge: "INPUT Pass\nWHILE Pass <> \"secret\" DO\n    INPUT Pass\nENDWHILE\nOUTPUT \"Access Granted\"",
+    need: ["WHILE", "DO", "ENDWHILE", "INPUT", "OUTPUT"],
+    sampleInputs: { Pass: "secret" },
+    defaultCode: "INPUT Pass\nWHILE Pass <> \"secret\" DO\n    INPUT Pass\nENDWHILE\nOUTPUT \"Access Granted\"",
+    hint: "Pre-condition loops require an initial INPUT before the WHILE statement to check the condition."
+  },
+  {
+    type: "code",
+    sub: "2. Input Validation",
+    title: "Pre-Checked Range Guard",
+    desc: "Rejecting out-of-range values.",
+    objective: "Keep prompting while Score is outside the 0 to 100 range.",
+    challenge: "INPUT Score\nWHILE Score < 0 OR Score > 100 DO\n    INPUT Score\nENDWHILE\nOUTPUT \"Valid Score\"",
+    need: ["WHILE", "DO", "ENDWHILE", "INPUT", "OUTPUT", "OR"],
+    sampleInputs: { Score: "85" },
+    defaultCode: "INPUT Score\nWHILE Score < 0 OR Score > 100 DO\n    INPUT Score\nENDWHILE\nOUTPUT \"Valid Score\"",
+    hint: "Use OR in the condition so the loop repeats whenever the input is invalid."
+  },
+
+  // SUB-SECTION 3: ACCUMULATION & SENTINELS
+  {
+    type: "code",
+    sub: "3. Accumulation",
+    title: "Target Accumulator",
+    desc: "Summing numbers until a target threshold is reached.",
+    objective: "Accumulate points while Total is less than 50.",
+    challenge: "Total ← 0\nWHILE Total < 50 DO\n    INPUT Points\n    Total ← Total + Points\nENDWHILE\nOUTPUT Total",
+    need: ["WHILE", "DO", "ENDWHILE", "INPUT", "OUTPUT"],
+    sampleInputs: { Points: "20" },
+    defaultCode: "Total ← 0\nWHILE Total < 50 DO\n    INPUT Points\n    Total ← Total + Points\nENDWHILE\nOUTPUT Total",
+    hint: "Initialize Total before the WHILE loop and prompt inside the block."
+  },
+  {
+    type: "code",
+    sub: "3. Accumulation",
+    title: "Sentinel Value Processing (-1)",
+    desc: "Processing stream inputs until a sentinel is encountered.",
+    objective: "Input numbers and output them until -1 is entered.",
+    challenge: "INPUT Num\nWHILE Num <> -1 DO\n    OUTPUT Num\n    INPUT Num\nENDWHILE",
+    need: ["WHILE", "DO", "ENDWHILE", "INPUT", "OUTPUT"],
+    sampleInputs: { Num: "-1" },
+    defaultCode: "INPUT Num\nWHILE Num <> -1 DO\n    OUTPUT Num\n    INPUT Num\nENDWHILE",
+    hint: "Read initial input before entering, output it, and then prompt for the next input inside the loop."
+  },
+
+  // SUB-SECTION 4: REAL-WORLD EXAM EXERCISES
+  {
+    type: "mcq",
+    sub: "4. Exam Scenarios",
+    title: "MCQ: Pre-Condition Selection Logic",
+    desc: "Comparing pre-condition and post-condition selection criteria.",
+    objective: "Identify when a WHILE loop is preferred over REPEAT...UNTIL.",
+    challenge: "Which scenario strictly requires a WHILE...DO loop instead of REPEAT...UNTIL?",
+    options: [
+      "When the loop body might need to execute zero times",
+      "When the loop body must execute at least once",
+      "When the number of iterations is fixed and known in advance",
+      "When performing counting operations from 1 to 10"
+    ],
+    answer: 0,
+    hint: "Because WHILE...DO tests before running, it is the only dynamic loop capable of executing 0 times."
+  },
+  {
+    type: "code",
+    sub: "4. Exam Scenarios",
+    title: "CIE Mark Validation Stream",
+    desc: "A standard CIE exam processing pattern.",
+    objective: "Process student marks until -1, displaying Pass or Fail.",
+    challenge: "INPUT Mark\nWHILE Mark <> -1 DO\n    IF Mark >= 50 AND Mark <= 100 THEN\n        OUTPUT \"Pass\"\n    ELSE\n        IF Mark >= 0 AND Mark < 50 THEN\n            OUTPUT \"Fail\"\n        ENDIF\n    ENDIF\n    INPUT Mark\nENDWHILE",
+    need: ["WHILE", "DO", "ENDWHILE", "INPUT", "IF", "THEN", "ENDIF"],
+    sampleInputs: { Mark: "-1" },
+    defaultCode: "INPUT Mark\nWHILE Mark <> -1 DO\n    IF Mark >= 50 AND Mark <= 100 THEN\n        OUTPUT \"Pass\"\n    ELSE\n        IF Mark >= 0 AND Mark < 50 THEN\n            OUTPUT \"Fail\"\n        ENDIF\n    ENDIF\n    INPUT Mark\nENDWHILE",
+    hint: "Keep all nested IF blocks and loop contents indented by 4 spaces per depth level."
+  },
+  {
+    type: "code",
+    sub: "4. Exam Scenarios",
+    title: "Stock Re-Order Validator",
+    desc: "Validating stock quantities in a warehouse system.",
+    objective: "Keep requesting quantity while Stock is below minimum threshold 10.",
+    challenge: "INPUT Stock\nWHILE Stock < 10 DO\n    OUTPUT \"Re-order required\"\n    INPUT Stock\nENDWHILE\nOUTPUT \"Stock level sufficient\"",
+    need: ["WHILE", "DO", "ENDWHILE", "INPUT", "OUTPUT"],
+    sampleInputs: { Stock: "15" },
+    defaultCode: "INPUT Stock\nWHILE Stock < 10 DO\n    OUTPUT \"Re-order required\"\n    INPUT Stock\nENDWHILE\nOUTPUT \"Stock level sufficient\"",
+    hint: "If Stock starts at 10 or more, the loop body will skip completely."
+  }
+];
+
+let currentIdx = 0, score = 0, selectedMcqOption = null;
+
+function renderSubSections() {
+  let el = document.getElementById("levelList");
+  el.innerHTML = "";
+  tasks.forEach((t, i) => {
+    let b = document.createElement("button");
+    b.className = "level " + (i === currentIdx ? "active" : "");
+    b.innerHTML = `Task ${i + 1}: ${t.title}<small>${t.sub}</small>`;
+    b.onclick = () => loadTask(i);
+    el.appendChild(b);
+  });
+}
+
+function loadTask(idx) {
+  currentIdx = idx;
+  selectedMcqOption = null;
+  let t = tasks[idx];
+  document.getElementById("taskStat").textContent = idx + 1;
+  document.getElementById("totalTasks").textContent = tasks.length;
+  document.getElementById("title").textContent = `Level 8 - Task ${idx + 1}: ${t.title}`;
+  document.getElementById("description").textContent = t.desc;
+  document.getElementById("objective").textContent = t.objective;
+  
+  let ws = document.getElementById("workspaceContainer");
+  hideFeedback();
+
+  if (t.type === "mcq") {
+    let html = `
+      <div class="workspace-mcq">
+        <div class="mcq-question">${t.challenge}</div>
+        <div class="mcq-container">`;
+    t.options.forEach((opt, oIdx) => {
+      html += `<div class="mcq-option" id="opt${oIdx}" onclick="selectMcq(${oIdx})">${String.fromCharCode(65 + oIdx)}. ${opt}</div>`;
+    });
+    html += `</div>
+        <div class="buttons">
+          <button class="action" onclick="checkMcqAnswer()">Submit Choice</button>
+          <button class="action hint" onclick="showHint()">💡 Hint</button>
+          <button class="action prev" onclick="prevTask()">⏮ Previous Activity</button>
+          <button class="action next" onclick="nextTask()">⏭ Next Activity</button>
+        </div>
+        <div id="feedback" class="feedback"></div>
+      </div>`;
+    ws.innerHTML = html;
+  } else {
+    ws.innerHTML = `
+      <div class="workspace-challenge">
+        <div class="box">
+          <div class="boxhead">📋 Task Specification (Level 8)</div>
+          <div class="boxbody"><pre>${t.challenge}</pre></div>
+        </div>
+        <div class="box">
+          <div class="boxhead">⌨️ Level 8 Workspace</div>
+          <div class="boxbody">
+            <textarea id="code" spellcheck="false"></textarea>
+            <div class="buttons">
+              <button class="action" onclick="runAndExecuteCode()">▶ Run & Execute</button>
+              <button class="action indent" onclick="insertIndent()">⇥ Indent (4 Spaces)</button>
+              <button class="action secondary" onclick="resetCode()">↻ Reset</button>
+              <button class="action hint" onclick="showHint()">💡 Hint</button>
+              <button class="action prev" onclick="prevTask()">⏮ Previous Activity</button>
+              <button class="action next" onclick="nextTask()">⏭ Next Activity</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="boxhead">🖥️ Interactive Execution Terminal</div>
+          <div class="boxbody"><div id="output" class="output-display">Press "Run & Execute" to validate indentation and simulate WHILE...DO loop execution...</div></div>
+        </div>
+      </div>`;
+    
+    let ta = document.getElementById("code");
+    ta.value = t.defaultCode || "";
+    ta.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        insertIndent();
+      }
+    });
+  }
+  renderSubSections();
+}
+
+function insertIndent() {
+  let ta = document.getElementById("code");
+  if (!ta) return;
+  let start = ta.selectionStart;
+  let end = ta.selectionEnd;
+  const spaces = "    ";
+  ta.value = ta.value.substring(0, start) + spaces + ta.value.substring(end);
+  ta.selectionStart = ta.selectionEnd = start + spaces.length;
+  ta.focus();
+}
+
+function selectMcq(oIdx) {
+  selectedMcqOption = oIdx;
+  let t = tasks[currentIdx];
+  t.options.forEach((_, i) => {
+    let el = document.getElementById("opt" + i);
+    if (el) el.className = "mcq-option" + (i === oIdx ? " selected" : "");
+  });
+}
+
+function checkMcqAnswer() {
+  let t = tasks[currentIdx];
+  let fb = document.getElementById("feedback");
+
+  if (selectedMcqOption === null) {
+    fb.className = "feedback error";
+    fb.innerHTML = "⚠️ Please select an option before submitting.";
+    return;
+  }
+
+  if (selectedMcqOption === t.answer) {
+    score += 50;
+    document.getElementById("score").textContent = score;
+    fb.className = "feedback success";
+    fb.innerHTML = "✅ <b>Correct!</b> Excellent job. Click <b>Next Activity</b> to proceed.";
+  } else {
+    fb.className = "feedback error";
+    fb.innerHTML = "❌ <b>Incorrect choice.</b> Review the question or click Hint for guidance.";
+  }
+}
+
+// Multi-Level Indentation Check
+function checkMultiLevelIndentation(code) {
+  const lines = code.split('\n');
+  let currentDepth = 0;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i];
+    const trimmed = rawLine.trim();
+    if (!trimmed) continue;
+    
+    let upper = trimmed.toUpperCase();
+    
+    if (upper.startsWith("ENDWHILE") || upper.startsWith("ENDIF") || upper.startsWith("NEXT") || upper.startsWith("ENDCASE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    } else if (upper.startsWith("ELSE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    }
+
+    const expectedSpaces = currentDepth * 4;
+    const actualSpaces = rawLine.search(/\S|$/);
+
+    if (actualSpaces < expectedSpaces) {
+      return {
+        valid: false,
+        lineNum: i + 1,
+        lineText: trimmed,
+        expectedSpaces: expectedSpaces,
+        actualSpaces: actualSpaces
+      };
+    }
+
+    if ((upper.startsWith("WHILE ") && upper.includes(" DO")) || upper.includes("THEN") || upper.startsWith("ELSE") || upper.startsWith("FOR ")) {
+      currentDepth++;
+    }
+  }
+
+  return { valid: true };
+}
+
+// Expression Evaluator
+function evaluateExpr(expr, env) {
+  let clean = expr.trim();
+  let keys = Object.keys(env).sort((a,b) => b.length - a.length);
+  keys.forEach(k => {
+    let reg = new RegExp("\\b" + k + "\\b", "g");
+    clean = clean.replace(reg, typeof env[k] === "string" ? `"${env[k]}"` : env[k]);
+  });
+  clean = clean.replace(/<>/g, "!=").replace(/←/g, "=").replace(/=/g, "===").replace(/!===/g, "!=").replace(/<===/g, "<=").replace(/>===/g, ">=").replace(/\bAND\b/gi, "&&").replace(/\bOR\b/gi, "||").replace(/\bNOT\b/gi, "!");
+  try {
+    return Function(`"use strict"; return (${clean})`)();
+  } catch (e) {
+    return expr;
+  }
+}
+
+// Dynamic WHILE Execution Engine
+function executeWhilePseudocode(code, taskInputs, terminalLogRef) {
+  let lines = code.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  let outputs = [];
+  let env = {};
+  let i = 0;
+  let cancelled = false;
+  let maxGuard = 0;
+
+  function runBlock(stopKeywords) {
+    while (i < lines.length && !cancelled) {
+      maxGuard++;
+      if (maxGuard > 500) {
+        terminalLogRef.log += "[System Error] Potential infinite loop detected! Safely terminated execution.\n";
+        cancelled = true;
+        return;
+      }
+
+      let line = lines[i];
+      let upper = line.toUpperCase();
+
+      if (stopKeywords.some(k => upper.startsWith(k))) {
+        return;
+      }
+
+      // Variable Assignment
+      if (upper.includes("←")) {
+        let parts = line.split("←");
+        let varName = parts[0].trim();
+        let val = evaluateExpr(parts[1], env);
+        env[varName] = val;
+        i++;
+        continue;
+      }
+
+      // Dynamic INPUT
+      if (upper.startsWith("INPUT ")) {
+        let varName = line.substring(6).trim();
+        let defaultVal = (taskInputs && taskInputs[varName]) ? taskInputs[varName] : "10";
+        let userVal = prompt(`[Program Input]\nEnter value for variable '${varName}':`, defaultVal);
+        
+        if (userVal === null) {
+          cancelled = true;
+          return;
+        }
+
+        let parsedVal = !isNaN(userVal) && userVal.trim() !== "" ? Number(userVal) : userVal;
+        env[varName] = parsedVal;
+        terminalLogRef.log += `[INPUT Prompt] ${varName} = ${JSON.stringify(parsedVal)}\n`;
+        i++;
+        continue;
+      }
+
+      // WHILE...DO Execution
+      if (upper.startsWith("WHILE ") && upper.includes(" DO")) {
+        let condExpr = line.substring(6, line.toUpperCase().indexOf(" DO")).trim();
+        let loopHeaderIdx = i;
+
+        while (Boolean(evaluateExpr(condExpr, env)) && !cancelled) {
+          i = loopHeaderIdx + 1;
+          runBlock(["ENDWHILE"]);
+        }
+        
+        // Skip past ENDWHILE block when done or if initial condition was false
+        while (i < lines.length && !lines[i].toUpperCase().startsWith("ENDWHILE")) {
+          i++;
+        }
+        if (i < lines.length) i++;
+        continue;
+      }
+
+      // IF Condition
+      if (upper.startsWith("IF ")) {
+        let match = line.match(/IF\s+(.*?)\s+THEN$/i);
+        if (match) {
+          let cond = Boolean(evaluateExpr(match[1], env));
+          i++;
+          if (cond) {
+            runBlock(["ELSE", "ENDIF"]);
+            while (i < lines.length && !lines[i].toUpperCase().startsWith("ENDIF")) {
+              i++;
+            }
+            if (i < lines.length) i++;
+          } else {
+            while (i < lines.length && !lines[i].toUpperCase().startsWith("ELSE") && !lines[i].toUpperCase().startsWith("ENDIF")) {
+              i++;
+            }
+            if (i < lines.length && lines[i].toUpperCase().startsWith("ELSE")) {
+              i++;
+              runBlock(["ENDIF"]);
+            }
+            if (i < lines.length && lines[i].toUpperCase().startsWith("ENDIF")) {
+              i++;
+            }
+          }
+        } else {
+          i++;
+        }
+        continue;
+      }
+
+      // Output Handling
+      if (upper.startsWith("OUTPUT ")) {
+        let expr = line.substring(7);
+        let parts = expr.split(",").map(p => evaluateExpr(p, env));
+        outputs.push(parts.join(" "));
+        i++;
+        continue;
+      }
+
+      i++;
+    }
+  }
+
+  runBlock([]);
+  return { cancelled, result: outputs.join("\n") };
+}
+
+function runAndExecuteCode() {
+  let codeRaw = document.getElementById("code").value;
+  let t = tasks[currentIdx];
+  let fb = document.getElementById("feedback");
+  let outEl = document.getElementById("output");
+  
+  if (!codeRaw.trim()) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = "Error: Code field is empty. Please enter pseudocode.";
+    showFeedback("❌ Please enter pseudocode before running.", false);
+    return;
+  }
+
+  // Syntax Keyword check
+  let upperCode = codeRaw.toUpperCase();
+  let missing = t.need.filter(x => !upperCode.includes(x));
+  if (missing.length > 0) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `SyntaxError: Missing required keyword(s): ${missing.join(", ")}`;
+    showFeedback(`❌ Missing required keywords: <b>${missing.join(", ")}</b>`, false);
+    return;
+  }
+
+  // Indentation Check
+  let indentCheck = checkMultiLevelIndentation(codeRaw);
+  if (!indentCheck.valid) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `IndentationError (Line ${indentCheck.lineNum}): "${indentCheck.lineText}"\nExpected ${indentCheck.expectedSpaces} spaces for level depth, but found ${indentCheck.actualSpaces}.`;
+    showFeedback(`❌ <b>Indentation Error:</b> Line ${indentCheck.lineNum} requires ${indentCheck.expectedSpaces} spaces.`, false);
+    return;
+  }
+
+  let terminalLogRef = { log: "Starting Execution...\n" };
+  let execution = executeWhilePseudocode(codeRaw, t.sampleInputs, terminalLogRef);
+
+  if (execution.cancelled) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = terminalLogRef.log + "\nExecution halted.";
+    hideFeedback();
+    return;
+  }
+
+  terminalLogRef.log += `---------------------------------\n[OUTPUT]:\n${execution.result || "(No output produced)"}\n---------------------------------\nExecution finished with 0 errors.`;
+
+  outEl.className = "output-display";
+  outEl.textContent = terminalLogRef.log;
+
+  score += 100;
+  document.getElementById("score").textContent = score;
+  showFeedback("✅ <b>Execution Successful!</b> WHILE...DO logic, dynamic prompts, and indentation verified.", true);
+}
+
+function prevTask() {
+  if (currentIdx > 0) {
+    loadTask(currentIdx - 1);
+  } else {
+    loadTask(tasks.length - 1);
+  }
+}
+
+function nextTask() {
+  if (currentIdx < tasks.length - 1) {
+    loadTask(currentIdx + 1);
+  } else {
+    loadTask(0);
+  }
+}
+
+function showHint() {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback info";
+  fb.innerHTML = "💡 " + tasks[currentIdx].hint;
+}
+
+function resetCode() {
+  let t = tasks[currentIdx];
+  let ta = document.getElementById("code");
+  if (ta) ta.value = t.defaultCode || "";
+  let outEl = document.getElementById("output");
+  if (outEl) {
+    outEl.className = "output-display";
+    outEl.textContent = 'Press "Run & Execute" to validate indentation and simulate WHILE...DO loop execution...';
+  }
+  hideFeedback();
+}
+
+function showFeedback(msg, isSuccess) {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback " + (isSuccess ? "success" : "error");
+  fb.innerHTML = msg;
+}
+
+function hideFeedback() {
+  let fb = document.getElementById("feedback");
+  if (fb) {
+    fb.className = "feedback";
+    fb.innerHTML = "";
+  }
+}
+
+loadTask(0);
+</script>
+</body>
+</html>

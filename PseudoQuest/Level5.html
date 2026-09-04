@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CIE IGCSE Computer Science Pseudocode Quest - Level 5: Selection</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:#0f172a;color:#e5e7eb}
+header{background:#111827;border-bottom:1px solid #334155;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.header-left{display:flex;align-items:center;gap:16px}
+.home-link{color:#38bdf8;text-decoration:none;font-weight:700;font-size:13px;background:#1e293b;padding:6px 14px;border-radius:6px;border:1px solid #334155;transition:background 0.2s}
+.home-link:hover{background:#263449}
+.logo{font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}.logo span{color:#38bdf8}
+.level-badge{background:#0284c7;color:white;font-weight:800;font-size:11px;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:0.5px}
+.stats{display:flex;gap:18px;font-size:14px}.pill{background:#1e293b;padding:7px 11px;border-radius:999px}
+main{max-width:1400px;margin:0 auto;padding:22px}.grid{display:grid;grid-template-columns:320px 1fr;gap:18px}
+.panel,.card{background:#111827;border:1px solid #334155;border-radius:14px}.levels{padding:16px;max-height:85vh;overflow-y:auto}.levels h2{margin:0 0 12px;font-size:16px}
+.sidebar-title{font-size:13px;font-weight:700;color:#38bdf8;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.level{width:100%;text-align:left;background:#1e293b;color:#e5e7eb;border:1px solid #334155;padding:11px;border-radius:10px;margin:7px 0;cursor:pointer}
+.level:hover{background:#263449}.level.active{border-color:#38bdf8;background:#0c4a6e}.level.locked{opacity:.45;cursor:not-allowed}.level small{display:block;color:#94a3b8;margin-top:3px}
+.content{padding:20px}.mission{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.mission h1{margin:0 0 7px;font-size:26px}.mission p{margin:0;color:#cbd5e1;line-height:1.5}
+.badge{background:#0284c7;padding:7px 10px;border-radius:8px;font-size:12px;white-space:nowrap}
+.objective{margin:18px 0;padding:15px;border-left:4px solid #38bdf8;background:#0b1220;border-radius:8px}
+
+.workspace-challenge{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px}
+.box{background:#0b1220;border:1px solid #334155;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.boxhead{padding:10px 13px;background:#172033;font-weight:700;font-size:13px}.boxbody{padding:14px;flex:1;display:flex;flex-direction:column}
+pre{margin:0;white-space:pre-wrap;font-family:Consolas,monospace;font-size:13px;line-height:1.65;color:#bae6fd}
+textarea{width:100%;height:340px;resize:vertical;background:#020617;color:#e2e8f0;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;outline:none}
+textarea:focus{border-color:#38bdf8}
+.output-display{width:100%;height:340px;background:#020617;color:#4ade80;border:1px solid #475569;border-radius:8px;padding:14px;font:13px/1.6 Consolas,monospace;overflow-y:auto;white-space:pre-wrap}
+.output-display.error-text{color:#f87171}
+
+.workspace-mcq{background:#0b1220;border:1px solid #38bdf8;border-radius:12px;padding:24px;max-width:800px;margin:0 auto}
+.mcq-question{font-size:18px;font-weight:600;margin-bottom:20px;color:#f8fafc}
+.mcq-container{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.mcq-option{background:#1e293b;border:2px solid #334155;padding:14px 18px;border-radius:10px;cursor:pointer;text-align:left;color:#e5e7eb;font-size:15px;transition:all 0.2s}
+.mcq-option:hover{background:#334155;border-color:#64748b}
+.mcq-option.selected{border-color:#38bdf8;background:#0c4a6e;font-weight:600}
+
+.buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+button.action{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:700;background:#0284c7;color:white}.action.secondary{background:#334155}.action.hint{background:#b45309}.action.next{background:#166534}.action.indent{background:#475569}
+.feedback{margin-top:13px;padding:13px;border-radius:8px;display:none;line-height:1.45}.success{display:block;background:#052e1b;border:1px solid #166534;color:#bbf7d0}.error{display:block;background:#3b0a0a;border:1px solid #991b1b;color:#fecaca}.info{display:block;background:#172033;border:1px solid #475569;color:#cbd5e1}
+.footer{color:#64748b;font-size:12px;margin-top:18px;text-align:center}
+@media(max-width:1100px){.workspace-challenge{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.levels{order:2}.mission{flex-direction:column}.stats{gap:7px;font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+<div class="header-left">
+  <a href="index.html" class="home-link">← Home</a>
+  <div class="logo">
+    <span class="level-badge">Level 5</span>
+    📝 CIE Pseudocode <span>Quest (Selection)</span>
+  </div>
+</div>
+<div class="stats"><div class="pill">Level <b>5</b></div><div class="pill">Task <b id="taskStat">1</b>/<span id="totalTasks">15</span></div><div class="pill">⭐ <b id="score">0</b></div></div>
+</header>
+<main>
+<div class="grid">
+<aside class="panel levels">
+<div class="sidebar-title">📌 LEVEL 5: Selection Topics</div>
+<div id="levelList"></div>
+</aside>
+<section class="card content">
+<div class="mission"><div><h1 id="title"></h1><p id="description"></p></div><div class="badge" id="topic">Selection</div></div>
+<div class="objective"><b>🎯 Objective:</b> <span id="objective"></span></div>
+<div id="workspaceContainer"></div>
+<div class="footer">Compliant with Cambridge IGCSE Computer Science Pseudocode Standard[cite: 5].</div>
+</section>
+</div>
+</main>
+<script>
+const tasks = [
+  {
+    type: "mcq", 
+    sub: "1. IF Statements", 
+    title: "MCQ: Basic IF Syntax", 
+    desc: "Understanding standard CIE IF constructs.", 
+    objective: "Identify the correct terminating keyword for a single-branch IF statement.", 
+    challenge: "Which keyword is required by CIE pseudocode standards to close an IF statement?[cite: 5]", 
+    options: ["END", "ENDIF", "FI", "END IF"], 
+    answer: 1, 
+    hint: "CIE pseudocode uses ENDIF as a single word in uppercase[cite: 5]."
+  },
+  {
+    type: "code", 
+    sub: "1. IF Statements", 
+    title: "Single IF: Alphabet Check", 
+    desc: "Single-condition selection check.", 
+    objective: "Write a single-branch IF statement checking if input equals 26.", 
+    challenge: "Write pseudocode to input total letter count in the alphabet.\nIF Letters = 26 THEN output 'Correct'.", 
+    need: ["INPUT", "IF", "THEN", "ENDIF", "OUTPUT"], 
+    sampleInputs: { Letters: "26" }, 
+    defaultCode: "INPUT Letters\nIF Letters = 26 THEN\n    OUTPUT \"Correct\"\nENDIF",
+    hint: "Indent inner statements by 4 spaces."
+  },
+  {
+    type: "code", 
+    sub: "1. IF Statements", 
+    title: "Single IF: String Length", 
+    desc: "Combining built-in functions inside IF statements.", 
+    objective: "Evaluate string length inside an IF statement condition.", 
+    challenge: "Write pseudocode to input Guess.\nIF Guess = LENGTH(\"How long is this string?\") THEN output 'Correct'.", 
+    need: ["INPUT", "LENGTH", "IF", "THEN", "ENDIF"], 
+    sampleInputs: { Guess: "24" }, 
+    defaultCode: "INPUT Guess\nIF Guess = LENGTH(\"How long is this string?\") THEN\n    OUTPUT \"Correct\"\nENDIF",
+    hint: "Use LENGTH(\"How long is this string?\") inside the IF condition."
+  },
+  {
+    type: "mcq", 
+    sub: "2. IF-ELSE Statements", 
+    title: "MCQ: Block Indentation", 
+    desc: "CIE Indentation Guidelines.", 
+    objective: "Recall standard indentation requirements for block clauses.", 
+    challenge: "In standard pseudocode structure, how are statements inside THEN or ELSE clauses aligned?", 
+    options: ["No indent (0 spaces)", "Indented by 2 spaces", "Indented by 4 spaces", "Indented by 8 spaces"], 
+    answer: 2, 
+    hint: "Statements inside a block sit indented by 4 spaces relative to the parent header."
+  },
+  {
+    type: "code", 
+    sub: "2. IF-ELSE Statements", 
+    title: "IF-ELSE: Alphabet Check", 
+    desc: "Two-branch selection handling true and false outcomes.", 
+    objective: "Provide two-branch execution using IF, THEN, ELSE, and ENDIF.", 
+    challenge: "Write pseudocode to input Letters.\nOutput 'Correct' if Letters = 26, ELSE output 'Incorrect'.", 
+    need: ["INPUT", "IF", "THEN", "ELSE", "ENDIF", "OUTPUT"], 
+    sampleInputs: { Letters: "26" }, 
+    defaultCode: "INPUT Letters\nIF Letters = 26 THEN\n    OUTPUT \"Correct\"\nELSE\n    OUTPUT \"Incorrect\"\nENDIF",
+    hint: "Align ELSE and ENDIF at 0 spaces, and indent inner OUTPUT lines by 4 spaces."
+  },
+  {
+    type: "code", 
+    sub: "2. IF-ELSE Statements", 
+    title: "IF-ELSE: Logical OR Check", 
+    desc: "Combining logical expressions inside selection statements.", 
+    objective: "Use logical OR to match against multiple values.", 
+    challenge: "Input Value. If Value is 'Respect', 'Excellence', or 'Friendship', output 'Correct', ELSE output 'Incorrect'.", 
+    need: ["INPUT", "IF", "OR", "THEN", "ELSE", "ENDIF"], 
+    sampleInputs: { Value: "Respect" }, 
+    defaultCode: "INPUT Value\nIF Value = \"Respect\" OR Value = \"Excellence\" OR Value = \"Friendship\" THEN\n    OUTPUT \"Correct\"\nELSE\n    OUTPUT \"Incorrect\"\nENDIF",
+    hint: "Use the logical OR operator between string comparisons."
+  },
+  {
+    type: "code", 
+    sub: "2. IF-ELSE Statements", 
+    title: "IF-ELSE: Basic Calculator", 
+    desc: "Performing math operations based on user operator selection.", 
+    objective: "Execute addition or subtraction depending on operator symbol.", 
+    challenge: "Input N1, Op, N2. IF Op = '+' THEN output N1 + N2 ELSE output N1 - N2.", 
+    need: ["INPUT", "IF", "THEN", "ELSE", "ENDIF"], 
+    sampleInputs: { N1: "10", Op: "+", N2: "5" }, 
+    defaultCode: "INPUT N1\nINPUT Op\nINPUT N2\nIF Op = \"+\" THEN\n    OUTPUT N1 + N2\nELSE\n    OUTPUT N1 - N2\nENDIF",
+    hint: "Evaluate Op variable using string checks."
+  },
+  {
+    type: "mcq", 
+    sub: "3. Nested IF Statements", 
+    title: "MCQ: Nested Execution", 
+    desc: "Analyzing multi-level conditions.", 
+    objective: "Determine conditions required to trigger deeply nested logic.", 
+    challenge: "Given:\nIF A > 5 THEN\n    IF B < 2 THEN\n        OUTPUT \"X\"\n    ENDIF\nENDIF\nWhen will 'X' be output?", 
+    options: ["When A > 5 OR B < 2", "When A > 5 AND B < 2", "When A <= 5", "When B >= 2"], 
+    answer: 1, 
+    hint: "Both parent and inner conditions must evaluate to TRUE."
+  },
+  {
+    type: "code", 
+    sub: "3. Nested IF Statements", 
+    title: "Nested IF: Grade Evaluator", 
+    desc: "Nested condition checking inside a THEN branch.", 
+    objective: "Validate score threshold using nested IF checks.", 
+    challenge: "Input Score.\nIf Score >= 50, check if Score >= 80 to output 'Grade A', else 'Grade B'.\nIf Score < 50 output 'Fail'.", 
+    need: ["INPUT", "IF", "THEN", "ELSE", "ENDIF"], 
+    sampleInputs: { Score: "85" }, 
+    defaultCode: "INPUT Score\nIF Score >= 50 THEN\n    IF Score >= 80 THEN\n        OUTPUT \"Grade A\"\n    ELSE\n        OUTPUT \"Grade B\"\n    ENDIF\nELSE\n    OUTPUT \"Fail\"\nENDIF",
+    hint: "Statements inside the second IF block require 8 spaces of indentation."
+  },
+  {
+    type: "code", 
+    sub: "3. Nested IF Statements", 
+    title: "Nested IF: Champion Leaderboard", 
+    desc: "Multi-branch nested selection across THEN and ELSE blocks.", 
+    objective: "Evaluate complex competitive conditions using multi-level nested IF structures.", 
+    challenge: "Input ChallengerName, ChallengerScore, ChampionName, ChampionScore, HighestScore.\nDetermine champion and record holder using nested logic.", 
+    need: ["INPUT", "IF", "THEN", "ELSE", "ENDIF"], 
+    sampleInputs: { ChallengerName: "Alice", ChallengerScore: "95", ChampionName: "Bob", ChampionScore: "90", HighestScore: "92" }, 
+    defaultCode: "INPUT ChallengerName\nINPUT ChallengerScore\nINPUT ChampionName\nINPUT ChampionScore\nINPUT HighestScore\nIF ChallengerScore > ChampionScore THEN\n    IF ChallengerScore > HighestScore THEN\n        OUTPUT ChallengerName, \" is champion and highest scorer\"\n    ELSE\n        OUTPUT ChallengerName, \" is the new champion\"\n    ENDIF\nELSE\n    OUTPUT ChampionName, \" is still the champion\"\n    IF ChampionScore > HighestScore THEN\n        OUTPUT ChampionName, \" is also the highest scorer\"\n    ENDIF\nENDIF",
+    hint: "Indent nested lines appropriately by 4-space increments."
+  },
+  {
+    type: "code", 
+    sub: "3. Nested IF Statements", 
+    title: "Nested IF: Value Comparison", 
+    desc: "Determining relationships between two numbers.", 
+    objective: "Compare two numbers to report which is greater or if they are equal.", 
+    challenge: "Input N1 and N2. Output which is larger, or output 'Equal' if N1 = N2.", 
+    need: ["INPUT", "IF", "THEN", "ELSE", "ENDIF"], 
+    sampleInputs: { N1: "8", N2: "3" }, 
+    defaultCode: "INPUT N1\nINPUT N2\nIF N1 = N2 THEN\n    OUTPUT \"Equal\"\nELSE\n    IF N1 > N2 THEN\n        OUTPUT N1, \" is greater\"\n    ELSE\n        OUTPUT N2, \" is greater\"\n    ENDIF\nENDIF",
+    hint: "Nest the second IF statement under the outer ELSE branch."
+  },
+  {
+    type: "code", 
+    sub: "3. Nested IF Statements", 
+    title: "Nested IF: Traffic Light Sequence", 
+    desc: "Multiway decision tree using nested IFs.", 
+    objective: "Process multiple light signals using chained nested IF structures.", 
+    challenge: "Input Color. IF 'Red' output 'Stop'; ELSE IF 'Amber' output 'Get Ready'; ELSE IF 'Green' output 'Go'.", 
+    need: ["INPUT", "IF", "THEN", "ELSE", "ENDIF"], 
+    sampleInputs: { Color: "Red" }, 
+    defaultCode: "INPUT Color\nIF Color = \"Red\" THEN\n    OUTPUT \"Stop\"\nELSE\n    IF Color = \"Amber\" THEN\n        OUTPUT \"Get Ready\"\n    ELSE\n        IF Color = \"Green\" THEN\n            OUTPUT \"Go\"\n        ENDIF\n    ENDIF\nENDIF",
+    hint: "Each additional nested level adds 4 extra spaces of indentation."
+  },
+  {
+    type: "mcq", 
+    sub: "4. CASE Statements", 
+    title: "MCQ: CASE Structure", 
+    desc: "Understanding multiway CASE choices.", 
+    objective: "Identify proper keyword used to close a CASE block.", 
+    challenge: "Which keyword terminates a multiway CASE selection block in standard pseudocode?[cite: 5]", 
+    options: ["ENDCASE", "END CASE", "ENDSELECT", "OTHERWISE"], 
+    answer: 0, 
+    hint: "CIE multiway selection ends strictly with ENDCASE[cite: 5]."
+  },
+  {
+    type: "code", 
+    sub: "4. CASE Statements", 
+    title: "CASE: Traffic Light Signals", 
+    desc: "Converting Nested IF logic into a clean CASE statement.", 
+    objective: "Re-implement traffic signal checks using multiway CASE syntax.", 
+    challenge: "Input Color. Use CASE OF Color to output 'Stop' for 'Red', 'Get Ready' for 'Amber', 'Go' for 'Green'.", 
+    need: ["INPUT", "CASE", "OF", "ENDCASE"], 
+    sampleInputs: { Color: "Red" }, 
+    defaultCode: "INPUT Color\nCASE OF Color\n    \"Red\": OUTPUT \"Stop\"\n    \"Amber\": OUTPUT \"Get Ready\"\n    \"Green\": OUTPUT \"Go\"\nENDCASE",
+    hint: "Indent each branch under CASE OF by 4 spaces."
+  },
+  {
+    type: "code", 
+    sub: "4. CASE Statements", 
+    title: "CASE: Direction Navigator", 
+    desc: "Processing navigational choices with default fallback.", 
+    objective: "Process direction choices using CASE with an OTHERWISE fallback.", 
+    challenge: "Input Move ('W','E','A','D'). Output direction ('North','East','West','South') and use OTHERWISE for 'Invalid'.", 
+    need: ["INPUT", "CASE", "OF", "OTHERWISE", "ENDCASE"], 
+    sampleInputs: { Move: "W" }, 
+    defaultCode: "INPUT Move\nCASE OF Move\n    \"W\": OUTPUT \"North\"\n    \"E\": OUTPUT \"East\"\n    \"A\": OUTPUT \"West\"\n    \"D\": OUTPUT \"South\"\n    OTHERWISE OUTPUT \"Invalid\"\nENDCASE",
+    hint: "Ensure OTHERWISE is placed inside the CASE block aligned at 4 spaces."
+  }
+];
+
+let currentIdx = 0, score = 0, selectedMcqOption = null;
+
+function renderSubSections() {
+  let el = document.getElementById("levelList");
+  el.innerHTML = "";
+  tasks.forEach((t, i) => {
+    let b = document.createElement("button");
+    b.className = "level " + (i === currentIdx ? "active" : "");
+    b.innerHTML = `Task ${i + 1}: ${t.title}<small>${t.sub}</small>`;
+    b.onclick = () => loadTask(i);
+    el.appendChild(b);
+  });
+}
+
+function loadTask(idx) {
+  currentIdx = idx;
+  selectedMcqOption = null;
+  let t = tasks[idx];
+  document.getElementById("taskStat").textContent = idx + 1;
+  document.getElementById("totalTasks").textContent = tasks.length;
+  document.getElementById("title").textContent = t.title;
+  document.getElementById("description").textContent = t.desc;
+  document.getElementById("objective").textContent = t.objective;
+  
+  let ws = document.getElementById("workspaceContainer");
+  hideFeedback();
+
+  if (t.type === "mcq") {
+    let html = `
+      <div class="workspace-mcq">
+        <div class="mcq-question">${t.challenge}</div>
+        <div class="mcq-container">`;
+    t.options.forEach((opt, oIdx) => {
+      html += `<div class="mcq-option" id="opt${oIdx}" onclick="selectMcq(${oIdx})">${String.fromCharCode(65 + oIdx)}. ${opt}</div>`;
+    });
+    html += `</div>
+        <div class="buttons">
+          <button class="action" onclick="checkMcqAnswer()">Submit Choice</button>
+          <button class="action secondary" onclick="prevTask()">⏮ Previous Task</button>
+          <button class="action hint" onclick="showHint()">💡 Hint</button>
+          <button class="action next" onclick="nextTask()">⏭ Next Task</button>
+        </div>
+        <div id="feedback" class="feedback"></div>
+      </div>`;
+    ws.innerHTML = html;
+  } else {
+    ws.innerHTML = `
+      <div class="workspace-challenge">
+        <div class="box">
+          <div class="boxhead">📋 Task Specification</div>
+          <div class="boxbody"><pre>${t.challenge}</pre></div>
+        </div>
+        <div class="box">
+          <div class="boxhead">⌨️ Level 5 Workspace</div>
+          <div class="boxbody">
+            <textarea id="code" spellcheck="false"></textarea>
+            <div class="buttons">
+              <button class="action" onclick="runAndExecuteCode()">▶ Run & Execute</button>
+              <button class="action indent" onclick="insertIndent()">⇥ Indent (4 Spaces)</button>
+              <button class="action secondary" onclick="resetCode()">↻ Reset</button>
+              <button class="action secondary" onclick="prevTask()">⏮ Previous Task</button>
+              <button class="action hint" onclick="showHint()">💡 Hint</button>
+              <button class="action next" onclick="nextTask()">⏭ Next</button>
+            </div>
+            <div id="feedback" class="feedback"></div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="boxhead">🖥️ Interactive Execution Terminal</div>
+          <div class="boxbody"><div id="output" class="output-display">Press "Run & Execute" to validate indentation and test code logic...</div></div>
+        </div>
+      </div>`;
+    
+    let ta = document.getElementById("code");
+    ta.value = t.defaultCode || "";
+    ta.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        insertIndent();
+      }
+    });
+  }
+  renderSubSections();
+}
+
+function insertIndent() {
+  let ta = document.getElementById("code");
+  if (!ta) return;
+  let start = ta.selectionStart;
+  let end = ta.selectionEnd;
+  const spaces = "    ";
+  ta.value = ta.value.substring(0, start) + spaces + ta.value.substring(end);
+  ta.selectionStart = ta.selectionEnd = start + spaces.length;
+  ta.focus();
+}
+
+function selectMcq(oIdx) {
+  selectedMcqOption = oIdx;
+  let t = tasks[currentIdx];
+  t.options.forEach((_, i) => {
+    let el = document.getElementById("opt" + i);
+    if (el) el.className = "mcq-option" + (i === oIdx ? " selected" : "");
+  });
+}
+
+function checkMcqAnswer() {
+  let t = tasks[currentIdx];
+  let fb = document.getElementById("feedback");
+
+  if (selectedMcqOption === null) {
+    fb.className = "feedback error";
+    fb.innerHTML = "⚠️ Please select an option before submitting.";
+    return;
+  }
+
+  if (selectedMcqOption === t.answer) {
+    score += 50;
+    document.getElementById("score").textContent = score;
+    fb.className = "feedback success";
+    fb.innerHTML = "✅ <b>Correct!</b> Excellent choice. Click <b>Next Task</b> to proceed.";
+  } else {
+    fb.className = "feedback error";
+    fb.innerHTML = "❌ <b>Incorrect choice.</b> Review the question or click Hint for guidance.";
+  }
+}
+
+// 1. Indentation Checking Engine (Adopted from gemini-code-1788515134840.html)[cite: 8]
+function checkMultiLevelIndentation(code) {
+  const lines = code.split('\n');
+  let currentDepth = 0;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i];
+    const trimmed = rawLine.trim();
+    if (!trimmed) continue;
+    
+    let upper = trimmed.toUpperCase();
+    
+    if (upper.startsWith("ENDIF") || upper.startsWith("ENDCASE") || upper.startsWith("NEXT") || upper.startsWith("ENDWHILE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    } else if (upper.startsWith("ELSE")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    }
+
+    const expectedSpaces = currentDepth * 4;
+    const actualSpaces = rawLine.search(/\S|$/);
+
+    if (actualSpaces < expectedSpaces) {
+      return {
+        valid: false,
+        lineNum: i + 1,
+        lineText: trimmed,
+        expectedSpaces: expectedSpaces,
+        actualSpaces: actualSpaces
+      };
+    }
+
+    if (upper.includes("THEN") || upper.startsWith("ELSE") || upper.startsWith("CASE ")) {
+      currentDepth++;
+    }
+  }
+
+  return { valid: true };
+}
+
+// 2. Expression Evaluation Engine for Dynamic Variables
+function evaluateExpression(expr, env) {
+  let cleanExpr = expr.trim();
+  
+  // Handle LENGTH("...") function[cite: 8]
+  cleanExpr = cleanExpr.replace(/LENGTH\s*\(\s*"(.*?)"\s*\)/gi, (match, str) => str.length);
+  
+  // Replace environment variable keys with their exact values
+  Object.keys(env).forEach(key => {
+    let val = env[key];
+    let reg = new RegExp("\\b" + key + "\\b", "g");
+    cleanExpr = cleanExpr.replace(reg, typeof val === "string" ? `"${val}"` : val);
+  });
+
+  // Convert pseudocode operator symbols to JavaScript equivalents
+  cleanExpr = cleanExpr.replace(/=/g, "===")
+                       .replace(/<===/g, "<=")
+                       .replace(/>===/g, ">=")
+                       .replace(/<>/g, "!==")
+                       .replace(/\bOR\b/gi, "||")
+                       .replace(/\bAND\b/gi, "&&");
+
+  try {
+    return Function(`"use strict"; return (${cleanExpr})`)();
+  } catch (e) {
+    return false;
+  }
+}
+
+// 3. Dynamic Pseudocode Execution Engine
+function executePseudocode(code, env) {
+  let lines = code.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  let outputs = [];
+  let i = 0;
+
+  function runBlock(stopKeywords) {
+    while (i < lines.length) {
+      let line = lines[i];
+      let upper = line.toUpperCase();
+
+      if (stopKeywords.some(k => upper.startsWith(k))) {
+        return;
+      }
+
+      if (upper.startsWith("INPUT ")) {
+        i++;
+        continue;
+      }
+
+      if (upper.startsWith("IF ")) {
+        let thenIdx = upper.indexOf(" THEN");
+        let condStr = line.substring(3, thenIdx !== -1 ? thenIdx : line.length);
+        let conditionMet = evaluateExpression(condStr, env);
+        i++;
+
+        if (conditionMet) {
+          runBlock(["ELSE", "ENDIF"]);
+          // Skip remaining ELSE block if present
+          if (i < lines.length && lines[i].toUpperCase().startsWith("ELSE")) {
+            i++;
+            skipBlock(["ENDIF"]);
+          }
+        } else {
+          skipBlock(["ELSE", "ENDIF"]);
+          if (i < lines.length && lines[i].toUpperCase().startsWith("ELSE")) {
+            i++;
+            runBlock(["ENDIF"]);
+          }
+        }
+
+        if (i < lines.length && lines[i].toUpperCase().startsWith("ENDIF")) {
+          i++;
+        }
+        continue;
+      }
+
+      if (upper.startsWith("CASE OF ")) {
+        let varName = line.substring(8).trim();
+        let val = env[varName];
+        let matched = false;
+        i++;
+
+        while (i < lines.length && !lines[i].toUpperCase().startsWith("ENDCASE")) {
+          let cLine = lines[i];
+          let cUpper = cLine.toUpperCase();
+
+          if (cUpper.startsWith("OTHERWISE")) {
+            if (!matched) {
+              let outStr = cLine.substring(9).replace(/^[\s:]+/, "");
+              if (outStr.toUpperCase().startsWith("OUTPUT ")) {
+                outputs.push(evaluateExpression(outStr.substring(7), env));
+              }
+              matched = true;
+            }
+          } else if (cLine.includes(":")) {
+            let parts = cLine.split(":");
+            let caseVal = evaluateExpression(parts[0], env);
+            if (!matched && (val === caseVal || val == caseVal)) {
+              let outStr = parts[1].trim();
+              if (outStr.toUpperCase().startsWith("OUTPUT ")) {
+                outputs.push(evaluateExpression(outStr.substring(7), env));
+              }
+              matched = true;
+            }
+          }
+          i++;
+        }
+        if (i < lines.length && lines[i].toUpperCase().startsWith("ENDCASE")) {
+          i++;
+        }
+        continue;
+      }
+
+      if (upper.startsWith("OUTPUT ")) {
+        let expr = line.substring(7);
+        let evaluated = evaluateExpression(expr, env);
+        outputs.push(evaluated);
+        i++;
+        continue;
+      }
+
+      i++;
+    }
+  }
+
+  function skipBlock(stopKeywords) {
+    let depth = 1;
+    while (i < lines.length && depth > 0) {
+      let upper = lines[i].toUpperCase();
+      if (upper.startsWith("IF ")) depth++;
+      if (upper.startsWith("ENDIF")) depth--;
+      if (depth === 1 && stopKeywords.some(k => upper.startsWith(k))) {
+        return;
+      }
+      i++;
+    }
+  }
+
+  runBlock([]);
+  return outputs.join("\n");
+}
+
+function runAndExecuteCode() {
+  let codeRaw = document.getElementById("code").value;
+  let t = tasks[currentIdx];
+  let fb = document.getElementById("feedback");
+  let outEl = document.getElementById("output");
+  
+  if (!codeRaw.trim()) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = "Error: Code field is empty. Please enter pseudocode.";
+    showFeedback("❌ Please enter pseudocode before running.", false);
+    return;
+  }
+
+  // Step 1: Check required syntax keywords
+  let upperCode = codeRaw.toUpperCase();
+  let missing = t.need.filter(x => !upperCode.includes(x));
+  if (missing.length > 0) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `SyntaxError: Missing required keyword(s): ${missing.join(", ")}`;
+    showFeedback(`❌ Missing required keywords: <b>${missing.join(", ")}</b>`, false);
+    return;
+  }
+
+  // Step 2: Validate 4-space uniform indentation[cite: 8]
+  let indentCheck = checkMultiLevelIndentation(codeRaw);
+  if (!indentCheck.valid) {
+    outEl.className = "output-display error-text";
+    outEl.textContent = `IndentationError (Line ${indentCheck.lineNum}): "${indentCheck.lineText}"\nExpected ${indentCheck.expectedSpaces} spaces for level depth, but found ${indentCheck.actualSpaces}.`;
+    showFeedback(`❌ <b>Indentation Error:</b> Line ${indentCheck.lineNum} requires ${indentCheck.expectedSpaces} spaces.`, false);
+    return;
+  }
+
+  // Step 3: Parse INPUT variables and prompt user[cite: 8]
+  let lines = codeRaw.split('\n');
+  let inputVariables = [];
+  lines.forEach(line => {
+    let trimmed = line.trim();
+    if (trimmed.toUpperCase().startsWith("INPUT ")) {
+      let varName = trimmed.substring(6).trim();
+      if (varName && !inputVariables.includes(varName)) {
+        inputVariables.push(varName);
+      }
+    }
+  });
+
+  let env = {};
+  let terminalLog = "";
+  for (let varName of inputVariables) {
+    let defaultVal = (t.sampleInputs && t.sampleInputs[varName]) ? t.sampleInputs[varName] : "0";
+    let userVal = prompt(`[Program Input]\nEnter value for variable '${varName}':`, defaultVal);
+    if (userVal === null) {
+      outEl.className = "output-display error-text";
+      outEl.textContent = "Execution halted: Input cancelled by user.";
+      hideFeedback();
+      return;
+    }
+    env[varName] = !isNaN(userVal) && userVal.trim() !== "" ? Number(userVal) : userVal;
+    terminalLog += `[INPUT] ${varName} = ${JSON.stringify(env[varName])}\n`;
+  }
+
+  // Step 4: Run AST condition execution engine
+  let resultOutput = executePseudocode(codeRaw, env);
+  terminalLog += `---------------------------------\n[OUTPUT]:\n${resultOutput || "(No output produced)"}\n---------------------------------\nExecution finished with 0 errors.`;
+
+  outEl.className = "output-display";
+  outEl.textContent = terminalLog;
+
+  score += 100;
+  document.getElementById("score").textContent = score;
+  showFeedback("✅ <b>Execution Successful!</b> Indentation and logic validated.", true);
+}
+
+function prevTask() {
+  if (currentIdx > 0) {
+    loadTask(currentIdx - 1);
+  } else {
+    showFeedback("ℹ️ <b>First Task!</b> You are already at the beginning of Level 5.", false);
+  }
+}
+
+function nextTask() {
+  if (currentIdx < tasks.length - 1) {
+    loadTask(currentIdx + 1);
+  } else {
+    loadTask(0);
+  }
+}
+
+function showHint() {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback info";
+  fb.innerHTML = "💡 " + tasks[currentIdx].hint;
+}
+
+function resetCode() {
+  let t = tasks[currentIdx];
+  let ta = document.getElementById("code");
+  if (ta) ta.value = t.defaultCode || "";
+  let outEl = document.getElementById("output");
+  if (outEl) {
+    outEl.className = "output-display";
+    outEl.textContent = 'Press "Run & Execute" to validate indentation and test code logic...';
+  }
+  hideFeedback();
+}
+
+function showFeedback(msg, isSuccess) {
+  let fb = document.getElementById("feedback");
+  fb.className = "feedback " + (isSuccess ? "success" : "error");
+  fb.innerHTML = msg;
+}
+
+function hideFeedback() {
+  let fb = document.getElementById("feedback");
+  if (fb) {
+    fb.className = "feedback";
+    fb.innerHTML = "";
+  }
+}
+
+loadTask(0);
+</script>
+</body>
+</html>
