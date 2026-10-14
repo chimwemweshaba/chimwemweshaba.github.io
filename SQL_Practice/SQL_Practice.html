@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IGCSE 0478 · SQL Practice</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/hint/show-hint.min.css">
+
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    background: #0f172a;
+    color: #fff;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 13px; letter-spacing: .5px;
+    color: #fff;
+    flex: 0 0 auto;
+  }
+  .topbar h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.2px; }
+  .topbar p  { margin: 2px 0 0; font-size: 12.5px; color: #94a3b8; }
+
+  button { font-family: inherit; font-size: 14px; cursor: pointer; border-radius: 9px; transition: .15s; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+
+  .ghost {
+    background: transparent; color: #cbd5e1;
+    border: 1px solid #334155; padding: 8px 14px;
+  }
+  .ghost:hover:not(:disabled) { background: #1e293b; color: #fff; }
+
+  .primary {
+    background: #4f46e5; color: #fff; border: 1px solid #4f46e5;
+    padding: 8px 18px; font-weight: 600;
+  }
+  .primary:hover:not(:disabled) { background: #4338ca; border-color: #4338ca; }
+
+  .secondary {
+    background: #fff; color: #334155; border: 1px solid #cbd5e1;
+    padding: 8px 16px; font-weight: 600;
+  }
+  .secondary:hover:not(:disabled) { background: #f8fafc; border-color: #94a3b8; }
+
+  .link {
+    background: none; border: none; color: #4f46e5;
+    text-decoration: underline; padding: 0; font-size: 13.5px;
+  }
+
+  /* ---------- Layout ---------- */
+  .layout {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 940px) { .layout { grid-template-columns: 1fr; } }
+
+  .sidebar { display: flex; flex-direction: column; gap: 16px; }
+  .workspace { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+  }
+  .card h2 {
+    margin: 0 0 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  /* ---------- Schema ---------- */
+  table.schema { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.schema th {
+    text-align: left; color: #64748b; font-weight: 600;
+    padding: 4px 6px; border-bottom: 1px solid #e2e8f0; font-size: 11.5px;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  table.schema td { padding: 5px 6px; border-bottom: 1px solid #f1f5f9; }
+  table.schema tr:last-child td { border-bottom: none; }
+  .col-name { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 600; color: #0f172a; }
+  .col-type { color: #7c3aed; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+  .pk { font-size: 10px; background: #eef2ff; color: #4338ca; padding: 1px 5px; border-radius: 4px; margin-left: 5px; font-weight: 700; }
+
+  /* ---------- Tasks ---------- */
+  ol.tasks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+  .task {
+    display: flex; align-items: flex-start; gap: 9px;
+    padding: 8px 10px; border-radius: 9px; cursor: pointer;
+    border: 1px solid transparent; transition: .12s;
+    font-size: 13.5px;
+  }
+  .task:hover { background: #f8fafc; }
+  .task.active { background: #eef2ff; border-color: #c7d2fe; }
+  .task.done .task-text { color: #047857; }
+  .task-num {
+    flex: 0 0 auto; width: 20px; height: 20px; border-radius: 6px;
+    background: #e2e8f0; color: #475569;
+    display: grid; place-items: center; font-size: 11px; font-weight: 700;
+    margin-top: 1px;
+  }
+  .task.active .task-num { background: #4f46e5; color: #fff; }
+  .task.done .task-num { background: #10b981; color: #fff; }
+  .task-text { flex: 1; }
+  .task-status { font-size: 12px; color: #10b981; font-weight: 700; }
+
+  /* ---------- Chips ---------- */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11.5px; background: #f1f5f9; color: #334155;
+    border: 1px solid #e2e8f0; padding: 3px 8px; border-radius: 6px;
+  }
+
+  /* ---------- Editor ---------- */
+  .editor-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .editor-head h2 { margin: 0; }
+  .actions { display: flex; gap: 8px; }
+
+  .CodeMirror {
+    border: 1px solid #cbd5e1; border-radius: 10px;
+    height: 170px; font-size: 14px; padding: 6px 0;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  .CodeMirror-focused { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,.13); }
+  .cm-s-default .cm-keyword { color: #7c3aed; font-weight: 600; }
+  .cm-s-default .cm-string  { color: #047857; }
+  .cm-s-default .cm-number  { color: #b45309; }
+
+  textarea#editor {
+    width: 100%; height: 170px; resize: vertical;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 14px; padding: 12px; border-radius: 10px;
+    border: 1px solid #cbd5e1; outline: none;
+  }
+  textarea#editor:focus { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,.13); }
+
+  /* ---------- Banners / messages ---------- */
+  .banner {
+    background: #eef2ff; border: 1px solid #c7d2fe; color: #312e81;
+    border-radius: 12px; padding: 12px 16px; font-size: 14px;
+  }
+  .banner strong { display: block; font-size: 11px; letter-spacing: .08em;
+    text-transform: uppercase; color: #6366f1; margin-bottom: 3px; }
+
+  .message { border-radius: 12px; padding: 12px 16px; font-size: 14px; border: 1px solid; }
+  .message.ok   { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+  .message.bad  { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+  .message.warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+  .message code {
+    display: inline-block; background: rgba(15,23,42,.07); padding: 2px 6px;
+    border-radius: 5px; font-size: 13px; margin-top: 6px;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+  }
+  .hidden { display: none; }
+
+  /* ---------- Results ---------- */
+  .muted { color: #94a3b8; font-size: 12.5px; font-weight: 500; }
+  .results { overflow-x: auto; max-height: 340px; }
+  .results table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  .results th {
+    background: #0f172a; color: #e2e8f0; text-align: left;
+    padding: 8px 12px; font-weight: 600; white-space: nowrap;
+    font-size: 12px; letter-spacing: .03em;
+    position: sticky; top: 0; z-index: 1;
+  }
+  .results td { padding: 7px 12px; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
+  .results tbody tr:nth-child(even) { background: #f8fafc; }
+  .results tbody tr:hover { background: #eef2ff; }
+  .results .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .empty { color: #94a3b8; padding: 18px 4px; font-size: 13.5px; }
+  .big-value {
+    font-size: 34px; font-weight: 800; color: #4f46e5;
+    padding: 10px 4px 4px; letter-spacing: -.5px;
+  }
+  .big-label { color: #64748b; font-size: 12.5px; padding-left: 4px;
+    font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+  /* ---------- Always-visible data panel ---------- */
+  .datacard { border-left: 3px solid #6366f1; }
+  .datapreview {
+    max-height: 300px;
+    overflow: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+  }
+  .datapreview table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 620px; }
+  .datapreview thead th {
+    position: sticky; top: 0; z-index: 1;
+    background: #1e293b; color: #e2e8f0;
+    text-align: left; padding: 7px 12px;
+    font-weight: 600; white-space: nowrap;
+    font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .datapreview td { padding: 6px 12px; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
+  .datapreview tbody tr:nth-child(even) { background: #f8fafc; }
+  .datapreview tbody tr:hover { background: #eef2ff; }
+  .datapreview .num { text-align: right; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">SQL</div>
+    <div>
+      <h1>IGCSE 0478 · SQL Practice</h1>
+      <p>One table · every command on the syllabus · instant feedback</p>
+    </div>
+  </div>
+  <button id="resetBtn" class="ghost">↺ Reset data</button>
+</header>
+
+<main class="layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+
+    <section class="card">
+      <h2>Table: tbl_exam_results</h2>
+      <table class="schema">
+        <thead>
+          <tr><th>Column</th><th>Type</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="col-name">StudentID<span class="pk">PK</span></td><td class="col-type">INTEGER</td></tr>
+          <tr><td class="col-name">Forename</td><td class="col-type">TEXT</td></tr>
+          <tr><td class="col-name">Surname</td><td class="col-type">TEXT</td></tr>
+          <tr><td class="col-name">Subject</td><td class="col-type">TEXT</td></tr>
+          <tr><td class="col-name">Score</td><td class="col-type">INTEGER</td></tr>
+          <tr><td class="col-name">Grade</td><td class="col-type">TEXT</td></tr>
+        </tbody>
+      </table>
+      <p class="muted" style="margin:12px 0 0">40 rows of exam results.</p>
+    </section>
+
+    <section class="card">
+      <h2>Practice tasks</h2>
+      <ol id="taskList" class="tasks"></ol>
+    </section>
+
+    <section class="card">
+      <h2>Commands on the syllabus</h2>
+      <div class="chips">
+        <span class="chip">SELECT</span>
+        <span class="chip">FROM</span>
+        <span class="chip">WHERE</span>
+        <span class="chip">ORDER BY</span>
+        <span class="chip">ASC</span>
+        <span class="chip">DESC</span>
+        <span class="chip">SUM</span>
+        <span class="chip">COUNT</span>
+        <span class="chip">AND</span>
+        <span class="chip">OR</span>
+        <span class="chip">LIKE</span>
+        <span class="chip">%</span>
+        <span class="chip">=</span>
+        <span class="chip">&gt;</span>
+        <span class="chip">&lt;</span>
+        <span class="chip">&gt;=</span>
+        <span class="chip">&lt;=</span>
+        <span class="chip">&lt;&gt;</span>
+        <span class="chip">*</span>
+      </div>
+    </section>
+
+  </aside>
+
+  <!-- ================= WORKSPACE ================= -->
+  <section class="workspace">
+
+    <div class="card">
+      <div class="editor-head">
+        <h2 style="margin:0">Your query</h2>
+        <div class="actions">
+          <button id="runBtn" class="primary">▶ Run</button>
+          <button id="checkBtn" class="secondary" disabled>✓ Check answer</button>
+        </div>
+      </div>
+      <textarea id="editor" spellcheck="false">SELECT * FROM tbl_exam_results;</textarea>
+      <p class="muted" style="margin:10px 0 0">
+        Tip: press <strong>Ctrl + Enter</strong> (or <strong>⌘ + Enter</strong>) to run ·
+        <strong>Ctrl + Space</strong> for suggestions
+      </p>
+    </div>
+
+    <div id="taskBanner" class="banner hidden"></div>
+    <div id="message" class="message hidden"></div>
+
+    <div class="card">
+      <div class="editor-head">
+        <h2 style="margin:0">Results</h2>
+        <span id="rowCount" class="muted"></span>
+      </div>
+      <div id="results" class="results">
+        <p class="empty">Run a query to see the results here.</p>
+      </div>
+    </div>
+
+    <div class="card datacard">
+      <div class="editor-head">
+        <h2 style="margin:0">Original data · tbl_exam_results</h2>
+        <span id="dataStats" class="muted"></span>
+      </div>
+      <div id="dataPreview" class="datapreview"></div>
+      <p class="muted" style="margin:10px 0 0">
+        This is the full table your queries run against — scroll inside the box to see every row.
+      </p>
+    </div>
+
+  </section>
+</main>
+
+<!-- ================= LIBRARIES ================= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/sql/sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/hint/show-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/hint/sql-hint.min.js"></script>
+
+<script>
+/* =========================================================
+   1. THE DATA
+   ========================================================= */
+const COLUMNS = ['StudentID','Forename','Surname','Subject','Score','Grade'];
+
+const ROWS = [
+  [ 1,'Alice','Adams','Computer Science',87,'A'],
+  [ 2,'Ben','Brown','Mathematics',72,'B'],
+  [ 3,'Chloe','Chen','Physics',91,'A*'],
+  [ 4,'Daniel','Davies','Chemistry',65,'C'],
+  [ 5,'Emma','Evans','Biology',78,'B'],
+  [ 6,'Farhan','Ahmed','Computer Science',55,'D'],
+  [ 7,'Grace','Green','History',83,'A'],
+  [ 8,'Harry','Hughes','Geography',47,'E'],
+  [ 9,'Isla','Iqbal','English',92,'A*'],
+  [10,'Jack','Jones','Mathematics',38,'U'],
+  [11,'Kavya','Kumar','Physics',74,'B'],
+  [12,'Liam','Lewis','Chemistry',61,'C'],
+  [13,'Maya','Morgan','Biology',88,'A'],
+  [14,'Noah','Nguyen','Computer Science',69,'C'],
+  [15,'Olivia','Owen','History',95,'A*'],
+  [16,'Peter','Patel','Geography',52,'D'],
+  [17,'Quinn','Quinn','English',44,'E'],
+  [18,'Ravi','Rahman','Mathematics',81,'A'],
+  [19,'Sofia','Smith','Physics',67,'C'],
+  [20,'Tom','Taylor','Chemistry',29,'U'],
+  [21,'Uma','Usman','Biology',76,'B'],
+  [22,'Victor','Vaughan','Computer Science',90,'A*'],
+  [23,'Wendy','Williams','History',58,'D'],
+  [24,'Xavier','Xu','Geography',63,'C'],
+  [25,'Yasmin','Young','English',85,'A'],
+  [26,'Zach','Zhang','Mathematics',49,'E'],
+  [27,'Amelia','Allen','Physics',71,'B'],
+  [28,'Blake','Baker','Chemistry',94,'A*'],
+  [29,'Cara','Clarke','Biology',66,'C'],
+  [30,'Dylan','Dixon','Computer Science',53,'D'],
+  [31,'Ella','Edwards','History',79,'B'],
+  [32,'Finn','Fletcher','Geography',41,'E'],
+  [33,'Gita','Gupta','English',89,'A'],
+  [34,'Hugo','Harris','Mathematics',62,'C'],
+  [35,'Ivy','Ingram','Physics',97,'A*'],
+  [36,'Jamal','Jackson','Chemistry',35,'U'],
+  [37,'Kira','Khan','Biology',73,'B'],
+  [38,'Leo','Lopez','Computer Science',84,'A'],
+  [39,'Mia','Mitchell','History',57,'D'],
+  [40,'Nathan','Nelson','Geography',68,'C']
+];
+
+/* =========================================================
+   2. THE TASKS
+   ========================================================= */
+const TASKS = [
+  { prompt: 'Select every column for every student in the table.',
+    solution: 'SELECT * FROM tbl_exam_results;',
+    ordered: false },
+
+  { prompt: 'Select only the Forename and Surname of every student.',
+    solution: 'SELECT Forename, Surname FROM tbl_exam_results;',
+    ordered: false },
+
+  { prompt: 'Select all columns for the students who scored more than 80.',
+    solution: 'SELECT * FROM tbl_exam_results WHERE Score > 80;',
+    ordered: false },
+
+  { prompt: 'List the Forename, Surname and Score of every student, with the highest score first.',
+    solution: 'SELECT Forename, Surname, Score FROM tbl_exam_results ORDER BY Score DESC;',
+    ordered: true },
+
+  { prompt: 'Find the total of all the scores in the table.',
+    solution: 'SELECT SUM(Score) FROM tbl_exam_results;',
+    ordered: false },
+
+  { prompt: 'Count how many students achieved grade A*.',
+    solution: "SELECT COUNT(*) FROM tbl_exam_results WHERE Grade = 'A*';",
+    ordered: false },
+
+  { prompt: "Select all columns for the students whose surname begins with the letter S.",
+    solution: "SELECT * FROM tbl_exam_results WHERE Surname LIKE 'S%';",
+    ordered: false },
+
+  { prompt: 'Select all columns for the Computer Science students who scored 70 or more.',
+    solution: "SELECT * FROM tbl_exam_results WHERE Subject = 'Computer Science' AND Score >= 70;",
+    ordered: false },
+
+  { prompt: 'Select all columns for the students who achieved grade A or grade A*.',
+    solution: "SELECT * FROM tbl_exam_results WHERE Grade = 'A' OR Grade = 'A*';",
+    ordered: false },
+
+  { prompt: 'List all columns for the Biology class, ordered by Surname from A to Z.',
+    solution: "SELECT * FROM tbl_exam_results WHERE Subject = 'Biology' ORDER BY Surname ASC;",
+    ordered: true },
+
+  { prompt: 'Count how many students scored less than 50.',
+    solution: 'SELECT COUNT(*) FROM tbl_exam_results WHERE Score < 50;',
+    ordered: false },
+
+  { prompt: 'Find the total of the scores achieved by the Computer Science students.',
+    solution: "SELECT SUM(Score) FROM tbl_exam_results WHERE Subject = 'Computer Science';",
+    ordered: false },
+
+  { prompt: "Select all columns for the students whose surname ends with the letter n.",
+    solution: "SELECT * FROM tbl_exam_results WHERE Surname LIKE '%n';",
+    ordered: false },
+
+  { prompt: 'Select all columns for the Mathematics and Physics students, with the highest score first.',
+    solution: "SELECT * FROM tbl_exam_results WHERE Subject = 'Mathematics' OR Subject = 'Physics' ORDER BY Score DESC;",
+    ordered: true }
+];
+
+/* =========================================================
+   3. STATE
+   ========================================================= */
+let SQLModule = null;
+let db = null;
+let cm = null;
+let activeTask = null;
+const completed = new Set();
+
+/* =========================================================
+   4. BOOT
+   ========================================================= */
+(async function boot() {
+  try {
+    SQLModule = await initSqlJs({
+      locateFile: f => 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/' + f
+    });
+  } catch (err) {
+    document.getElementById('results').innerHTML =
+      '<p class="empty">⚠️ Could not load the SQL engine.<br>' +
+      'Check your internet connection and reload the page.</p>';
+    return;
+  }
+
+  buildDatabase();
+  renderDataPreview();
+  initEditor();
+  renderTasks();
+  bindEvents();
+})();
+
+function buildDatabase() {
+  db = new SQLModule.Database();
+  db.run(
+    'CREATE TABLE tbl_exam_results (' +
+    '  StudentID INTEGER PRIMARY KEY,' +
+    '  Forename  TEXT NOT NULL,' +
+    '  Surname   TEXT NOT NULL,' +
+    '  Subject   TEXT NOT NULL,' +
+    '  Score     INTEGER NOT NULL,' +
+    '  Grade     TEXT NOT NULL' +
+    ');'
+  );
+  const stmt = db.prepare(
+    'INSERT INTO tbl_exam_results (StudentID, Forename, Surname, Subject, Score, Grade) ' +
+    'VALUES (?,?,?,?,?,?)'
+  );
+  for (const row of ROWS) stmt.run(row);
+  stmt.free();
+}
+
+/* =========================================================
+   5. EDITOR
+   ========================================================= */
+function initEditor() {
+  const ta = document.getElementById('editor');
+  const startText = 'SELECT * FROM tbl_exam_results;';
+
+  if (window.CodeMirror) {
+    try {
+      const extraKeys = { 'Ctrl-Enter': runQuery, 'Cmd-Enter': runQuery };
+      if (window.CodeMirror.hint && window.CodeMirror.hint.sql) {
+        extraKeys['Ctrl-Space'] = function (editor) {
+          editor.showHint({
+            hint: CodeMirror.hint.sql,
+            completeSingle: false,
+            tables: { tbl_exam_results: COLUMNS }
+          });
+        };
+      }
+      cm = CodeMirror.fromTextArea(ta, {
+        mode: 'text/x-sql',
+        lineNumbers: true,
+        lineWrapping: true,
+        indentUnit: 2,
+        tabSize: 2,
+        extraKeys: extraKeys
+      });
+      cm.setValue(startText);
+      return;
+    } catch (e) {
+      cm = null;
+    }
+  }
+  ta.value = startText;
+}
+
+function getSql() {
+  return cm ? cm.getValue() : document.getElementById('editor').value;
+}
+
+function setSql(text) {
+  if (cm) cm.setValue(text);
+  else document.getElementById('editor').value = text;
+}
+
+/* =========================================================
+   6. QUERY EXECUTION
+   ========================================================= */
+const FORBIDDEN = /\b(JOIN|INNER|LEFT|RIGHT|FULL|OUTER|GROUP|HAVING|UNION|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|ATTACH|PRAGMA|VACUUM|REPLACE|TRIGGER|VIEW|INDEX)\b/i;
+
+function validate(sqlText) {
+  if (!sqlText.trim()) return 'Please type a query first.';
+
+  const withoutTrailing = sqlText.trim().replace(/;+\s*$/, '');
+  if (withoutTrailing.includes(';')) {
+    return 'Please run one statement at a time (remove the extra semicolons).';
+  }
+
+  const match = withoutTrailing.match(FORBIDDEN);
+  if (match) {
+    return 'The keyword "' + match[0].toUpperCase() + '" is outside the IGCSE 0478 syllabus. ' +
+           'Stick to SELECT, FROM, WHERE, ORDER BY, SUM, COUNT, AND, OR and LIKE.';
+  }
+  return null;
+}
+
+function execQuery(sqlText) {
+  let stmt;
+  try {
+    stmt = db.prepare(sqlText);
+  } catch (err) {
+    throw new Error(friendlyError(err.message));
+  }
+  const columns = stmt.getColumnNames();
+  const values = [];
+  try {
+    while (stmt.step()) values.push(stmt.get());
+  } catch (err) {
+    stmt.free();
+    throw new Error(friendlyError(err.message));
+  }
+  stmt.free();
+  return { columns: columns, values: values };
+}
+
+function friendlyError(msg) {
+  if (/no such column/i.test(msg))  return msg + ' — check the column names in the schema panel.';
+  if (/no such table/i.test(msg))   return msg + ' — the table is called tbl_exam_results.';
+  if (/syntax error/i.test(msg))    return msg + ' — check your spelling and the order of the keywords.';
+  return msg;
+}
+
+/* =========================================================
+   7. RESULTS RENDERING
+   ========================================================= */
+function buildTableHTML(res) {
+  let html = '<table><thead><tr>';
+  for (const c of res.columns) html += '<th>' + escapeHtml(c) + '</th>';
+  html += '</tr></thead><tbody>';
+  for (const row of res.values) {
+    html += '<tr>';
+    for (const cell of row) {
+      const numeric = typeof cell === 'number';
+      html += '<td class="' + (numeric ? 'num' : '') + '">' +
+              escapeHtml(cell === null ? 'NULL' : String(cell)) + '</td>';
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  return html;
+}
+
+function renderResults(res) {
+  const out = document.getElementById('results');
+  const count = document.getElementById('rowCount');
+
+  if (!res.columns.length) {
+    out.innerHTML = '<p class="empty">Statement executed.</p>';
+    count.textContent = '';
+    return;
+  }
+
+  /* Single aggregate value → show it big */
+  if (res.columns.length === 1 && res.values.length === 1) {
+    const val = res.values[0][0];
+    out.innerHTML =
+      '<div class="big-value">' + escapeHtml(String(val === null ? 'NULL' : val)) + '</div>' +
+      '<div class="big-label">' + escapeHtml(res.columns[0]) + '</div>';
+    count.textContent = '1 row';
+    return;
+  }
+
+  if (res.values.length === 0) {
+    out.innerHTML = '<p class="empty">The query ran successfully but returned no rows.</p>';
+    count.textContent = '0 rows';
+    return;
+  }
+
+  out.innerHTML = buildTableHTML(res);
+  count.textContent = res.values.length + (res.values.length === 1 ? ' row' : ' rows');
+}
+
+/* =========================================================
+   7b. ALWAYS-VISIBLE ORIGINAL DATA PANEL
+   ========================================================= */
+function renderDataPreview() {
+  const res = execQuery('SELECT * FROM tbl_exam_results ORDER BY StudentID');
+  document.getElementById('dataPreview').innerHTML = buildTableHTML(res);
+  document.getElementById('dataStats').textContent =
+    res.values.length + ' rows · ' + res.columns.length + ' columns';
+}
+
+/* =========================================================
+   8. RUN
+   ========================================================= */
+function runQuery() {
+  const sqlText = getSql();
+  const problem = validate(sqlText);
+  if (problem) { showMessage('bad', problem); return; }
+
+  try {
+    const res = execQuery(sqlText.trim().replace(/;+\s*$/, ''));
+    renderResults(res);
+    if (activeTask === null) hideMessage();
+  } catch (err) {
+    showMessage('bad', '⚠️ ' + err.message);
+    document.getElementById('results').innerHTML =
+      '<p class="empty">No results — fix the error and try again.</p>';
+    document.getElementById('rowCount').textContent = '';
+  }
+}
+
+/* =========================================================
+   9. CHECK ANSWER
+   ========================================================= */
+function checkAnswer() {
+  if (activeTask === null) return;
+  const task = TASKS[activeTask];
+  const sqlText = getSql();
+
+  const problem = validate(sqlText);
+  if (problem) { showMessage('bad', problem); return; }
+
+  let actual, expected;
+  try {
+    actual = execQuery(sqlText.trim().replace(/;+\s*$/, ''));
+  } catch (err) {
+    showMessage('bad', '⚠️ Your query could not run: ' + err.message);
+    return;
+  }
+  try {
+    expected = execQuery(task.solution);
+  } catch (err) {
+    showMessage('bad', 'Internal error comparing results.');
+    return;
+  }
+
+  renderResults(actual);
+
+  if (resultsMatch(actual, expected, task.ordered)) {
+    completed.add(activeTask);
+    markTaskDone(activeTask);
+    showMessage('ok', '✓ <strong>Correct!</strong> Your query returns exactly the right result.');
+  } else {
+    const msg = document.getElementById('message');
+    msg.className = 'message warn';
+    msg.innerHTML =
+      '<strong>Not quite right.</strong> Your query ran, but the result does not match what the task asks for. ' +
+      'Re-read the task — check which columns you selected, your WHERE condition and your sort order. ' +
+      '<br><button class="link" id="revealBtn">Show a correct query</button>' +
+      '<div id="solutionBox"></div>';
+    msg.classList.remove('hidden');
+    document.getElementById('revealBtn').addEventListener('click', function () {
+      document.getElementById('solutionBox').innerHTML =
+        '<code>' + escapeHtml(task.solution) + '</code>';
+      this.remove();
+    });
+  }
+}
+
+function resultsMatch(actual, expected, ordered) {
+  /* Aggregates: compare the single value only (COUNT(*) vs COUNT(StudentID) etc.) */
+  if (expected.columns.length === 1 && expected.values.length === 1 &&
+      actual.columns.length === 1 && actual.values.length === 1) {
+    return String(actual.values[0][0]) === String(expected.values[0][0]);
+  }
+
+  if (actual.columns.length !== expected.columns.length) return false;
+
+  const ac = actual.columns.map(c => String(c).toLowerCase());
+  const ec = expected.columns.map(c => String(c).toLowerCase());
+  for (let i = 0; i < ec.length; i++) if (ac[i] !== ec[i]) return false;
+
+  const a = actual.values.map(r => JSON.stringify(r));
+  const e = expected.values.map(r => JSON.stringify(r));
+  if (a.length !== e.length) return false;
+
+  if (ordered) return a.every((v, i) => v === e[i]);
+
+  const aSorted = a.slice().sort();
+  const eSorted = e.slice().sort();
+  return aSorted.every((v, i) => v === eSorted[i]);
+}
+
+/* =========================================================
+   10. TASKS UI
+   ========================================================= */
+function renderTasks() {
+  const ol = document.getElementById('taskList');
+  ol.innerHTML = '';
+  TASKS.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.className = 'task' + (completed.has(i) ? ' done' : '');
+    li.dataset.index = i;
+    li.innerHTML =
+      '<span class="task-num">' + (i + 1) + '</span>' +
+      '<span class="task-text">' + escapeHtml(t.prompt) + '</span>' +
+      '<span class="task-status">' + (completed.has(i) ? '✓' : '') + '</span>';
+    li.addEventListener('click', () => selectTask(i));
+    ol.appendChild(li);
+  });
+}
+
+function selectTask(i) {
+  activeTask = i;
+  document.querySelectorAll('.task').forEach(el => {
+    el.classList.toggle('active', Number(el.dataset.index) === i);
+  });
+
+  const banner = document.getElementById('taskBanner');
+  banner.innerHTML = '<strong>Task ' + (i + 1) + '</strong>' + escapeHtml(TASKS[i].prompt);
+  banner.classList.remove('hidden');
+
+  document.getElementById('checkBtn').disabled = false;
+  hideMessage();
+}
+
+function markTaskDone(i) {
+  const el = document.querySelector('.task[data-index="' + i + '"]');
+  if (!el) return;
+  el.classList.add('done');
+  const status = el.querySelector('.task-status');
+  if (status) status.textContent = '✓';
+}
+
+/* =========================================================
+   11. MESSAGES
+   ========================================================= */
+function showMessage(kind, html) {
+  const el = document.getElementById('message');
+  el.className = 'message ' + kind;
+  el.innerHTML = html;
+  el.classList.remove('hidden');
+}
+
+function hideMessage() {
+  const el = document.getElementById('message');
+  el.classList.add('hidden');
+  el.innerHTML = '';
+}
+
+/* =========================================================
+   12. EVENTS + HELPERS
+   ========================================================= */
+function bindEvents() {
+  document.getElementById('runBtn').addEventListener('click', runQuery);
+  document.getElementById('checkBtn').addEventListener('click', checkAnswer);
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    buildDatabase();
+    renderDataPreview();
+    completed.clear();
+    renderTasks();
+    document.getElementById('results').innerHTML =
+      '<p class="empty">Database reset. Run a query to see the results here.</p>';
+    document.getElementById('rowCount').textContent = '';
+    hideMessage();
+  });
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+</script>
+</body>
+</html>
